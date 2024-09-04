@@ -26,11 +26,11 @@ const items: MenuProps["items"] = [
 const VideoDetail = () => {
   return (
     <LayoutDefault>
-      <div className="px-[30px]">
+      <div className="md:px-[30px] sm:px-0">
         <Row gutter={[16, 16]}>
           <Col xs={24} sm={4} md={6} lg={8} xl={16}>
             <div className="min-h-[1000vh]">
-              <div className="w-[100%] bg-slate-100 h-[550px] rounded-[10px] overflow-hidden">
+              <div className="w-[100%] bg-slate-100 sm:h-[245px] md:h-[550px] rounded-[10px] overflow-hidden">
                 <video controls className="w-[100%] h-[100%]" autoPlay>
                   <source
                     src="https://example.com/video.mp4"
@@ -38,13 +38,13 @@ const VideoDetail = () => {
                   />
                 </video>
               </div>
-              <h1 className="text-[22px] leading-[32px] font-semibold mt-[10px]">
+              <h1 className="sm:text-[18px] md:text-[22px] leading-[32px] font-semibold mt-[10px]">
                 Next.js 14 Complete Course 2024 | Next.js 14 Full Stack App
                 Tutorial for Beginners
               </h1>
-              <div className="mt-[12px] flex justify-between flex-wrap">
+              <div className="mt-[12px] flex justify-between flex-wrap gap-[15px]">
                 <div className=" flex items-center gap-[20px]">
-                  <div className="flex items-center gap-[15px] px-[10px] cursor-pointer rounded-[8px]">
+                  <div className="flex items-center gap-[15px] md:px-[10px] cursor-pointer rounded-[8px]">
                     <div className="w-[40px] h-[40px] rounded-[50%] overflow-hidden cursor-pointer">
                       <Image
                         src={Video}
@@ -73,11 +73,11 @@ const VideoDetail = () => {
                 <div className="flex gap-[10px]">
                   <div className="bg-[#f2f2f2] rounded-[50px]">
                     <div className="flex items-center h-[36px] px-[10px] ">
-                      <button className="flex item-center gap-[5px]">
+                      <button className="flex items-center gap-[5px]">
                         <LikeIcon /> <strong>22</strong>
                       </button>
                       <div className="w-[20px] border-[1px] rotate-[-90deg] mx-[15px] border-[#B2B2B2]"></div>
-                      <button className="flex item-center gap-[5px]">
+                      <button className="flex items-center gap-[5px]">
                         <DisLikeIcon />
                         <strong>1</strong>
                       </button>

@@ -1,5 +1,4 @@
-import Image from "next/image";
-import { Video } from "../../../../public";
+"use client";
 import Link from "next/link";
 import LogoIcon from "@/components/icons/Logo";
 

@@ -41,10 +41,14 @@ function getItem(
 
 type MenuItem = Required<MenuProps>["items"][number];
 
-const items: MenuItem[] = [getItem("Đăng xuất", "/", <LogoutIcon />)];
+const items: MenuItem[] = [
+  getItem("Đăng xuất", "/", <LogoutIcon />),
+  getItem("Đăng nhập", "/login", <LogoutIcon />),
+  getItem("Đăng ký", "/register", <LogoutIcon />),
+];
 
 const content = (
-  <div className="w-[300px]">
+  <div className="w-[300px] ">
     <Divider />
     <p className="text-center">Chưa có thông báo nào</p>
   </div>
@@ -102,7 +106,8 @@ const Header = ({
           <LogoIcon />
         </Link>
       </div>
-      <div>
+
+      <div className="sm:hidden md:block">
         <form className="border-[1px] h-[40px] w-[550px] flex rounded-[40px] overflow-hidden">
           <input
             type="text"
@@ -115,6 +120,7 @@ const Header = ({
           </button>
         </form>
       </div>
+
       <div className="flex gap-[10px] items-center">
         <Link href="/studio/upload">
           <TooltipButton title="Tạo" Icon={<CamIcon />} />
@@ -125,8 +131,11 @@ const Header = ({
           trigger="click"
           placement="topRight"
         >
-          <TooltipButton title="Thông báo" Icon={<NotificationIcon />} />
+          <TooltipButton Icon={<NotificationIcon />} />
         </Popover>
+        <div className="sm:block md:hidden">
+          <TooltipButton Icon={<SearchIcon />} />
+        </div>
         <div className="w-[34px] h-[34px] rounded-[50%] overflow-hidden cursor-pointer">
           <Popover content={content2} trigger="click" placement="topRight">
             <Image

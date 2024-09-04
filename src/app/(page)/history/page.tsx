@@ -1,14 +1,10 @@
+"use client";
+
 import VideoItem from "@/components/card/VideoItem";
 import LayoutDefault from "@/components/layouts/default/LayoutDefault";
 
 const History = () => {
-  return (
-    <LayoutDefault>
-      <div className="h-[140px] w-[40%] ">
-        <VideoItem />
-      </div>
-    </LayoutDefault>
-  );
+  return <LayoutDefault>video đã xem</LayoutDefault>;
 };
 
 export default History;

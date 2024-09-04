@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Video } from "../../../public";
+import { Video, Video2 } from "../../../public";
 import CheckIcon from "../icons/Check";
 import Option2Icon from "../icons/Option2";
 import TooltipButton from "../shared/TooltipButton";
@@ -35,7 +35,7 @@ const VideoCard = () => {
       <div className="rounded-[10px] overflow-hidden bg-[#ccc] w-full cursor-pointer">
         <Link href={"/video/1"}>
           <Image
-            src={Video}
+            src={Video2}
             width={500}
             height={500}
             alt="Picture of the author"
@@ -56,8 +56,8 @@ const VideoCard = () => {
         <div className="flex-1 pr-[20[x]">
           <Link href={"/video/1"}>
             <h3 className="mt-[12px] text-[16px] mb-[4px] text-[#0f0f0f] font-semibold cursor-pointer text-line-camp-2">
-              Next.js 14 Complete Course 2024 | Next.js 14 Full Stack App
-              Tutorial for Beginners
+              Bão số 3 có khả năng mạnh thành siêu bão, đi vào gần bờ Quảng Ninh
+              đến Nam Định| Toàn cảnh 24h
             </h3>
           </Link>
           <span className="text-[#606060] cursor-pointer flex items-center gap-[3px]">

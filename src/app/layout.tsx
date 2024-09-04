@@ -29,9 +29,7 @@ export default function RootLayout({
           crawlSpeed={300}
         />
         <AntdRegistry>
-          {/* <LayoutDefault> */}
           <Suspense fallback={<>Loading</>}>{children}</Suspense>
-          {/* </LayoutDefault> */}
         </AntdRegistry>
       </body>
     </html>

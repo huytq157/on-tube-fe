@@ -42,6 +42,10 @@ const StyledTabs = styled(Tabs)`
     padding: 20px;
     background-color: #ffff;
     border-radius: 8px;
+    @media (max-width: 768px) {
+      padding: 0px;
+      margin-top: 10px;
+    }
   }
 `;
 
@@ -75,7 +79,7 @@ const Profile = () => {
 
   return (
     <LayoutDefault>
-      <div className="px-[30px]">
+      <div className="md:px-[30px] sm:px-[0px]">
         <div className="w-[100%] h-[180px] rounded-[12px] overflow-hidden mb-[10px] bg-slate-50">
           <Image
             src={BgChannel}
@@ -85,7 +89,7 @@ const Profile = () => {
             className="w-[100%] h-[170px] object-fill rounded-[12px] "
           />
         </div>
-        <div className="flex items-center gap-[15px]">
+        <div className="flex sm:flex-col sm:text-center md:flex-row md:text-start items-center gap-[15px]">
           <div className="w-[160px] h-[160px] rounded-[50%] overflow-hidden">
             <Image
               src={Channel}

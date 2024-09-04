@@ -9,7 +9,7 @@ const Subscription = () => {
   return (
     <LayoutDefault>
       <div className="px-[10px] pt-[10px]">
-        <div className="flex items-center justify-end gap-[15px]">
+        <div className="flex items-center justify-end gap-[15px] mb-[20px]">
           <button className="bg-[#333]  rounded-[50px] min-w-[90px] text-[#fff] h-[36px]">
             Quản lý
           </button>

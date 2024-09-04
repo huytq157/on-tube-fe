@@ -27,7 +27,7 @@ const FormComment = () => {
                 Hủy
               </button>
               <button className="bg-[#333] mt-[10px] rounded-[50px] min-w-[90px] text-[#fff] h-[36px]">
-                Đăng ký
+                Bình luận
               </button>
             </div>
           </div>

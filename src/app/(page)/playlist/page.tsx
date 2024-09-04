@@ -1,3 +1,4 @@
+"use client";
 import LayoutDefault from "@/components/layouts/default/LayoutDefault";
 
 const PlayList = () => {

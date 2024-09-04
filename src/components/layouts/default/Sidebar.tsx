@@ -75,8 +75,6 @@ const Sidebar = ({
   useEffect(() => {
     if (pathname.startsWith("/video/")) {
       setDrawerVisible(false);
-    } else {
-      setDrawerVisible(true);
     }
   }, [pathname]);
 

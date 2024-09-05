@@ -80,17 +80,17 @@ const Profile = () => {
   return (
     <LayoutDefault>
       <div className="md:px-[30px] sm:px-[0px]">
-        <div className="w-[100%] h-[180px] rounded-[12px] overflow-hidden mb-[10px] bg-slate-50">
+        <div className="w-[100%] md:h-[180px] sm:h-[130px] rounded-[8px] overflow-hidden mb-[10px] bg-slate-50">
           <Image
             src={BgChannel}
             width={1070}
             height={170}
             alt="Picture of the author"
-            className="w-[100%] h-[170px] object-fill rounded-[12px] "
+            className="w-[100%] h-[100%] object-fill rounded-[12px] "
           />
         </div>
-        <div className="flex sm:flex-col sm:text-center md:flex-row md:text-start items-center gap-[15px]">
-          <div className="w-[160px] h-[160px] rounded-[50%] overflow-hidden">
+        <div className="flex mt-[15px] sm:flex-col sm:text-center md:flex-row md:text-start items-center gap-[15px]">
+          <div className="md:w-[160px] md:h-[160px] sm:w-[100px] sm:h-[100px] rounded-[50%] overflow-hidden">
             <Image
               src={Channel}
               width={160}
@@ -111,10 +111,10 @@ const Profile = () => {
               <span>199 video</span>
             </div>
             <p>Done is better than perfect. </p>
-            <div className="flex gap-[10px]">
-              <button className="bg-[#333] mt-[10px] rounded-[50px] min-w-[90px] text-[#fff] h-[36px]">
+            <div className="flex sm:justify-center md:justify-start gap-[10px]">
+              {/* <button className="bg-[#333] mt-[10px] rounded-[50px] min-w-[90px] text-[#fff] h-[36px]">
                 Đăng ký
-              </button>
+              </button> */}
               <button className="bg-[#ccc] mt-[10px] px-[10px] rounded-[50px] min-w-[90px] text-[#000] h-[36px]">
                 Tùy chỉnh kênh
               </button>

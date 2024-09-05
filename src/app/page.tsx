@@ -31,6 +31,24 @@ export default function Home() {
           <Col xs={24} sm={12} lg={8} xl={8} xxl={6}>
             <VideoCard />
           </Col>
+          <Col xs={24} sm={12} lg={8} xl={8} xxl={6}>
+            <VideoCard />
+          </Col>
+          <Col xs={24} sm={12} lg={8} xl={8} xxl={6}>
+            <VideoCard />
+          </Col>
+          <Col xs={24} sm={12} lg={8} xl={8} xxl={6}>
+            <VideoCard />
+          </Col>
+          <Col xs={24} sm={12} lg={8} xl={8} xxl={6}>
+            <VideoCard />
+          </Col>
+          <Col xs={24} sm={12} lg={8} xl={8} xxl={6}>
+            <VideoCard />
+          </Col>
+          <Col xs={24} sm={12} lg={8} xl={8} xxl={6}>
+            <VideoCard />
+          </Col>
         </Row>
       </div>
     </LayoutDefault>

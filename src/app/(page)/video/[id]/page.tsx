@@ -26,10 +26,10 @@ const items: MenuProps["items"] = [
 const VideoDetail = () => {
   return (
     <LayoutDefault>
-      <div className="md:px-[30px] sm:px-0">
+      <div className="md:px-[20px] sm:px-0">
         <Row gutter={[16, 16]}>
-          <Col xs={24} sm={4} md={6} lg={8} xl={16}>
-            <div className="min-h-[1000vh]">
+          <Col xs={24} sm={24} md={24} lg={8} xl={16}>
+            <div className="min-h-[100vh]">
               <div className="w-[100%] bg-slate-100 sm:h-[245px] md:h-[550px] rounded-[10px] overflow-hidden">
                 <video controls className="w-[100%] h-[100%]" autoPlay>
                   <source
@@ -108,7 +108,7 @@ const VideoDetail = () => {
               <CommentItem />
             </div>
           </Col>
-          <Col xs={24} sm={16} md={12} lg={8} xl={8}>
+          <Col xs={24} sm={24} md={24} lg={8} xl={8}>
             <div className=" min-h-[100vh]">
               <div className="flex flex-col gap-[15px]">
                 <VideoItem />

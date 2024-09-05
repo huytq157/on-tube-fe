@@ -4,13 +4,9 @@ import { useEffect, useState } from "react";
 import { Menu, MenuProps, Drawer, Divider } from "antd";
 import styled from "styled-components";
 import { usePathname, useRouter } from "next/navigation";
-
 import Image from "next/image";
-
 import { useMediaQuery } from "react-responsive";
 import Link from "next/link";
-// import LogoIcon from "../icons/Logo";
-
 import LogoIcon from "@/components/icons/Logo";
 import HomeIcon from "@/components/icons/Home";
 import SubIcon from "@/components/icons/Sub";
@@ -39,6 +35,38 @@ function getItem(
 }
 
 type MenuItem = Required<MenuProps>["items"][number];
+
+const StyledMenu = styled((props: StyledMenuProps) => <Menu {...props} />)<{
+  $collapsed: boolean;
+}>`
+  li.ant-menu-item {
+    padding: 16px !important;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px !important;
+    width: ${({ $collapsed }) => ($collapsed ? "56px" : "100%")};
+  }
+
+  li.ant-menu-item.ant-menu-item-selected {
+    background-color: #f2f2f2;
+    color: #333;
+    border-radius: 8px;
+    height: 42px;
+    font-weight: 550 !important;
+  }
+
+  .ant-menu-title-content {
+    margin-left: 15px;
+    font-size: 14px;
+    display: ${({ $collapsed }) => ($collapsed ? "none" : "inline")};
+  }
+
+  li.ant-menu-item.ant-menu-item-selected path {
+    fill: #000;
+  }
+`;
 interface StyledMenuProps extends MenuProps {
   $collapsed: boolean;
 }
@@ -70,13 +98,12 @@ const Sidebar = ({
   const pathname = usePathname();
   const router = useRouter();
   const [openKeys, setOpenKeys] = useState<string[]>([]);
+  const [isClient, setIsClient] = useState(false);
   const isMobile = useMediaQuery({ maxWidth: 768 });
 
   useEffect(() => {
-    if (pathname.startsWith("/video/")) {
-      setDrawerVisible(false);
-    }
-  }, [pathname]);
+    setIsClient(true);
+  }, []);
 
   const onOpenChange = (keys: string[]) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
@@ -89,6 +116,8 @@ const Sidebar = ({
       setDrawerVisible(false);
     }
   };
+
+  if (!isClient) return null;
 
   return (
     <>
@@ -139,7 +168,7 @@ const Sidebar = ({
           </Drawer>
         </>
       ) : (
-        <div className="h-screen max-w-[240px] px-[10px] mt-[5px] overflow-y-auto">
+        <div className="h-screen sm:hidden md:block  max-w-[240px] px-[10px] mt-[5px] overflow-y-auto ">
           <StyledMenu
             theme="light"
             defaultSelectedKeys={["/"]}
@@ -189,35 +218,3 @@ const Sidebar = ({
 };
 
 export default Sidebar;
-
-const StyledMenu = styled((props: StyledMenuProps) => <Menu {...props} />)<{
-  $collapsed: boolean;
-}>`
-  li.ant-menu-item {
-    padding: 16px !important;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0px !important;
-    width: ${({ $collapsed }) => ($collapsed ? "56px" : "100%")};
-  }
-
-  li.ant-menu-item.ant-menu-item-selected {
-    background-color: #f2f2f2;
-    color: #333;
-    border-radius: 8px;
-    height: 42px;
-    font-weight: 550 !important;
-  }
-
-  .ant-menu-title-content {
-    margin-left: 15px;
-    font-size: 14px;
-    display: ${({ $collapsed }) => ($collapsed ? "none" : "inline")};
-  }
-
-  li.ant-menu-item.ant-menu-item-selected path {
-    fill: #000;
-  }
-`;

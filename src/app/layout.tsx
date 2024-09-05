@@ -3,7 +3,6 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import NextTopLoader from "nextjs-toploader";
-import LayoutDefault from "@/components/layouts/default/LayoutDefault";
 import { Suspense } from "react";
 
 const roboto = Roboto({ weight: "400", subsets: ["latin"] });

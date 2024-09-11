@@ -5,13 +5,14 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
 import { useMediaQuery } from "react-responsive";
+import { useGetVideoQuery } from "@/redux/api/videoApi";
 
 const Playlist = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const isTablet = useMediaQuery({
     query: "(min-width: 769px) and (max-width: 1024px)",
   });
-  const isDesktop = useMediaQuery({ query: "(min-width: 1025px)" });
+
   const slidesPerView = isMobile ? 1 : isTablet ? 2 : 4;
 
   return (
@@ -24,7 +25,7 @@ const Playlist = () => {
         pagination={{ clickable: true }}
         className="mySwiper"
       >
-        <SwiperSlide>
+        {/* <SwiperSlide>
           <VideoCard />
         </SwiperSlide>
         <SwiperSlide>
@@ -50,7 +51,7 @@ const Playlist = () => {
         </SwiperSlide>
         <SwiperSlide>
           <VideoCard />
-        </SwiperSlide>
+        </SwiperSlide> */}
       </Swiper>
     </div>
   );

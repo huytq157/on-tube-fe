@@ -57,3 +57,24 @@ body {
   font-size: 18px !important;
   color: #000 !important;
 }
+
+.progress-container {
+  position: relative;
+  height: 2px;
+  background: #ccc;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #007bff;
+}
+
+.progress-thumb {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: #ff0000;
+  border-radius: 50%;
+  top: -3px;
+  transform: translateX(-50%);
+}

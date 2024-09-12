@@ -28,6 +28,7 @@ const LayoutDefault = ({ children }: Props) => {
           drawerVisible={drawerVisible}
           setDrawerVisible={setDrawerVisible}
         />
+
         <div className="flex-1 w-[100%] overflow-hidden  max-w-[2080px] mx-auto px-[12px] py-[20px]  min-h-[calc(100vh-56px)] ">
           {children}
         </div>

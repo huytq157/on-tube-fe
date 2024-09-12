@@ -156,20 +156,22 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
             isHovered ? "hidden" : "block"
           }`}
         />
-        <video
-          ref={videoRef}
-          width="100%"
-          height="auto"
-          preload="metadata"
-          muted={isMuted}
-          onLoadedMetadata={handleLoadedMetadata}
-          onTimeUpdate={handleTimeUpdate}
-          className={` top-0 h-[100%]  w-[full] left-0 ${
-            isHovered ? "block" : "hidden"
-          }`}
-        >
-          <source src={item?.videoUrl} type="video/mp4" />
-        </video>
+        <Link href={"/video/1"}>
+          <video
+            ref={videoRef}
+            width="100%"
+            height="auto"
+            preload="metadata"
+            muted={isMuted}
+            onLoadedMetadata={handleLoadedMetadata}
+            onTimeUpdate={handleTimeUpdate}
+            className={` top-0 h-[100%]  w-[full] left-0 ${
+              isHovered ? "block" : "hidden"
+            }`}
+          >
+            <source src={item?.videoUrl} type="video/mp4" />
+          </video>
+        </Link>
         {isHovered && (
           <>
             <button
@@ -180,19 +182,19 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
               {isMuted ? <AudioIcon /> : <Audio2Icon />}
             </button>
             {duration && (
-              <span className="absolute bottom-2 right-2 bg-black text-white text-sm p-1 rounded">
+              <span className="absolute bottom-3 right-2 bg-black text-white text-sm p-1 rounded">
                 {formattedTime}
               </span>
             )}
             <div
               ref={progressRef}
-              className="absolute bottom-0 left-0 w-full h-2 bg-gray-700 cursor-pointer"
+              className="absolute bottom-0 left-0 w-full h-1 bg-gray-700 cursor-pointer"
               onClick={handleProgressClick}
             >
-              <div className="h-full bg-blue-500" style={progressBarStyle} />
+              <div className="h-full bg-slate-500" style={progressBarStyle} />
               <div
                 ref={progressThumbRef}
-                className="absolute h-4 w-4 bg-red-500 rounded-full"
+                className="absolute h-2 w-2   bg-red-500 rounded-full"
                 style={{
                   left: `${
                     (currentTime / (videoRef.current?.duration || 1)) * 100

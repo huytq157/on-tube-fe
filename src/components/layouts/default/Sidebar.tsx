@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Menu, MenuProps, Drawer, Divider } from "antd";
 import styled from "styled-components";
 import { usePathname, useRouter } from "next/navigation";
@@ -117,7 +117,7 @@ const Sidebar = ({
     }
   };
 
-  if (!isClient) return null;
+  // if (!isClient) return null;
 
   return (
     <>

@@ -13,33 +13,15 @@ const CardVideoSkeleton = () => {
       <div className="flex gap-[5px] mt-[12px]">
         <Skeleton.Avatar
           active
-          size={36}
+          size={42}
           shape="circle"
           style={{ marginRight: "12px" }}
         />
         <div className="flex-1 pr-[20px]">
           <Skeleton
             active
-            title={{ width: "100%", style: { margin: "12px 0 4px" } }}
+            title={{ width: "100%", style: { margin: "4px 0 4px" } }}
             paragraph={{ rows: 1, width: "80%" }}
-          />
-          <Skeleton
-            active
-            title={false}
-            paragraph={{ rows: 1, width: "60%", style: { marginBottom: 0 } }}
-          />
-          <Skeleton
-            active
-            title={false}
-            paragraph={{ rows: 1, width: "40%", style: { marginTop: "5px" } }}
-          />
-        </div>
-        <div className="mt-[12px] mr-[-15px]">
-          <Skeleton.Button
-            active
-            size="small"
-            shape="circle"
-            style={{ width: "24px", height: "24px" }}
           />
         </div>
       </div>

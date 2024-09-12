@@ -34,6 +34,7 @@ const items: MenuProps["items"] = [
 
 interface VideoCardProps {
   item: {
+    _id: string;
     title: string;
     totalView: number;
     updatedAt: Date;
@@ -50,7 +51,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
   const [duration, setDuration] = useState<string>("");
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [isMuted, setIsMuted] = useState<boolean>(true);
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -156,7 +157,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
             isHovered ? "hidden" : "block"
           }`}
         />
-        <Link href={"/video/1"}>
+        <Link href={`/video/${item?._id}`}>
           <video
             ref={videoRef}
             width="100%"
@@ -248,3 +249,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
 };
 
 export default VideoCard;
+
+// http://localhost:8000/api/upload/video
+// https://youtube-backend-k4cj.onrender.com/api/upload/video
+// https://youtube-backend-k4cj.onrender.com/api/video/list?page=1&limit=12

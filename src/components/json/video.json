@@ -1,39 +1,36 @@
 {
   "success": true,
-  "videos": [
-    {
-      "_id": "66e1c3608d7da6bcdda5ff90",
-      "title": "Tết Ổn Rồi - Nhạc Xuân 2024 | Đông Nhi x Hiền Thục x Jun Phạm x Bùi Công Nam | Official MV",
-      "description": "Là ước mong của chúng ta sau một năm bôn ba, vất vả, một năm nhiều biến cố và khó khăn. Trong một chữ “ổn” ấy chất chứa biết bao kỳ vọng mà người ta tự “xây nên” cho chính mình.",
-      "videoUrl": "https://res.cloudinary.com/dkbothcn5/video/upload/v1726071481/h-tube/videos/1726071412591-videoplayback.mp4",
-      "isPublic": true,
-      "writer": {
-        "_id": "66e02262656729492255ec34",
-        "name": "huytran",
-        "email": "huytranquang.150701@gmail.com",
-        "password": "$argon2id$v=19$m=65536,t=3,p=4$5SbVLfiqcj8IaAr5z8o+0Q$dWV9v46jk8Rjk33x0rL+xrShIgiPUhhBQsQ01IMrxP4",
-        "avatar": "https://example.com/default-avatar.png",
-        "roleId": "USER",
-        "background": "https://example.com/default-background.png",
-        "description": "This is the user description.",
-        "createdAt": "2024-09-10T10:41:38.546Z",
-        "updatedAt": "2024-09-10T10:41:38.546Z",
-        "__v": 0
-      },
-      "category": null,
-      "playlist": null,
-      "commentsCount": 0,
-      "tags": [],
-      "totalView": 0,
-      "publishedDate": "2024-08-29T12:00:00.000Z",
-      "likesCount": 0,
-      "dislikesCount": 0,
-      "allowComments": true,
-      "createdAt": "2024-09-11T16:20:48.472Z",
-      "updatedAt": "2024-09-11T16:20:48.472Z",
+  "video": {
+    "_id": "66e1db1f55118c2b082d2fa7",
+    "title": "Tết Ổn Rồi - Nhạc Xuân 2024 | Đông Nhi x Hiền Thục x Jun Phạm x Bùi Công Nam | Official MV",
+    "description": "Là ước mong của chúng ta sau một năm bôn ba, vất vả, một năm nhiều biến cố và khó khăn. Trong một chữ “ổn” ấy chất chứa biết bao kỳ vọng mà người ta tự “xây nên” cho chính mình.",
+    "videoUrl": "https://res.cloudinary.com/dkbothcn5/video/upload/v1726071481/h-tube/videos/1726071412591-videoplayback.mp4",
+    "isPublic": true,
+    "writer": {
+      "_id": "66e02262656729492255ec34",
+      "name": "Huy official",
+      "email": "huytranquang.150701@gmail.com",
+      "password": "$argon2id$v=19$m=65536,t=3,p=4$5SbVLfiqcj8IaAr5z8o+0Q$dWV9v46jk8Rjk33x0rL+xrShIgiPUhhBQsQ01IMrxP4",
+      "avatar": "https://res.cloudinary.com/dkbothcn5/image/upload/v1726073576/h-tube/computed-filename-using-request.jpg",
+      "roleId": "ADMIN\n",
+      "background": "https://example.com/default-background.png",
+      "description": "This is the user description.",
+      "createdAt": "2024-09-10T10:41:38.546Z",
+      "updatedAt": "2024-09-10T10:41:38.546Z",
       "__v": 0
-    }
-  ],
-  "totalPage": 1,
-  "currentPage": 1
+    },
+    "category": null,
+    "playlist": null,
+    "commentsCount": 0,
+    "tags": [],
+    "videoThumbnail": "https://res.cloudinary.com/dkbothcn5/image/upload/v1726077318/h-tube/computed-filename-using-request.png",
+    "totalView": 0,
+    "publishedDate": "2024-08-29T12:00:00.000Z",
+    "likesCount": 0,
+    "dislikesCount": 0,
+    "allowComments": true,
+    "createdAt": "2024-09-11T18:02:07.685Z",
+    "updatedAt": "2024-09-11T18:02:07.685Z",
+    "__v": 0
+  }
 }

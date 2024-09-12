@@ -78,3 +78,7 @@ body {
   top: -3px;
   transform: translateX(-50%);
 }
+
+.vjs-cloudinary-button {
+  display: none !important;
+}

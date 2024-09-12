@@ -51,7 +51,7 @@ const VideoDetail = () => {
                     sourceTypes={["hls"]}
                   />
                 ) : (
-                  <div className="w-[100%] bg-slate-200 h-[550px] rounded-[10px] overflow-hidden">
+                  <div className="w-[100%] bg-slate-200 md:h-[550px] sm:h-[220px] rounded-[10px] overflow-hidden">
                     <Skeleton.Input
                       active
                       style={{ width: "100%", height: "100%" }}

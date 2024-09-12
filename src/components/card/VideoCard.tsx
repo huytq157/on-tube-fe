@@ -148,65 +148,70 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <Image
-          src={item.videoThumbnail}
-          width={500}
-          height={200}
-          alt={item.title}
-          className={`w-full h-[100%] object-cover rounded-[10px] ${
-            isHovered ? "hidden" : "block"
-          }`}
-        />
         <Link href={`/video/${item?._id}`}>
-          <video
-            ref={videoRef}
-            width="100%"
-            height="auto"
-            preload="metadata"
-            muted={isMuted}
-            onLoadedMetadata={handleLoadedMetadata}
-            onTimeUpdate={handleTimeUpdate}
-            className={` top-0 h-[100%]  w-[full] left-0 ${
-              isHovered ? "block" : "hidden"
+          <Image
+            src={item.videoThumbnail}
+            width={500}
+            height={200}
+            alt={item.title}
+            className={`w-full h-[100%] object-cover rounded-[10px] ${
+              isHovered ? "hidden" : "block"
             }`}
-          >
-            <source src={item?.videoUrl} type="video/mp4" />
-          </video>
+          />
         </Link>
-        {isHovered && (
-          <>
-            <button
-              onClick={handleMuteClick}
-              className="absolute top-2 right-2 p-1 bg-black text-white rounded-full"
-              aria-label={isMuted ? "Unmute" : "Mute"}
+
+        <div className="sm:hidden md:block">
+          <Link href={`/video/${item?._id}`}>
+            <video
+              ref={videoRef}
+              width="100%"
+              height="auto"
+              preload="metadata"
+              muted={isMuted}
+              onLoadedMetadata={handleLoadedMetadata}
+              onTimeUpdate={handleTimeUpdate}
+              className={` top-0 h-[100%] video-hidden-on-sm  w-[full] left-0 ${
+                isHovered ? "block" : "hidden"
+              }`}
             >
-              {isMuted ? <AudioIcon /> : <Audio2Icon />}
-            </button>
-            {duration && (
-              <span className="absolute bottom-3 right-2 bg-black text-white text-sm p-1 rounded">
-                {formattedTime}
-              </span>
-            )}
-            <div
-              ref={progressRef}
-              className="absolute bottom-0 left-0 w-full h-1 bg-gray-700 cursor-pointer"
-              onClick={handleProgressClick}
-            >
-              <div className="h-full bg-slate-500" style={progressBarStyle} />
+              <source src={item?.videoUrl} type="video/mp4" />
+            </video>
+          </Link>
+          {isHovered && (
+            <>
+              <button
+                onClick={handleMuteClick}
+                className="absolute top-2 right-2 p-1 bg-black text-white rounded-full"
+                aria-label={isMuted ? "Unmute" : "Mute"}
+              >
+                {isMuted ? <AudioIcon /> : <Audio2Icon />}
+              </button>
+              {duration && (
+                <span className="absolute bottom-3 right-2 bg-black text-white text-sm p-1 rounded">
+                  {formattedTime}
+                </span>
+              )}
               <div
-                ref={progressThumbRef}
-                className="absolute h-2 w-2   bg-red-500 rounded-full"
-                style={{
-                  left: `${
-                    (currentTime / (videoRef.current?.duration || 1)) * 100
-                  }%`,
-                  transform: "translateX(-50%)",
-                  top: "-50%",
-                }}
-              />
-            </div>
-          </>
-        )}
+                ref={progressRef}
+                className="absolute bottom-0 left-0 w-full h-1 bg-gray-700 cursor-pointer"
+                onClick={handleProgressClick}
+              >
+                <div className="h-full bg-slate-500" style={progressBarStyle} />
+                <div
+                  ref={progressThumbRef}
+                  className="absolute h-2 w-2   bg-red-500 rounded-full"
+                  style={{
+                    left: `${
+                      (currentTime / (videoRef.current?.duration || 1)) * 100
+                    }%`,
+                    transform: "translateX(-50%)",
+                    top: "-50%",
+                  }}
+                />
+              </div>
+            </>
+          )}
+        </div>
       </div>
       <div className="flex gap-[5px] mt-2">
         <div className="w-[36px] h-[36px] mt-[12px] mr-[8px] rounded-[50%] overflow-hidden cursor-pointer">
@@ -219,7 +224,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
           />
         </div>
         <div className="flex-1 pr-[20px]">
-          <Link href={"/video/1"}>
+          <Link href={`/video/${item?._id}`}>
             <h3 className="mt-[12px] text-[16px] mb-[4px] text-[#0f0f0f] font-semibold cursor-pointer text-line-camp-2">
               {item.title}
             </h3>

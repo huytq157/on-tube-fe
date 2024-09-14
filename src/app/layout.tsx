@@ -1,5 +1,3 @@
-"use client";
-
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
@@ -8,13 +6,16 @@ import NextTopLoader from "nextjs-toploader";
 import { Suspense } from "react";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
+import { ConfigProvider } from "antd";
+import RegistyProvider from "@/components/utils/RegistyProvider";
+import ReduxProviderClient from "@/components/utils/ReduxProviderClient";
 
 const roboto = Roboto({ weight: "400", subsets: ["latin"] });
 
-// export const metadata: Metadata = {
-//   title: "H-tube",
-//   description: "Video của Huy",
-// };
+export const metadata: Metadata = {
+  title: "H-tube",
+  description: "Video của Huy",
+};
 
 export default function RootLayout({
   children,
@@ -22,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={roboto.className}>
         <NextTopLoader
           color="#EE0033"
@@ -31,11 +32,15 @@ export default function RootLayout({
           showSpinner={false}
           crawlSpeed={300}
         />
-        <Provider store={store}>
+        <ReduxProviderClient>
           <AntdRegistry>
-            <Suspense fallback={<>Loading</>}>{children}</Suspense>
+            <ConfigProvider>
+              <RegistyProvider>
+                <Suspense fallback={<>Loading</>}>{children}</Suspense>
+              </RegistyProvider>
+            </ConfigProvider>
           </AntdRegistry>
-        </Provider>
+        </ReduxProviderClient>
       </body>
     </html>
   );

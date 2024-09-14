@@ -1,13 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
 const LayoutDefault = ({ children }: Props) => {
   const [collapsed, setCollapsed] = useState(false);
   const [drawerVisible, setDrawerVisible] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
@@ -15,6 +19,9 @@ const LayoutDefault = ({ children }: Props) => {
   const toggleDrawer = () => {
     setDrawerVisible(!drawerVisible);
   };
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <div className="h-screen flex flex-col">
@@ -24,7 +31,6 @@ const LayoutDefault = ({ children }: Props) => {
       <div className="flex flex-1 mt-[56px] overflow-y-visible">
         <Sidebar
           collapsed={collapsed}
-          setCollapsed={setCollapsed}
           drawerVisible={drawerVisible}
           setDrawerVisible={setDrawerVisible}
         />

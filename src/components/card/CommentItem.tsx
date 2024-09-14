@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { Video } from "../../../public";
 import TooltipButton from "../shared/TooltipButton";

@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import { Video } from "../../../public";
 import SmellIcon from "../icons/Smell";

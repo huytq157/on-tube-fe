@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
 import Link from "next/link";
+
 import LogoIcon from "@/components/icons/Logo";
 import HomeIcon from "@/components/icons/Home";
 import SubIcon from "@/components/icons/Sub";
@@ -20,6 +21,7 @@ import LikeIcon from "@/components/icons/Like";
 import DownLoadIcon from "@/components/icons/DownLoad";
 import TooltipButton from "@/components/shared/TooltipButton";
 import MenuIcon from "@/components/icons/Menu";
+
 import { Video } from "../../../../public";
 
 function getItem(
@@ -36,37 +38,6 @@ function getItem(
 
 type MenuItem = Required<MenuProps>["items"][number];
 
-const StyledMenu = styled((props: StyledMenuProps) => <Menu {...props} />)<{
-  $collapsed: boolean;
-}>`
-  li.ant-menu-item {
-    padding: 16px !important;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0px !important;
-    width: ${({ $collapsed }) => ($collapsed ? "56px" : "100%")};
-  }
-
-  li.ant-menu-item.ant-menu-item-selected {
-    background-color: #f2f2f2;
-    color: #333;
-    border-radius: 8px;
-    height: 42px;
-    font-weight: 550 !important;
-  }
-
-  .ant-menu-title-content {
-    margin-left: 15px;
-    font-size: 14px;
-    display: ${({ $collapsed }) => ($collapsed ? "none" : "inline")};
-  }
-
-  li.ant-menu-item.ant-menu-item-selected path {
-    fill: #000;
-  }
-`;
 interface StyledMenuProps extends MenuProps {
   $collapsed: boolean;
 }
@@ -86,24 +57,17 @@ const items: MenuItem[] = [
 
 const Sidebar = ({
   collapsed,
-  setCollapsed,
   drawerVisible,
   setDrawerVisible,
 }: {
   collapsed: boolean;
   drawerVisible: boolean;
-  setCollapsed: (value: boolean) => void;
   setDrawerVisible: (value: boolean) => void;
 }) => {
   const pathname = usePathname();
   const router = useRouter();
   const [openKeys, setOpenKeys] = useState<string[]>([]);
-  const [isClient, setIsClient] = useState(false);
   const isMobile = useMediaQuery({ maxWidth: 768 });
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   const onOpenChange = (keys: string[]) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
@@ -116,8 +80,6 @@ const Sidebar = ({
       setDrawerVisible(false);
     }
   };
-
-  // if (!isClient) return null;
 
   return (
     <>
@@ -218,3 +180,36 @@ const Sidebar = ({
 };
 
 export default Sidebar;
+
+const StyledMenu = styled((props: StyledMenuProps) => <Menu {...props} />)<{
+  $collapsed: boolean;
+}>`
+  li.ant-menu-item {
+    padding: 16px !important;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px !important;
+    width: ${({ $collapsed }) => ($collapsed ? "56px" : "100%")};
+    transition: none;
+  }
+
+  li.ant-menu-item.ant-menu-item-selected {
+    background-color: #f2f2f2;
+    color: #333;
+    border-radius: 8px;
+    height: 42px;
+    font-weight: 550 !important;
+  }
+
+  .ant-menu-title-content {
+    margin-left: 15px;
+    font-size: 14px;
+    display: ${({ $collapsed }) => ($collapsed ? "none" : "inline")};
+  }
+
+  li.ant-menu-item.ant-menu-item-selected path {
+    fill: #000;
+  }
+`;

@@ -213,7 +213,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
           )}
         </div>
       </div>
-      <div className="flex gap-[5px] mt-2">
+      <div className="flex gap-[5px] md:mt-2 ">
         <div className="w-[36px] h-[36px] mt-[12px] mr-[8px] rounded-[50%] overflow-hidden cursor-pointer">
           <Image
             src={item.writer.avatar || ""}
@@ -225,7 +225,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
         </div>
         <div className="flex-1 pr-[20px]">
           <Link href={`/video/${item?._id}`}>
-            <h3 className="mt-[12px] text-[16px] mb-[4px] text-[#0f0f0f] font-semibold cursor-pointer text-line-camp-2">
+            <h3 className="md:mt-[12px] sm:mt-[8px] text-[16px] mb-[4px] text-[#0f0f0f] font-semibold cursor-pointer text-line-camp-2">
               {item.title}
             </h3>
           </Link>

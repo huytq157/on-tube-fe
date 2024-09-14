@@ -29,13 +29,15 @@ const LayoutDefault = ({ children }: Props) => {
         <Header toggleCollapsed={toggleCollapsed} toggleDrawer={toggleDrawer} />
       </div>
       <div className="flex flex-1 mt-[56px] overflow-y-visible">
-        <Sidebar
-          collapsed={collapsed}
-          drawerVisible={drawerVisible}
-          setDrawerVisible={setDrawerVisible}
-        />
+        <div>
+          <Sidebar
+            collapsed={collapsed}
+            drawerVisible={drawerVisible}
+            setDrawerVisible={setDrawerVisible}
+          />
+        </div>
 
-        <div className="flex-1 w-[100%] overflow-hidden  max-w-[2080px] mx-auto px-[12px] py-[20px]  min-h-[calc(100vh-56px)] ">
+        <div className="flex-1 w-[100%] overflow-hidden   max-w-[2080px] mx-auto px-[12px] py-[20px]  min-h-[calc(100vh-56px)] ">
           {children}
         </div>
       </div>

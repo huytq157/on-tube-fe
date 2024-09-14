@@ -82,3 +82,7 @@ body {
 .vjs-cloudinary-button {
   display: none !important;
 }
+
+.ant-menu {
+  border: none !important;
+}

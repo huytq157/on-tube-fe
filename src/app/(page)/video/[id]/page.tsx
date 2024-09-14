@@ -1,31 +1,16 @@
 "use client";
 
-import { Col, Dropdown, MenuProps, Row, Skeleton } from "antd";
+import { Col, Row, Skeleton } from "antd";
 import Image from "next/image";
-import LikeIcon from "@/components/icons/Like";
-import DisLikeIcon from "@/components/icons/DisLike";
-import SaveIcon from "@/components/icons/Save";
-import VideoItem from "@/components/card/VideoItem";
-import SortIcon from "@/components/icons/Sort";
-import CommentItem from "@/components/card/CommentItem";
-import FormComment from "@/components/card/FormComment";
 import LayoutDefault from "@/components/layouts/default/LayoutDefault";
 import { useParams } from "next/navigation";
 import { useGetVideoByIdQuery } from "@/redux/api/videoApi";
 import { CldVideoPlayer } from "next-cloudinary";
 import "next-cloudinary/dist/cld-video-player.css";
-import VideoDetailSkeleton from "@/components/skeleton/VideoDetailSkeleton";
-
-const items: MenuProps["items"] = [
-  {
-    label: <li className="flex gap-[10px]">Bình luận hàng đầu</li>,
-    key: "0",
-  },
-  {
-    label: <li className="flex gap-[10px]">Mới nhất xếp trước</li>,
-    key: "1",
-  },
-];
+import VideoRecomment from "@/components/shared/VideoRecomment";
+import Comments from "@/components/shared/Comment";
+import VideoAction from "@/components/shared/VideoAction";
+import Head from "next/head";
 
 const VideoDetail = () => {
   const params = useParams();
@@ -34,6 +19,10 @@ const VideoDetail = () => {
 
   return (
     <LayoutDefault>
+      <Head>
+        <title>{video?.video?.title || "on-tube"}</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <div className="md:px-[20px] sm:px-0">
         <Row gutter={[16, 16]}>
           <Col xs={24} sm={24} md={24} lg={8} xl={16}>
@@ -90,55 +79,17 @@ const VideoDetail = () => {
                     </button>
                   </div>
                 </div>
-
-                <div className="flex gap-[10px]">
-                  <div className="bg-[#f2f2f2] rounded-[50px]">
-                    <div className="flex items-center h-[36px] px-[10px] ">
-                      <button className="flex items-center gap-[5px]">
-                        <LikeIcon /> <strong>{video?.video?.likesCount}</strong>
-                      </button>
-                      <div className="w-[20px] border-[1px] rotate-[-90deg] mx-[15px] border-[#B2B2B2]"></div>
-                      <button className="flex items-center gap-[5px]">
-                        <DisLikeIcon />
-                        <strong>{video?.video?.dislikesCount}</strong>
-                      </button>
-                    </div>
-                  </div>
-                  <button className="bg-[#f2f2f2] font-semibold flex items-center gap-[10px] px-[10px] rounded-[50px]">
-                    <LikeIcon /> Chia sẻ
-                  </button>
-                  <button className="bg-[#f2f2f2] font-semibold flex items-center gap-[10px] px-[10px] rounded-[50px]">
-                    <SaveIcon /> Lưu
-                  </button>
-                </div>
+                <VideoAction />
               </div>
               <div className="bg-[#f2f2f2]  min-h-[50px] rounded-[5px] mt-[15px] mb-[24px] p-[10px]">
                 {video?.video?.description}
               </div>
 
-              <div className="flex items-center gap-[25px] mb-[24px]">
-                <span className="text-[20px] font-semibold">
-                  {video?.video?.commentsCount} bình luận
-                </span>
-                <Dropdown menu={{ items }} trigger={["click"]}>
-                  <button className="flex font-[500] gap-[5px]">
-                    <SortIcon /> Sắp xếp theo
-                  </button>
-                </Dropdown>
-              </div>
-
-              <FormComment />
-              <CommentItem />
+              <Comments />
             </div>
           </Col>
           <Col xs={24} sm={24} md={24} lg={8} xl={8}>
-            <div className=" min-h-[100vh]">
-              <div className="flex flex-col gap-[15px]">
-                <VideoItem />
-                <VideoItem />
-                <VideoItem />
-              </div>
-            </div>
+            <VideoRecomment />
           </Col>
         </Row>
       </div>

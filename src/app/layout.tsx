@@ -1,19 +1,15 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
 import "./globals.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import NextTopLoader from "nextjs-toploader";
 import { Suspense } from "react";
-import { Provider } from "react-redux";
-import { store } from "@/redux/store";
 import { ConfigProvider } from "antd";
 import RegistyProvider from "@/components/utils/RegistyProvider";
 import ReduxProviderClient from "@/components/utils/ReduxProviderClient";
-
-const roboto = Roboto({ weight: "400", subsets: ["latin"] });
+import Roboto from "./assets/fonts";
 
 export const metadata: Metadata = {
-  title: "H-tube",
+  title: "On-tube",
   description: "Video của Huy",
 };
 
@@ -24,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={roboto.className}>
+      <body className={Roboto.className}>
         <NextTopLoader
           color="#EE0033"
           height={2}

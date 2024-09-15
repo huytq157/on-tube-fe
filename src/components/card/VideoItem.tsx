@@ -31,36 +31,36 @@ const items: MenuProps["items"] = [
 const VideoItem = () => {
   return (
     <div className="flex gap-[10px] h-[100%]">
-      <div className="rounded-[10px] flex-1 h-[100%] overflow-hidden bg-[#ccc] w-full  cursor-pointer">
+      <div className="rounded-[10px]  w-[168px] h-[100px]   overflow-hidden bg-[#ccc]  cursor-pointer">
         <Image
           src={Video}
-          width={500}
-          height={500}
+          width={168}
+          height={100}
           alt="Picture of the author"
-          className="w-[100%] h-[100%] object-cover"
+          className="w-[100%] h-[100%] object-fill"
         />
       </div>
 
       <div className="flex-1">
         <Link href={"/video/1"}>
-          <h3 className=" text-[14px] mb-[4px] text-[#0f0f0f] font-semibold cursor-pointer text-line-camp-2 leading-[22px]">
-            Next.js 14 Complete Course 2024 | Next.js 14 Full Stack App Tutorial
-            for Beginners
+          <h3 className=" text-[14px] mb-[7px] text-[#0f0f0f] font-[600] cursor-pointer text-line-camp-2 leading-[21px]">
+            Nhạc Tết Chill 2024 - Tết Đong Đầy - Nhạc Xuân Chill Nghe Là Thấy
+            Tết
           </h3>
         </Link>
         <Link href="/me">
-          <span className="text-[#606060] cursor-pointer flex items-center gap-[3px] leading-[18px]">
+          <span className="text-[#606060] text-[13px] cursor-pointer leading-[21px] flex items-center gap-[3px] ">
             Huy Offical <CheckIcon />
           </span>
         </Link>
         <div className="flex gap-[5px] text-[#606060] font-medium">
-          <span>69 lượt xem</span>
-          <span>•</span>
-          <span>3 tuần trước</span>
+          <span className="text-[12px]">69 lượt xem</span>
+          <span className="text-[12px]">•</span>
+          <span className="text-[12px]">3 tuần trước</span>
         </div>
       </div>
 
-      <div className=" mr-[-15px]">
+      <div className="mr-[-15px]">
         <Dropdown menu={{ items }} trigger={["click"]} placement="bottomRight">
           <TooltipButton Icon={<Option2Icon />} />
         </Dropdown>

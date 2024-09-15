@@ -10,11 +10,12 @@ import LogoIcon from "@/components/icons/Logo";
 import SearchIcon from "@/components/icons/Search";
 import CamIcon from "@/components/icons/Cam";
 import NotificationIcon from "@/components/icons/Notification";
-import { Video } from "../../../../public";
+import { Back, Video } from "../../../../public";
 import { Divider, Menu, MenuProps, Popover, Space } from "antd";
 import styled from "styled-components";
 import LogoutIcon from "@/components/icons/Logout";
 import CloseIcon from "@/components/icons/Close";
+import { useState } from "react";
 
 const StyledMenu = styled(Menu)`
   .ant-menu-item {
@@ -57,6 +58,8 @@ const Header = ({
   toggleDrawer: () => void;
 }) => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
+  const [showSearch, setShowSearch] = useState(false);
+  const [showNotify, setShowNotify] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -145,16 +148,39 @@ const Header = ({
         <Link href="/studio/upload">
           <TooltipButton title="Tạo" Icon={<CamIcon />} />
         </Link>
-        <Popover
-          content={content}
-          title="Thông báo"
-          trigger="click"
-          placement="topRight"
-        >
-          <TooltipButton Icon={<NotificationIcon />} />
-        </Popover>
+        <div className="sm:hidden md:block">
+          <Popover
+            content={content}
+            title="Thông báo"
+            trigger="click"
+            placement="topRight"
+          >
+            <TooltipButton Icon={<NotificationIcon />} />
+          </Popover>
+        </div>
+        <div className="md:hidden sm:block">
+          <TooltipButton
+            Icon={<NotificationIcon />}
+            onClick={() => setShowNotify(true)}
+          />
+          {showNotify && (
+            <div className="absolute top-0 left-0 bg-[#fff] w-full h-[100vh] bottom-0">
+              <button onClick={() => setShowNotify(false)}>Quay lại</button>
+              Thông báo
+            </div>
+          )}
+        </div>
         <div className="sm:block md:hidden">
-          <TooltipButton Icon={<SearchIcon />} />
+          <TooltipButton
+            Icon={<SearchIcon />}
+            onClick={() => setShowSearch(true)}
+          />
+          {showSearch && (
+            <div className="absolute top-0 left-0 bg-[#fff] w-full h-[100vh] bottom-0">
+              <button onClick={() => setShowSearch(false)}>Quay lại</button>
+              Tìm kiếm
+            </div>
+          )}
         </div>
         <div className="w-[34px] h-[34px] rounded-[50%] overflow-hidden cursor-pointer">
           <Popover content={content3} trigger="click" placement="topRight">

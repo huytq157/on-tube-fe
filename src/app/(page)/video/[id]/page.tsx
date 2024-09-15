@@ -23,9 +23,9 @@ const VideoDetail = () => {
         <title>{video?.video?.title || "on-tube"}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="md:px-[20px] sm:px-0">
-        <Row gutter={[16, 16]}>
-          <Col xs={24} sm={24} md={24} lg={8} xl={16}>
+      <div className="md:px-[4%] sm:px-0">
+        <Row gutter={[24, 24]}>
+          <Col xs={24} sm={24} md={24} lg={8} xl={16} xxl={18}>
             <div className="min-h-[100vh]">
               <div className="w-[100%] bg-slate-500  rounded-[10px] overflow-hidden">
                 {video?.video?.videoUrl ? (
@@ -38,6 +38,12 @@ const VideoDetail = () => {
                       streaming_profile: "hd",
                     }}
                     sourceTypes={["hls"]}
+                    chapters={{
+                      0: "Chapter 1",
+                      6: "Chapter 2",
+                      9: "Chapter 3",
+                    }}
+                    chaptersButton
                   />
                 ) : (
                   <div className="w-[100%] bg-slate-200 md:h-[550px] sm:h-[220px] rounded-[10px] overflow-hidden">
@@ -52,7 +58,7 @@ const VideoDetail = () => {
               <h1 className="sm:text-[18px] md:text-[22px] leading-[32px] font-semibold mt-[10px]">
                 {video?.video?.title}
               </h1>
-              <div className="mt-[12px] flex justify-between flex-wrap gap-[15px]">
+              <div className="md:mt-[25px] sm:mt-[15px] flex justify-between flex-wrap gap-[15px]">
                 <div className=" flex items-center gap-[20px]">
                   <div className="flex items-center gap-[15px] md:px-[10px] cursor-pointer rounded-[8px]">
                     <div className="w-[40px] h-[40px] rounded-[50%] overflow-hidden cursor-pointer">
@@ -81,14 +87,26 @@ const VideoDetail = () => {
                 </div>
                 <VideoAction />
               </div>
-              <div className="bg-[#f2f2f2]  min-h-[50px] rounded-[5px] mt-[15px] mb-[24px] p-[10px]">
+              <div className="bg-[#f2f2f2]   rounded-[5px] mt-[20px] mb-[24px] p-[10px]">
+                <div className="flex gap-[5px] mb-2 text-[#606060] font-semibold">
+                  <span className="text-[14px]">69 lượt xem</span>
+                  <span className="text-[14px]">•</span>
+                  <span className="text-[14px]">3 tuần trước</span>
+                  <div className="text-[#065FD4] ml-2 gap-1 flex">
+                    <span className="text-[14px] cursor-pointer">#xuanve</span>
+                    <span className="text-[14px] cursor-pointer">
+                      #ngaytetque
+                    </span>
+                  </div>
+                </div>
                 {video?.video?.description}
+                <button className="block font-semibold mt-3">Ẩn bớt</button>
               </div>
 
               <Comments />
             </div>
           </Col>
-          <Col xs={24} sm={24} md={24} lg={8} xl={8}>
+          <Col xs={24} sm={24} md={24} lg={8} xl={8} xxl={6}>
             <VideoRecomment />
           </Col>
         </Row>

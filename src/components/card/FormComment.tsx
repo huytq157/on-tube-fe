@@ -2,11 +2,28 @@
 import Image from "next/image";
 import { Video } from "../../../public";
 import SmellIcon from "../icons/Smell";
+import { useState, ChangeEvent, FocusEvent } from "react";
+import { EmojiClickData } from "emoji-picker-react";
+import EmojiPicker from "emoji-picker-react";
 
 const FormComment = () => {
+  const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
+  const [inputValue, setInputValue] = useState<string>("");
+  const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
+
+  const handleEmojiClick = (emojiObject: EmojiClickData) => {
+    setInputValue((prev) => prev + emojiObject.emoji);
+    setShowEmojiPicker(false);
+  };
+  const handleCancel = () => {
+    setIsInputFocused(false);
+    setInputValue("");
+    setShowEmojiPicker(false);
+  };
+
   return (
     <div className="flex justify-start mb-[30px]">
-      <div className="w-[40px] h-[40px] mr-[12px]  rounded-[50%] overflow-hidden cursor-pointer">
+      <div className="w-[40px] h-[40px] mr-[12px] rounded-[50%] overflow-hidden cursor-pointer">
         <Image
           src={Video}
           width={40}
@@ -19,19 +36,45 @@ const FormComment = () => {
         <form>
           <input
             placeholder="Viết bình luận ..."
-            className="w-[100%] outline-none border-b-[1px] border-[#000] pb-1"
+            className="w-[100%] outline-none border-b-[1px] border-[#504e4e] pb-1"
+            onFocus={() => setIsInputFocused(true)}
+            // onBlur={() => setIsInputFocused(false)}
+            value={inputValue}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setInputValue(e.target.value)
+            }
           />
-          <div className="flex justify-between mt-[5px] items-center">
-            <SmellIcon />
-            <div>
-              <button className="bg-transparent min-w-[90px] h-[36px] rounded-[50px] hover:bg-[#f2f2f2] mr-2">
-                Hủy
-              </button>
-              <button className="bg-[#333] mt-[10px] rounded-[50px] min-w-[90px] text-[#fff] h-[36px]">
-                Bình luận
-              </button>
+          {isInputFocused && (
+            <div className="flex justify-between mt-[5px] items-center">
+              <div className="relative">
+                <div onClick={() => setShowEmojiPicker((prev) => !prev)}>
+                  <SmellIcon />
+                </div>
+                {showEmojiPicker && (
+                  <div className="absolute top-[100%] left-0">
+                    <EmojiPicker onEmojiClick={handleEmojiClick} />
+                  </div>
+                )}
+              </div>
+              <div>
+                <button
+                  className="bg-transparent min-w-[90px] h-[36px] rounded-[50px] hover:bg-[#f2f2f2] mr-2"
+                  onClick={handleCancel}
+                >
+                  Hủy
+                </button>
+                <button
+                  className={`mt-[10px] rounded-[50px] min-w-[90px] h-[36px] ${
+                    inputValue
+                      ? "bg-[#333] text-[#fff]"
+                      : "bg-[#ccc] text-[#fff]"
+                  }`}
+                >
+                  Bình luận
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </form>
       </div>
     </div>

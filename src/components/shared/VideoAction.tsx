@@ -6,7 +6,7 @@ const VideoAction = () => {
   return (
     <div className="flex gap-[10px]">
       <div className="bg-[#f2f2f2] rounded-[50px]">
-        <div className="flex items-center h-[100%] px-[10px] ">
+        <div className="flex flex-wrap items-center h-[100%] py-[5px] px-[10px] ">
           <button className="flex items-center gap-[5px] h-[100%]">
             <LikeIcon /> <strong>0</strong>
           </button>

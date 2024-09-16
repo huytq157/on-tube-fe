@@ -141,12 +141,18 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
     }
   };
 
+  const isYouTubeUrl = (url: string) => {
+    return url.includes("youtube.com") || url.includes("youtu.be");
+  };
+
   return (
     <div>
       <div
         className="relative rounded-[10px] min-h-[200px]  w-full cursor-pointer"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        {...(!isYouTubeUrl(item?.videoUrl) && {
+          onMouseEnter: handleMouseEnter,
+          onMouseLeave: handleMouseLeave,
+        })}
       >
         <Link href={`/video/${item?._id}`}>
           <Image
@@ -159,7 +165,6 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
             }`}
           />
         </Link>
-
         <div className="sm:hidden md:block">
           <Link href={`/video/${item?._id}`}>
             <video
@@ -177,6 +182,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
               <source src={item?.videoUrl} type="video/mp4" />
             </video>
           </Link>
+
           {isHovered && (
             <>
               <button
@@ -213,6 +219,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
           )}
         </div>
       </div>
+
       <div className="flex gap-[5px] md:mt-2 ">
         <div className="w-[36px] h-[36px] mt-[12px] mr-[8px] rounded-[50%] overflow-hidden cursor-pointer">
           <Image

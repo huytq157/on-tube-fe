@@ -83,3 +83,35 @@ body {
 .ant-menu {
   border: none !important;
 }
+
+.custom-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  position: absolute;
+  top: 0px;
+  right: 6px;
+  visibility: hidden;
+}
+
+.videos:hover .custom-controls {
+  visibility: visible;
+  transition: all 1s ease;
+}
+
+.custom-button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin: 0 5px;
+  font-size: 18px;
+}
+
+.custom-button:hover {
+  background-color: #555;
+}

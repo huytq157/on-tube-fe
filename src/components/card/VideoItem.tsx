@@ -30,8 +30,8 @@ const items: MenuProps["items"] = [
 
 const VideoItem = () => {
   return (
-    <div className="flex gap-[10px] h-[100%]">
-      <div className="rounded-[10px]  w-[168px] h-[100px]   overflow-hidden bg-[#ccc]  cursor-pointer">
+    <div className="flex sm:flex-col md:flex-row gap-[10px] h-[100%]">
+      <div className="rounded-[10px]  md:w-[168px] sm:w-full md:h-[100px] sm:h-auto   overflow-hidden bg-[#ccc]  cursor-pointer">
         <Image
           src={Video}
           width={168}
@@ -41,29 +41,35 @@ const VideoItem = () => {
         />
       </div>
 
-      <div className="flex-1">
-        <Link href={"/video/1"}>
-          <h3 className=" text-[14px] mb-[7px] text-[#0f0f0f] font-[600] cursor-pointer text-line-camp-2 leading-[21px]">
-            Nhạc Tết Chill 2024 - Tết Đong Đầy - Nhạc Xuân Chill Nghe Là Thấy
-            Tết
-          </h3>
-        </Link>
-        <Link href="/me">
-          <span className="text-[#606060] text-[13px] cursor-pointer leading-[21px] flex items-center gap-[3px] ">
-            Huy Offical <CheckIcon />
-          </span>
-        </Link>
-        <div className="flex gap-[5px] text-[#606060] font-medium">
-          <span className="text-[12px]">69 lượt xem</span>
-          <span className="text-[12px]">•</span>
-          <span className="text-[12px]">3 tuần trước</span>
+      <div className="flex-1 flex">
+        <div>
+          <Link href={"/video/1"}>
+            <h3 className=" text-[14px] mb-[7px] text-[#0f0f0f] font-[600] cursor-pointer text-line-camp-2 leading-[21px]">
+              Nhạc Tết Chill 2024 - Tết Đong Đầy - Nhạc Xuân Chill Nghe Là Thấy
+              Tết
+            </h3>
+          </Link>
+          <Link href="/me">
+            <span className="text-[#606060] text-[13px] cursor-pointer leading-[21px] flex items-center gap-[3px] ">
+              Huy Offical <CheckIcon />
+            </span>
+          </Link>
+          <div className="flex gap-[5px] text-[#606060] font-medium">
+            <span className="text-[12px]">69 lượt xem</span>
+            <span className="text-[12px]">•</span>
+            <span className="text-[12px]">3 tuần trước</span>
+          </div>
         </div>
-      </div>
 
-      <div className="mr-[-15px]">
-        <Dropdown menu={{ items }} trigger={["click"]} placement="bottomRight">
-          <TooltipButton Icon={<Option2Icon />} />
-        </Dropdown>
+        <div className="mr-[-15px]">
+          <Dropdown
+            menu={{ items }}
+            trigger={["click"]}
+            placement="bottomRight"
+          >
+            <TooltipButton Icon={<Option2Icon />} />
+          </Dropdown>
+        </div>
       </div>
     </div>
   );

@@ -37,7 +37,7 @@ interface VideoCardProps {
     _id: string;
     title: string;
     totalView: number;
-    updatedAt: Date;
+    createdAt: Date;
     videoUrl: string;
     videoThumbnail: string;
     writer: {
@@ -242,7 +242,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
           <div className="flex gap-[5px] text-[#606060] font-medium">
             <span>{item.totalView} lượt xem</span>
             <span>•</span>
-            <span>{calculateCreatedTime(item.updatedAt)}</span>
+            <span>{calculateCreatedTime(item.createdAt)}</span>
           </div>
         </div>
 

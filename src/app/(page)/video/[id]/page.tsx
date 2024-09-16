@@ -4,21 +4,25 @@ import { Col, Row, Skeleton } from "antd";
 import Image from "next/image";
 import LayoutDefault from "@/components/layouts/default/LayoutDefault";
 import { useParams } from "next/navigation";
-import { useGetVideoByIdQuery } from "@/redux/api/videoApi";
+import {
+  useDescViewMutation,
+  useGetVideoByIdQuery,
+} from "@/redux/api/videoApi";
 import VideoRecomment from "@/components/shared/VideoRecomment";
 import Comments from "@/components/shared/Comment";
 import VideoAction from "@/components/shared/VideoAction";
 import Head from "next/head";
-import { useRef, useState } from "react";
-import WindowIcon from "@/components/icons/Window";
+import { useEffect, useRef, useState } from "react";
 import SmallScreenIcon from "@/components/icons/SmallScreen";
-import TooltipButton from "@/components/shared/TooltipButton";
 
 const VideoDetail = () => {
   const params = useParams();
   const { id } = params;
+  const [descView] = useDescViewMutation();
   const { data: video, isLoading, isError } = useGetVideoByIdQuery(id);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const hasViewedRef = useRef(false);
+  const [watchTime, setWatchTime] = useState(0); //
 
   const isYouTubeUrl = (url: string) => {
     return url.includes("youtube.com") || url.includes("youtu.be");
@@ -30,6 +34,24 @@ const VideoDetail = () => {
         await document.exitPictureInPicture();
       } else {
         await videoRef.current.requestPictureInPicture();
+      }
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      const currentTime = videoRef.current.currentTime;
+      setWatchTime(currentTime);
+
+      if (currentTime >= 60 && !hasViewedRef.current) {
+        descView({ videoId: id, watchTime: 60 })
+          .unwrap()
+          .then(() => {
+            hasViewedRef.current = true;
+          })
+          .catch((error) => {
+            console.error("Error updating view", error);
+          });
       }
     }
   };
@@ -67,6 +89,7 @@ const VideoDetail = () => {
                         autoPlay={true}
                         autoFocus={true}
                         poster={video?.video?.videoThumbnail}
+                        onTimeUpdate={handleTimeUpdate}
                       >
                         <source src={video?.video?.videoUrl} type="video/mp4" />
                         <track

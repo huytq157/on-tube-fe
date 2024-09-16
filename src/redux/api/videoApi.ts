@@ -15,7 +15,18 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: (result, error, id) => [{ type: "Video", id }],
     }),
+    descView: builder.mutation({
+      query: ({ videoId, watchTime }) => ({
+        url: `video/watch/${videoId}`,
+        method: "POST",
+        body: { watchTime },
+      }),
+      invalidatesTags: (result, error, { videoId }) => [
+        { type: "Video", id: videoId },
+      ],
+    }),
   }),
 });
 
-export const { useGetVideoQuery, useGetVideoByIdQuery } = VideoApiSlice;
+export const { useGetVideoQuery, useGetVideoByIdQuery, useDescViewMutation } =
+  VideoApiSlice;

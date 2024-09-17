@@ -148,7 +148,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
   return (
     <div>
       <div
-        className="relative rounded-[10px] min-h-[200px]  w-full cursor-pointer"
+        className=" rounded-[10px] min-h-[200px]  w-full cursor-pointer"
         {...(!isYouTubeUrl(item?.videoUrl) && {
           onMouseEnter: handleMouseEnter,
           onMouseLeave: handleMouseLeave,
@@ -163,9 +163,10 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
             className={`w-full h-[100%] object-cover rounded-[10px] ${
               isHovered ? "hidden" : "block"
             }`}
+            priority
           />
         </Link>
-        <div className="sm:hidden md:block">
+        <div className=" relative sm:hidden md:block">
           <Link href={`/video/${item?._id}`}>
             <video
               ref={videoRef}
@@ -175,7 +176,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
               muted={isMuted}
               onLoadedMetadata={handleLoadedMetadata}
               onTimeUpdate={handleTimeUpdate}
-              className={` top-0 h-[100%] video-hidden-on-sm  w-[full] left-0 ${
+              className={` top-0 h-[100%] video-hidden-on-sm bg-black  w-[full] left-0 ${
                 isHovered ? "block" : "hidden"
               }`}
             >
@@ -261,7 +262,3 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
 };
 
 export default VideoCard;
-
-// http://localhost:8000/api/upload/video
-// https://youtube-backend-k4cj.onrender.com/api/upload/video
-// https://youtube-backend-k4cj.onrender.com/api/video/list?page=1&limit=12

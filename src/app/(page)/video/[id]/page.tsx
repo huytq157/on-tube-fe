@@ -28,7 +28,13 @@ const VideoDetail = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const hasViewedRef = useRef(false);
   const [watchTime, setWatchTime] = useState(0);
+  const [totalDuration, setTotalDuration] = useState<number>(0);
 
+  const handleLoadedMetadata = () => {
+    if (videoRef.current) {
+      setTotalDuration(videoRef.current.duration);
+    }
+  };
   const isYouTubeUrl = (url: string) => {
     return url.includes("youtube.com") || url.includes("youtu.be");
   };
@@ -46,11 +52,9 @@ const VideoDetail = () => {
   const handleTimeUpdate = () => {
     if (videoRef.current && !hasViewedRef.current) {
       const currentTime = videoRef.current.currentTime;
-      setWatchTime(currentTime);
-
-      if (currentTime >= 60) {
+      if (totalDuration > 0 && currentTime >= totalDuration * 0.5) {
         hasViewedRef.current = true;
-        descView({ videoId: id, watchTime: 60 })
+        descView({ videoId: id, watchTime: totalDuration * 0.5 })
           .unwrap()
           .then(() => {
             console.log("descView called successfully");
@@ -96,6 +100,7 @@ const VideoDetail = () => {
                         autoFocus={true}
                         poster={video?.video?.videoThumbnail}
                         onTimeUpdate={handleTimeUpdate}
+                        onLoadedMetadata={handleLoadedMetadata}
                       >
                         <source src={video?.video?.videoUrl} type="video/mp4" />
                         <track

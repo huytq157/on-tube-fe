@@ -30,8 +30,6 @@ const items: MenuProps["items"] = [
 ];
 
 const VideoItem: React.FC<any> = ({ video }) => {
-  console.log("video", video);
-
   return (
     <div className="flex sm:flex-col md:flex-row gap-[10px] h-[100%]">
       <div className="rounded-[10px]  md:w-[168px] sm:w-full md:h-[100px] sm:h-auto   overflow-hidden bg-[#ccc]  cursor-pointer">

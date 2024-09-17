@@ -157,16 +157,12 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
         <Link href={`/video/${item?._id}`}>
           <Image
             src={item.videoThumbnail}
-            width={320}
-            height={180}
+            width={500}
+            height={200}
             alt={item.title}
-            priority
             className={`w-full h-[100%] object-cover rounded-[10px] ${
               isHovered ? "hidden" : "block"
             }`}
-            onError={(e) => {
-              e.currentTarget.src = "../../../public/no-image.png";
-            }}
           />
         </Link>
         <div className="sm:hidden md:block">
@@ -265,3 +261,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
 };
 
 export default VideoCard;
+
+// http://localhost:8000/api/upload/video
+// https://youtube-backend-k4cj.onrender.com/api/upload/video
+// https://youtube-backend-k4cj.onrender.com/api/video/list?page=1&limit=12

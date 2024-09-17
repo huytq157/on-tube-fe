@@ -16,6 +16,7 @@ import styled from "styled-components";
 import LogoutIcon from "@/components/icons/Logout";
 import CloseIcon from "@/components/icons/Close";
 import { useState } from "react";
+import BackIcon from "@/components/icons/Back";
 
 const StyledMenu = styled(Menu)`
   .ant-menu-item {
@@ -165,8 +166,11 @@ const Header = ({
           />
           {showNotify && (
             <div className="absolute top-0 left-0 bg-[#fff] w-full h-[100vh] bottom-0">
-              <button onClick={() => setShowNotify(false)}>Quay lại</button>
-              Thông báo
+              <TooltipButton
+                Icon={<BackIcon />}
+                onClick={() => setShowNotify(false)}
+              />
+              <div className="p-[10px]">Thông báo</div>
             </div>
           )}
         </div>
@@ -177,8 +181,11 @@ const Header = ({
           />
           {showSearch && (
             <div className="absolute top-0 left-0 bg-[#fff] w-full h-[100vh] bottom-0">
-              <button onClick={() => setShowSearch(false)}>Quay lại</button>
-              Tìm kiếm
+              <TooltipButton
+                Icon={<BackIcon />}
+                onClick={() => setShowSearch(false)}
+              />
+              <div className="p-[10px]">Tìm kiếm</div>
             </div>
           )}
         </div>

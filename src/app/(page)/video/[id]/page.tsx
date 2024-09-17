@@ -14,15 +14,16 @@ import VideoAction from "@/components/shared/VideoAction";
 import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
 import SmallScreenIcon from "@/components/icons/SmallScreen";
+import { calculateCreatedTime } from "@/components/utils/formatDate";
 
 const VideoDetail = () => {
   const params = useParams();
   const { id } = params;
   const [descView] = useDescViewMutation();
-  const { data: video, isLoading, isError } = useGetVideoByIdQuery(id);
+  const { data: video } = useGetVideoByIdQuery(id);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const hasViewedRef = useRef(false);
-  const [watchTime, setWatchTime] = useState(0); //
+  const [watchTime, setWatchTime] = useState(0);
 
   const isYouTubeUrl = (url: string) => {
     return url.includes("youtube.com") || url.includes("youtu.be");
@@ -38,16 +39,35 @@ const VideoDetail = () => {
     }
   };
 
+  // const handleTimeUpdate = () => {
+  //   if (videoRef.current) {
+  //     const currentTime = videoRef.current.currentTime;
+  //     setWatchTime(currentTime);
+
+  //     if (currentTime >= 60 && !hasViewedRef.current) {
+  //       descView({ videoId: id, watchTime: 60 })
+  //         .unwrap()
+  //         .then(() => {
+  //           hasViewedRef.current = true;
+  //         })
+  //         .catch((error) => {
+  //           console.error("Error updating view", error);
+  //         });
+  //     }
+  //   }
+  // };
+
   const handleTimeUpdate = () => {
-    if (videoRef.current) {
+    if (videoRef.current && !hasViewedRef.current) {
       const currentTime = videoRef.current.currentTime;
       setWatchTime(currentTime);
 
-      if (currentTime >= 60 && !hasViewedRef.current) {
+      if (currentTime >= 60) {
+        hasViewedRef.current = true;
         descView({ videoId: id, watchTime: 60 })
           .unwrap()
           .then(() => {
-            hasViewedRef.current = true;
+            console.log("descView called successfully");
           })
           .catch((error) => {
             console.error("Error updating view", error);
@@ -156,9 +176,13 @@ const VideoDetail = () => {
               </div>
               <div className="bg-[#f2f2f2] rounded-[5px] mt-[20px] mb-[24px] p-[10px]">
                 <div className="flex gap-[5px] flex-wrap mb-2 text-[#606060] font-semibold">
-                  <span className="text-[14px]">69 lượt xem</span>
+                  <span className="text-[14px]">
+                    {video?.video?.totalView} lượt xem
+                  </span>
                   <span className="text-[14px]">•</span>
-                  <span className="text-[14px]">3 tuần trước</span>
+                  <span className="text-[14px]">
+                    {calculateCreatedTime(video?.video?.createdAt)}
+                  </span>
                   <div className="text-[#065FD4] ml-2 gap-1 flex">
                     <span className="text-[14px] cursor-pointer">#xuanve</span>
                     <span className="text-[14px] cursor-pointer">

@@ -8,9 +8,24 @@ import Category from "@/components/shared/Category";
 import { useGetVideoQuery } from "@/redux/api/videoApi";
 import CardVideoSkeleton from "@/components/skeleton/CardVideoSkelenton";
 
+interface Writer {
+  avatar: string;
+  name: string;
+}
+
+interface Video {
+  _id: string;
+  title: string;
+  totalView: number;
+  createdAt: Date;
+  videoUrl: string;
+  videoThumbnail: string;
+  writer: Writer;
+}
+
 export default function Home() {
   const { data: video, isLoading } = useGetVideoQuery("");
-
+  const videos: Video[] = video?.videos || [];
   return (
     <LayoutDefault>
       <Category />
@@ -22,7 +37,7 @@ export default function Home() {
                   <CardVideoSkeleton />
                 </Col>
               ))
-            : video?.videos.map((item: any) => (
+            : videos.map((item: any) => (
                 <Col key={item._id} xs={24} sm={12} lg={8} xl={8} xxl={6}>
                   <VideoCard item={item} />
                 </Col>

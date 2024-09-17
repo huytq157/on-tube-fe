@@ -25,8 +25,18 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
         { type: "Video", id: videoId },
       ],
     }),
+    getVideoRecommend: builder.query({
+      query: (id) => ({
+        url: `video/list/recommend/${id}`,
+      }),
+      providesTags: (result, error, id) => [{ type: "Video", id }],
+    }),
   }),
 });
 
-export const { useGetVideoQuery, useGetVideoByIdQuery, useDescViewMutation } =
-  VideoApiSlice;
+export const {
+  useGetVideoQuery,
+  useGetVideoByIdQuery,
+  useDescViewMutation,
+  useGetVideoRecommendQuery,
+} = VideoApiSlice;

@@ -7,6 +7,7 @@ import { useParams } from "next/navigation";
 import {
   useDescViewMutation,
   useGetVideoByIdQuery,
+  useGetVideoRecommendQuery,
 } from "@/redux/api/videoApi";
 import VideoRecomment from "@/components/shared/VideoRecomment";
 import Comments from "@/components/shared/Comment";
@@ -20,7 +21,10 @@ const VideoDetail = () => {
   const params = useParams();
   const { id } = params;
   const [descView] = useDescViewMutation();
+
   const { data: video } = useGetVideoByIdQuery(id);
+  const { data: vieoRecommend } = useGetVideoRecommendQuery(id);
+
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const hasViewedRef = useRef(false);
   const [watchTime, setWatchTime] = useState(0);
@@ -38,24 +42,6 @@ const VideoDetail = () => {
       }
     }
   };
-
-  // const handleTimeUpdate = () => {
-  //   if (videoRef.current) {
-  //     const currentTime = videoRef.current.currentTime;
-  //     setWatchTime(currentTime);
-
-  //     if (currentTime >= 60 && !hasViewedRef.current) {
-  //       descView({ videoId: id, watchTime: 60 })
-  //         .unwrap()
-  //         .then(() => {
-  //           hasViewedRef.current = true;
-  //         })
-  //         .catch((error) => {
-  //           console.error("Error updating view", error);
-  //         });
-  //     }
-  //   }
-  // };
 
   const handleTimeUpdate = () => {
     if (videoRef.current && !hasViewedRef.current) {
@@ -198,7 +184,7 @@ const VideoDetail = () => {
             </div>
           </Col>
           <Col xs={24} sm={24} md={24} lg={24} xl={8} xxl={6}>
-            <VideoRecomment />
+            <VideoRecomment vieoRecommend={vieoRecommend} />
           </Col>
         </Row>
       </div>

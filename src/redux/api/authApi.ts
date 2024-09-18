@@ -16,7 +16,6 @@ export const authApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-
     getMe: builder.query({
       query: () => ({
         url: "auth/user",

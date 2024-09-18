@@ -27,7 +27,6 @@ const VideoDetail = () => {
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const hasViewedRef = useRef(false);
-  const [watchTime, setWatchTime] = useState(0);
   const [totalDuration, setTotalDuration] = useState<number>(0);
 
   const handleLoadedMetadata = () => {
@@ -72,9 +71,9 @@ const VideoDetail = () => {
         <title>{video?.video?.title || "on-tube"}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="md:px-[5%] sm:px-0">
+      <div className="md:px-[4%] sm:px-0">
         <Row gutter={[24, 24]}>
-          <Col xs={24} sm={24} md={24} lg={24} xl={16} xxl={18}>
+          <Col xs={24} sm={24} md={24} lg={24} xl={17} xxl={18}>
             <div className="min-h-[100vh] overflow-hidden">
               <div className="w-full bg-black rounded-[10px] overflow-hidden">
                 {video?.video?.videoUrl ? (
@@ -175,10 +174,14 @@ const VideoDetail = () => {
                     {calculateCreatedTime(video?.video?.createdAt)}
                   </span>
                   <div className="text-[#065FD4] ml-2 gap-1 flex">
-                    <span className="text-[14px] cursor-pointer">#xuanve</span>
-                    <span className="text-[14px] cursor-pointer">
-                      #ngaytetque
-                    </span>
+                    {video?.video?.tags?.map((item: any, index: number) => (
+                      <span
+                        key={item.index}
+                        className="text-[14px] cursor-pointer"
+                      >
+                        #{item}
+                      </span>
+                    ))}
                   </div>
                 </div>
                 {video?.video?.description}
@@ -188,7 +191,7 @@ const VideoDetail = () => {
               <Comments />
             </div>
           </Col>
-          <Col xs={24} sm={24} md={24} lg={24} xl={8} xxl={6}>
+          <Col xs={24} sm={24} md={24} lg={24} xl={7} xxl={6}>
             <VideoRecomment vieoRecommend={vieoRecommend} />
           </Col>
         </Row>

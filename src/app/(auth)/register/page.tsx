@@ -1,8 +1,46 @@
 "use client";
 import Link from "next/link";
 import LogoIcon from "@/components/icons/Logo";
+import { useRegisterMutation } from "@/redux/api/authApi";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { message } from "antd";
+
+interface RegisterFormValues {
+  name: string;
+  email: string;
+  password: string;
+}
 
 const Register = () => {
+  const [register, { isLoading }] = useRegisterMutation();
+  const router = useRouter();
+
+  const [formValues, setFormValues] = useState<RegisterFormValues>({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormValues({
+      ...formValues,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      await register(formValues).unwrap();
+      message.success("Đăng ký thành công");
+      router.push("/login");
+    } catch (error) {
+      message.error("Đăng ký thất bại");
+    }
+  };
+
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto text-center sm:w-full sm:max-w-sm">
@@ -15,7 +53,12 @@ const Register = () => {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form action="#" method="POST" className="space-y-5">
+        <form
+          action="#"
+          method="POST"
+          className="space-y-5"
+          onSubmit={handleSubmit}
+        >
           <div>
             <label
               htmlFor="email"
@@ -29,6 +72,8 @@ const Register = () => {
                 name="email"
                 type="email"
                 required
+                value={formValues.email}
+                onChange={handleChange}
                 autoComplete="email"
                 className="block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-7"
               />
@@ -48,6 +93,8 @@ const Register = () => {
                 name="name"
                 type="text"
                 required
+                value={formValues.name}
+                onChange={handleChange}
                 autoComplete="name"
                 className="block w-full px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-7"
               />
@@ -69,6 +116,8 @@ const Register = () => {
                 name="password"
                 type="password"
                 required
+                value={formValues.password}
+                onChange={handleChange}
                 autoComplete="current-password"
                 className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-7"
               />
@@ -80,7 +129,7 @@ const Register = () => {
               type="submit"
               className="flex w-full justify-center mt-4 rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              Đăng ký
+              {isLoading ? "Đăng ký..." : "Đăng ký"}
             </button>
           </div>
         </form>

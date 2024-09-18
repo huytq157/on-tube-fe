@@ -11,12 +11,15 @@ import SearchIcon from "@/components/icons/Search";
 import CamIcon from "@/components/icons/Cam";
 import NotificationIcon from "@/components/icons/Notification";
 import { Back, Video } from "../../../../public";
-import { Divider, Menu, MenuProps, Popover, Space } from "antd";
+import { Divider, Menu, MenuProps, message, Popover, Space } from "antd";
 import styled from "styled-components";
 import LogoutIcon from "@/components/icons/Logout";
 import CloseIcon from "@/components/icons/Close";
 import { useState } from "react";
 import BackIcon from "@/components/icons/Back";
+import { useGetMeQuery } from "@/redux/api/authApi";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut, selectCurrentToken } from "@/redux/features/authSlice";
 
 const StyledMenu = styled(Menu)`
   .ant-menu-item {
@@ -41,11 +44,7 @@ function getItem(
 
 type MenuItem = Required<MenuProps>["items"][number];
 
-const items: MenuItem[] = [
-  getItem("Đăng xuất", "/", <LogoutIcon />),
-  getItem("Đăng nhập", "/login", <LogoutIcon />),
-  getItem("Đăng ký", "/register", <LogoutIcon />),
-];
+const items: MenuItem[] = [getItem("Đăng xuất", "logout", <LogoutIcon />)];
 const items2: MenuItem[] = [
   getItem("Đăng nhập", "/login"),
   getItem("Đăng ký", "/register"),
@@ -63,8 +62,27 @@ const Header = ({
   const [showNotify, setShowNotify] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logOut());
+    message.success("Đăng xuất thành công");
+  };
+
+  const token = useSelector(selectCurrentToken);
+  const { data: user } = useGetMeQuery(undefined, {
+    skip: !token,
+  });
 
   const onMenuClick = (item: any) => {
+    if (item.key === "logout") {
+      handleLogout();
+      console.log("đăgn xuất");
+    } else {
+      router.push(item.key);
+    }
+  };
+  const onMenuClick2 = (item: any) => {
     router.push(item.key);
   };
 
@@ -80,7 +98,7 @@ const Header = ({
       <Space align="start">
         <div className="w-[40px] h-[40px] rounded-[50%] overflow-hidden cursor-pointer">
           <Image
-            src={Video}
+            src={user?.user?.avatar || ""}
             width={40}
             height={40}
             alt=""
@@ -88,8 +106,8 @@ const Header = ({
           />
         </div>
         <div className="flex flex-col">
-          <span className="font-semibold text-[17px]">Trần Quang Huy</span>
-          <span>@quanghuy157</span>
+          <span className="font-semibold text-[17px]">{user?.user?.name}</span>
+          <span>{user?.user?.email}</span>
           <Link href="/me" className="mt-[5px]">
             Xem kênh của bạn
           </Link>
@@ -102,6 +120,7 @@ const Header = ({
         defaultSelectedKeys={[]}
         mode="inline"
         items={items}
+        onClick={onMenuClick}
       />
     </div>
   );
@@ -113,7 +132,7 @@ const Header = ({
         defaultSelectedKeys={[]}
         mode="inline"
         items={items2}
-        onClick={onMenuClick}
+        onClick={onMenuClick2}
       />
     </div>
   );
@@ -190,14 +209,22 @@ const Header = ({
           )}
         </div>
         <div className="w-[34px] h-[34px] rounded-[50%] overflow-hidden cursor-pointer">
-          <Popover content={content3} trigger="click" placement="topRight">
-            <Image
-              src={Video}
-              width={36}
-              height={36}
-              alt="channels-avartar"
-              className="w-[100%] h-[100%]"
-            />
+          <Popover
+            content={user ? content2 : content3}
+            trigger="click"
+            placement="topRight"
+          >
+            {user?.user?.avatar ? (
+              <Image
+                src={user?.user?.avatar || ""}
+                width={36}
+                height={36}
+                alt="channels-avartar"
+                className="w-[100%] h-[100%]"
+              />
+            ) : (
+              <div className="w-[36px] h-[36px] rounded-full bg-[#ccc]"></div>
+            )}
           </Popover>
         </div>
       </div>

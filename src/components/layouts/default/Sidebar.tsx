@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Menu, MenuProps, Drawer, Divider } from "antd";
+import { Menu, MenuProps, Drawer, Divider, message } from "antd";
 import styled from "styled-components";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
@@ -23,6 +23,8 @@ import TooltipButton from "@/components/shared/TooltipButton";
 import MenuIcon from "@/components/icons/Menu";
 
 import { Video } from "../../../../public";
+import { useDispatch } from "react-redux";
+import { logOut } from "@/redux/features/authSlice";
 
 function getItem(
   label: React.ReactNode,
@@ -68,6 +70,8 @@ const Sidebar = ({
   const router = useRouter();
   const [openKeys, setOpenKeys] = useState<string[]>([]);
   const isMobile = useMediaQuery({ maxWidth: 768 });
+
+  const dispatch = useDispatch();
 
   const onOpenChange = (keys: string[]) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);

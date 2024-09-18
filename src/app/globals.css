@@ -25,12 +25,6 @@ body {
   overflow: hidden;
 }
 
-:where(
-    .css-dev-only-do-not-override-11lehqq
-  ).ant-menu-light.ant-menu-root.ant-menu-inline {
-  border-inline-end: none !important;
-}
-
 .ant-drawer-header {
   display: none !important;
 }

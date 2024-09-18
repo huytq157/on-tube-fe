@@ -163,7 +163,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
             className={`w-full h-[100%] object-cover rounded-[10px] ${
               isHovered ? "hidden" : "block"
             }`}
-            priority
+            loading="lazy"
           />
         </Link>
         <div className=" relative sm:hidden md:block">
@@ -229,6 +229,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
             height={36}
             alt=""
             className="w-[100%] h-[100%]"
+            loading="lazy"
           />
         </div>
         <div className="flex-1 pr-[20px]">
@@ -253,7 +254,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
             trigger={["click"]}
             placement="bottomRight"
           >
-            <TooltipButton Icon={<Option2Icon />} />
+            <TooltipButton Icon={<Option2Icon />} title="" />
           </Dropdown>
         </div>
       </div>

@@ -22,7 +22,7 @@ import DownLoadIcon from "@/components/icons/DownLoad";
 import TooltipButton from "@/components/shared/TooltipButton";
 import MenuIcon from "@/components/icons/Menu";
 
-import { Video } from "../../../../public";
+// import { Video } from "../../../../public";
 import { useDispatch } from "react-redux";
 import { logOut } from "@/redux/features/authSlice";
 
@@ -97,6 +97,7 @@ const Sidebar = ({
           >
             <div className="flex gap-[15px] ml-2 items-center">
               <TooltipButton
+                title=""
                 Icon={<MenuIcon />}
                 onClick={() => setDrawerVisible(false)}
               />
@@ -117,7 +118,7 @@ const Sidebar = ({
             />
             <Divider />
 
-            <div className="flex items-center gap-[15px] px-[10px] cursor-pointer rounded-[8px] h-[40px] hover:bg-[#f2f2f2]">
+            {/* <div className="flex items-center gap-[15px] px-[10px] cursor-pointer rounded-[8px] h-[40px] hover:bg-[#f2f2f2]">
               <div className="w-[24px] h-[24px] rounded-[50%] overflow-hidden cursor-pointer">
                 <Image
                   src={Video}
@@ -130,7 +131,7 @@ const Sidebar = ({
               <span className="text-line-camp-1 flex-1">
                 Challenge Me Hãy Thách Thức Tôi
               </span>
-            </div>
+            </div> */}
           </Drawer>
         </>
       ) : (
@@ -145,7 +146,7 @@ const Sidebar = ({
             onOpenChange={onOpenChange}
             onClick={onMenuClick}
           />
-          {!collapsed && (
+          {/* {!collapsed && (
             <div className="px-[8px]">
               <Divider />
               <h3 className="font-[600] mb-3">Kênh đăng ký</h3>
@@ -176,7 +177,7 @@ const Sidebar = ({
                 <span className="text-line-camp-1 flex-1">Kẻ du mục</span>
               </div>
             </div>
-          )}
+          )} */}
         </div>
       )}
     </>

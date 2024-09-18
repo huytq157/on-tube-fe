@@ -36,7 +36,8 @@ const VideoItem: React.FC<any> = ({ video }) => {
           src={video ? video?.videoThumbnail : ""}
           width={168}
           height={100}
-          alt="Picture of the author"
+          alt={video?.title}
+          loading="lazy"
           className="w-[100%] h-[100%] object-fill"
         />
       </div>
@@ -68,7 +69,7 @@ const VideoItem: React.FC<any> = ({ video }) => {
             trigger={["click"]}
             placement="bottomRight"
           >
-            <TooltipButton Icon={<Option2Icon />} />
+            <TooltipButton Icon={<Option2Icon />} title="" />
           </Dropdown>
         </div>
       </div>

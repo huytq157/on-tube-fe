@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { Video } from "../../../public";
 import TooltipButton from "../shared/TooltipButton";
 import LikeIcon from "../icons/Like";
 import DisLikeIcon from "../icons/DisLike";
@@ -22,7 +21,7 @@ const items: MenuProps["items"] = [
 const CommentItem = () => {
   return (
     <div className="flex justify-start">
-      <div className="w-[40px] h-[40px] mr-[12px]  rounded-[50%] overflow-hidden cursor-pointer">
+      {/* <div className="w-[40px] h-[40px] mr-[12px]  rounded-[50%] overflow-hidden cursor-pointer">
         <Image
           src={Video}
           width={40}
@@ -57,7 +56,7 @@ const CommentItem = () => {
         <Dropdown menu={{ items }} trigger={["click"]} placement="bottomRight">
           <TooltipButton Icon={<Option2Icon />} />
         </Dropdown>
-      </div>
+      </div> */}
     </div>
   );
 };

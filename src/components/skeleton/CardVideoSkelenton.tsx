@@ -1,3 +1,4 @@
+"use client";
 import { Skeleton } from "antd";
 
 const CardVideoSkeleton = () => {

@@ -10,7 +10,7 @@ import LogoIcon from "@/components/icons/Logo";
 import SearchIcon from "@/components/icons/Search";
 import CamIcon from "@/components/icons/Cam";
 import NotificationIcon from "@/components/icons/Notification";
-import { Back, Video } from "../../../../public";
+import { Back } from "../../../../public";
 import { Divider, Menu, MenuProps, message, Popover, Space } from "antd";
 import styled from "styled-components";
 import LogoutIcon from "@/components/icons/Logout";
@@ -141,9 +141,13 @@ const Header = ({
     <div className="flex justify-between h-[100%] items-center">
       <div className="flex md:gap-[15px] sm:gap-[5px] items-center">
         {isMobile || pathname.startsWith("/video/") ? (
-          <TooltipButton Icon={<MenuIcon />} onClick={toggleDrawer} />
+          <TooltipButton Icon={<MenuIcon />} onClick={toggleDrawer} title="" />
         ) : (
-          <TooltipButton Icon={<MenuIcon />} onClick={toggleCollapsed} />
+          <TooltipButton
+            Icon={<MenuIcon />}
+            onClick={toggleCollapsed}
+            title=""
+          />
         )}
         <Link href="/">
           <LogoIcon />
@@ -157,7 +161,7 @@ const Header = ({
             placeholder="Tìm kiếm"
             className="w-full flex-1 h-[100%] border-0 rounded-md pl-[20px] text-[16px] focus:outline-none"
           />
-          <TooltipButton Icon={<CloseIcon />} />
+          <TooltipButton Icon={<CloseIcon />} title="" />
           <button className="w-[60px] flex justify-center items-center bg-slate-100">
             <SearchIcon />
           </button>
@@ -165,7 +169,7 @@ const Header = ({
       </div>
 
       <div className="flex gap-[10px] items-center">
-        <Link href="/studio/upload">
+        <Link href="/studio/upload" target="_blank">
           <TooltipButton title="Tạo" Icon={<CamIcon />} />
         </Link>
         <div className="sm:hidden md:block">
@@ -175,17 +179,19 @@ const Header = ({
             trigger="click"
             placement="topRight"
           >
-            <TooltipButton Icon={<NotificationIcon />} />
+            <TooltipButton Icon={<NotificationIcon />} title="" />
           </Popover>
         </div>
         <div className="md:hidden sm:block">
           <TooltipButton
+            title=""
             Icon={<NotificationIcon />}
             onClick={() => setShowNotify(true)}
           />
           {showNotify && (
             <div className="absolute top-0 left-0 bg-[#fff] w-full h-[100vh] bottom-0">
               <TooltipButton
+                title=""
                 Icon={<BackIcon />}
                 onClick={() => setShowNotify(false)}
               />
@@ -195,12 +201,14 @@ const Header = ({
         </div>
         <div className="sm:block md:hidden">
           <TooltipButton
+            title=""
             Icon={<SearchIcon />}
             onClick={() => setShowSearch(true)}
           />
           {showSearch && (
             <div className="absolute top-0 left-0 bg-[#fff] w-full h-[100vh] bottom-0">
               <TooltipButton
+                title=""
                 Icon={<BackIcon />}
                 onClick={() => setShowSearch(false)}
               />

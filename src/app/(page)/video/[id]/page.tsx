@@ -13,7 +13,7 @@ import VideoRecomment from "@/components/shared/VideoRecomment";
 import Comments from "@/components/shared/Comment";
 import VideoAction from "@/components/shared/VideoAction";
 import Head from "next/head";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import SmallScreenIcon from "@/components/icons/SmallScreen";
 import { calculateCreatedTime } from "@/components/utils/formatDate";
 
@@ -48,7 +48,24 @@ const VideoDetail = () => {
     }
   };
 
-  const handleTimeUpdate = () => {
+  // const handleTimeUpdate = () => {
+  //   if (videoRef.current && !hasViewedRef.current) {
+  //     const currentTime = videoRef.current.currentTime;
+  //     if (totalDuration > 0 && currentTime >= totalDuration * 0.5) {
+  //       hasViewedRef.current = true;
+  //       descView({ videoId: id, watchTime: totalDuration * 0.5 })
+  //         .unwrap()
+  //         .then(() => {
+  //           console.log("descView called successfully");
+  //         })
+  //         .catch((error) => {
+  //           console.error("Error updating view", error);
+  //         });
+  //     }
+  //   }
+  // };
+
+  const handleTimeUpdate = useCallback(() => {
     if (videoRef.current && !hasViewedRef.current) {
       const currentTime = videoRef.current.currentTime;
       if (totalDuration > 0 && currentTime >= totalDuration * 0.5) {
@@ -63,7 +80,7 @@ const VideoDetail = () => {
           });
       }
     }
-  };
+  }, [id, totalDuration, descView]);
 
   return (
     <LayoutDefault>
@@ -94,12 +111,9 @@ const VideoDetail = () => {
                         ref={videoRef}
                         className="absolute top-0 left-0 w-full h-full "
                         controls
-                        preload="none"
+                        preload="metadata"
                         autoPlay={true}
                         autoFocus={true}
-                        poster={
-                          video?.video ? video?.video?.videoThumbnail : ""
-                        }
                         onTimeUpdate={handleTimeUpdate}
                         onLoadedMetadata={handleLoadedMetadata}
                       >
@@ -142,11 +156,12 @@ const VideoDetail = () => {
                   <div className="flex items-center gap-[15px] md:px-[10px] cursor-pointer rounded-[8px]">
                     <div className="w-[40px] h-[40px] rounded-[50%] overflow-hidden cursor-pointer">
                       <Image
-                        src={video?.video?.writer?.avatar}
+                        src={video?.video?.writer?.avatar || ""}
                         width={40}
                         height={40}
                         alt=""
                         className="w-[100%] h-[100%]"
+                        loading="lazy"
                       />
                     </div>
                     <div>
@@ -177,10 +192,7 @@ const VideoDetail = () => {
                   </span>
                   <div className="text-[#065FD4] ml-2 gap-1 flex">
                     {video?.video?.tags?.map((item: any, index: number) => (
-                      <span
-                        key={item.index}
-                        className="text-[14px] cursor-pointer"
-                      >
+                      <span key={index} className="text-[14px] cursor-pointer">
                         #{item}
                       </span>
                     ))}

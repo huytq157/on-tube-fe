@@ -20,6 +20,7 @@ const TooltipButton: React.FC<TooltipButtonProps> = ({
       <button
         className={`w-[40px] h-[40px] rounded-[50%] hover:bg-[#f2f2f2] flex justify-center items-center ${className}`}
         onClick={onClick}
+        aria-label={title || "button"}
       >
         {Icon}
       </button>

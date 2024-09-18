@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import { Video } from "../../../public";
 import Link from "next/link";
 import CheckIcon from "../icons/Check";
 import { Dropdown, MenuProps } from "antd";
@@ -34,7 +33,7 @@ const VideoItem: React.FC<any> = ({ video }) => {
     <div className="flex sm:flex-col md:flex-row gap-[10px] h-[100%]">
       <div className="rounded-[10px]  md:w-[168px] sm:w-full md:h-[100px] sm:h-auto   overflow-hidden bg-[#ccc]  cursor-pointer">
         <Image
-          src={video?.videoThumbnail}
+          src={video ? video?.videoThumbnail : ""}
           width={168}
           height={100}
           alt="Picture of the author"

@@ -156,7 +156,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
       >
         <Link href={`/video/${item?._id}`}>
           <Image
-            src={item.videoThumbnail}
+            src={item ? item.videoThumbnail : ""}
             width={500}
             height={200}
             alt={item.title}

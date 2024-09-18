@@ -97,7 +97,9 @@ const VideoDetail = () => {
                         preload="none"
                         autoPlay={true}
                         autoFocus={true}
-                        poster={video?.video?.videoThumbnail}
+                        poster={
+                          video?.video ? video?.video?.videoThumbnail : ""
+                        }
                         onTimeUpdate={handleTimeUpdate}
                         onLoadedMetadata={handleLoadedMetadata}
                       >

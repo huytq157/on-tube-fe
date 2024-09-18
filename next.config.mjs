@@ -1,9 +1,5 @@
-import withBundleAnalyzer from "@next/bundle-analyzer";
-
 /** @type {import('next').NextConfig} */
-const nextConfig = withBundleAnalyzer({
-  enabled: process.env.ANALYZE === "true",
-})({
+const nextConfig = {
   reactStrictMode: false,
   compiler: {
     styledComponents: true,
@@ -21,6 +17,6 @@ const nextConfig = withBundleAnalyzer({
       },
     ],
   },
-});
+};
 
 export default nextConfig;

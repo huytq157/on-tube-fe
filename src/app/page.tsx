@@ -28,9 +28,16 @@ interface Video {
 
 const fetchVideos = async (): Promise<Video[]> => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/video/list`, {
+    // const res = await fetch(
+    //   "https://youtube-backend-k4cj.onrender.com/api/video/list",
+    //   {
+    //     cache: "no-store",
+    //   }
+    // );
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/video/list`, {
       cache: "no-store",
     });
+    console.log(process.env.NEXT_PUBLIC_BASE_URL);
 
     if (!res.ok) {
       throw new Error(`Failed to fetch data, received status ${res.status}`);

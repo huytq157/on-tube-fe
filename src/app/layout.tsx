@@ -6,7 +6,7 @@ import { Suspense } from "react";
 import { ConfigProvider } from "antd";
 import RegistyProvider from "@/components/utils/RegistyProvider";
 import ReduxProviderClient from "@/components/utils/ReduxProviderClient";
-import Roboto from "./assets/fonts";
+import OpenSans from "./assets/fonts";
 
 export const metadata: Metadata = {
   title: "On-tube",
@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={Roboto.className}>
+      <body className={OpenSans.className}>
         <NextTopLoader
           color="#EE0033"
           height={2}

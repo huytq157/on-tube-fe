@@ -62,7 +62,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
 
   useEffect(() => {
     if (item.videoThumbnail) {
-      setImageSrc(item.videoThumbnail);
+      setImageSrc(`${item.videoThumbnail}?${new Date().getTime()}`);
     }
   }, [item.videoThumbnail]);
 
@@ -162,25 +162,26 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
       >
         <Link href={`/video/${item?._id}`}>
           {/* <Image
-            src={item ? item.videoThumbnail : ""}
+            src={imageSrc || ""}
             width={500}
             height={200}
             alt={item.title}
             className={`w-full h-[100%] object-cover rounded-[10px] ${
               isHovered ? "hidden" : "block"
             }`}
-            loading="lazy"
+            priority
           /> */}
-          {imageSrc && (
+          {item.videoThumbnail && (
             <Image
-              src={imageSrc}
+              src={item.videoThumbnail || ".././../../public/no-image.png"}
               width={500}
               height={200}
               alt={item.title}
               className={`w-full h-[100%] object-cover rounded-[10px] ${
                 isHovered ? "hidden" : "block"
               }`}
-              loading="lazy"
+              // loading="lazy"
+              priority
             />
           )}
         </Link>
@@ -256,7 +257,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
               {item.title}
             </h3>
           </Link>
-          <span className="text-[#606060] cursor-pointer flex items-center gap-[3px]">
+          <span className="text-[#606060] font-[500] cursor-pointer flex items-center gap-[3px]">
             {item.writer.name} <CheckIcon />
           </span>
           <div className="flex gap-[5px] text-[#606060] font-medium">

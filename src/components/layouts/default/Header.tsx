@@ -7,19 +7,17 @@ import { usePathname, useRouter } from "next/navigation";
 import TooltipButton from "@/components/shared/TooltipButton";
 import MenuIcon from "@/components/icons/Menu";
 import LogoIcon from "@/components/icons/Logo";
-import SearchIcon from "@/components/icons/Search";
 import CamIcon from "@/components/icons/Cam";
 import NotificationIcon from "@/components/icons/Notification";
 import { Divider, Menu, MenuProps, message, Popover, Space } from "antd";
 import styled from "styled-components";
 import LogoutIcon from "@/components/icons/Logout";
-import CloseIcon from "@/components/icons/Close";
 import { useState } from "react";
 import BackIcon from "@/components/icons/Back";
 import { useGetMeQuery } from "@/redux/api/authApi";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, selectCurrentToken } from "@/redux/features/authSlice";
-import VoiceIcon from "@/components/icons/Voice";
+import Search from "@/components/shared/Search";
 declare global {
   interface Window {
     SpeechRecognition: any;
@@ -64,15 +62,11 @@ const Header = ({
   toggleDrawer: () => void;
 }) => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
-  const [showSearch, setShowSearch] = useState(false);
   const [showNotify, setShowNotify] = useState(false);
 
   const pathname = usePathname();
   const router = useRouter();
   const dispatch = useDispatch();
-
-  const [isListening, setIsListening] = useState(false);
-  const [voiceSearchText, setVoiceSearchText] = useState("");
 
   const handleLogout = () => {
     dispatch(logOut());
@@ -91,6 +85,7 @@ const Header = ({
       router.push(item.key);
     }
   };
+
   const onMenuClick2 = (item: any) => {
     router.push(item.key);
   };
@@ -146,44 +141,6 @@ const Header = ({
     </div>
   );
 
-  const handleVoiceSearch = () => {
-    const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
-
-    if (!SpeechRecognition) {
-      alert("Trình duyệt của bạn không hỗ trợ tìm kiếm bằng giọng nói.");
-      return;
-    }
-
-    const recognition = new SpeechRecognition();
-    recognition.lang = "vi-VN";
-    recognition.continuous = false;
-
-    const hide = message.loading("Đang nghe...", 0);
-
-    recognition.start();
-    setIsListening(true);
-
-    recognition.onresult = (event: any) => {
-      const transcript = event.results[0][0].transcript;
-      setVoiceSearchText(transcript);
-      setIsListening(false);
-      hide();
-      router.push(`/search?q=${encodeURIComponent(transcript)}`);
-    };
-
-    recognition.onerror = (event: any) => {
-      console.error("Lỗi nhận dạng giọng nói:", event.error);
-      setIsListening(false);
-      hide();
-    };
-
-    recognition.onend = () => {
-      setIsListening(false);
-      hide();
-    };
-  };
-
   return (
     <div className="flex justify-between h-[100%] items-center">
       <div className="flex md:gap-[15px] sm:gap-[5px] items-center">
@@ -201,28 +158,9 @@ const Header = ({
         </Link>
       </div>
 
-      <div className="sm:hidden  md:flex gap-[10px]">
-        <form className="border-[1px] h-[40px] w-[550px] flex rounded-[40px] overflow-hidden">
-          <input
-            type="text"
-            placeholder="Tìm kiếm"
-            className="w-full flex-1 h-[100%] border-0 rounded-md pl-[20px] text-[16px] focus:outline-none"
-          />
-          {/* <TooltipButton Icon={<CloseIcon />} title="" /> */}
-          <button className="w-[60px] flex justify-center items-center bg-slate-100">
-            <SearchIcon />
-          </button>
-        </form>
-        <div>
-          <TooltipButton
-            Icon={<VoiceIcon />}
-            title=""
-            onClick={handleVoiceSearch}
-          />
-        </div>
-      </div>
+      <Search />
 
-      <div className="flex gap-[10px] items-center">
+      <div className="flex md:gap-[10px] gap-[20px] items-center">
         <Link href="/studio/upload" target="_blank">
           <TooltipButton title="Tạo" Icon={<CamIcon />} />
         </Link>
@@ -250,42 +188,6 @@ const Header = ({
                 onClick={() => setShowNotify(false)}
               />
               <div className="p-[10px]">Thông báo</div>
-            </div>
-          )}
-        </div>
-        <div className="sm:block md:hidden">
-          <TooltipButton
-            title=""
-            Icon={<SearchIcon />}
-            onClick={() => setShowSearch(true)}
-          />
-          {showSearch && (
-            <div className="absolute top-0 left-0 bg-[#fff] w-full h-[100vh] bottom-0">
-              <TooltipButton
-                title=""
-                Icon={<BackIcon />}
-                onClick={() => setShowSearch(false)}
-              />
-              <div className="flex px-[10px] gap-[10px]">
-                <form className="border-[1px] h-[40px] w-full flex rounded-[40px] overflow-hidden">
-                  <input
-                    type="text"
-                    placeholder="Tìm kiếm"
-                    className="w-full flex-1 h-[100%] border-0 rounded-md pl-[20px] text-[16px] focus:outline-none"
-                  />
-
-                  <button className="w-[60px] flex justify-center items-center bg-slate-100">
-                    <SearchIcon />
-                  </button>
-                </form>
-                <div>
-                  <TooltipButton
-                    Icon={<VoiceIcon />}
-                    title=""
-                    onClick={handleVoiceSearch}
-                  />
-                </div>
-              </div>
             </div>
           )}
         </div>

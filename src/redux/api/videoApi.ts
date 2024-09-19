@@ -31,6 +31,13 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: (result, error, id) => [{ type: "Video", id }],
     }),
+    searchVideo: builder.query({
+      query: (searchTerm) => ({
+        url: "video/search",
+        params: { q: searchTerm },
+      }),
+      providesTags: ["Video"],
+    }),
   }),
 });
 
@@ -39,4 +46,5 @@ export const {
   useGetVideoByIdQuery,
   useDescViewMutation,
   useGetVideoRecommendQuery,
+  useSearchVideoQuery,
 } = VideoApiSlice;

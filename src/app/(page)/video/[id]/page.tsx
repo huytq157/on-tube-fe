@@ -48,23 +48,6 @@ const VideoDetail = () => {
     }
   };
 
-  // const handleTimeUpdate = () => {
-  //   if (videoRef.current && !hasViewedRef.current) {
-  //     const currentTime = videoRef.current.currentTime;
-  //     if (totalDuration > 0 && currentTime >= totalDuration * 0.5) {
-  //       hasViewedRef.current = true;
-  //       descView({ videoId: id, watchTime: totalDuration * 0.5 })
-  //         .unwrap()
-  //         .then(() => {
-  //           console.log("descView called successfully");
-  //         })
-  //         .catch((error) => {
-  //           console.error("Error updating view", error);
-  //         });
-  //     }
-  //   }
-  // };
-
   const handleTimeUpdate = useCallback(() => {
     if (videoRef.current && !hasViewedRef.current) {
       const currentTime = videoRef.current.currentTime;

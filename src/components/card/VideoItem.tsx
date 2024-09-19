@@ -40,20 +40,22 @@ const VideoItem: React.FC<any> = ({ video }) => {
   return (
     <div className="flex sm:flex-col md:flex-row gap-[10px] h-[100%]">
       <div className="rounded-[10px]  md:w-[168px] sm:w-full md:h-[100px] sm:h-auto   overflow-hidden bg-[#ccc]  cursor-pointer">
-        {imageSrc && (
-          <Image
-            src={imageSrc}
-            width={168}
-            height={100}
-            alt={video?.title}
-            loading="lazy"
-            className="w-[100%] h-[100%] object-fill"
-          />
-        )}
+        <Link href={`/video/${video?._id}`}>
+          {imageSrc && (
+            <Image
+              src={imageSrc}
+              width={168}
+              height={100}
+              alt={video?.title}
+              loading="lazy"
+              className="w-[100%] h-[100%] object-fill"
+            />
+          )}
+        </Link>
       </div>
 
       <div className="flex-1 flex">
-        <div>
+        <div className="flex-1">
           <Link href={`/video/${video?._id}`}>
             <h3 className=" text-[14px] mb-[7px] text-[#0f0f0f] font-[600] cursor-pointer text-line-camp-2 leading-[21px]">
               {video?.title}

@@ -162,7 +162,7 @@ const Header = ({
 
       <div className="flex md:gap-[10px] gap-[20px] items-center">
         <Link href="/studio/upload" target="_blank">
-          <TooltipButton title="Tạo" Icon={<CamIcon />} />
+          <TooltipButton title="Tạo video" Icon={<CamIcon />} />
         </Link>
         <div className="sm:hidden md:block">
           <Popover
@@ -171,7 +171,7 @@ const Header = ({
             trigger="click"
             placement="topRight"
           >
-            <TooltipButton Icon={<NotificationIcon />} title="" />
+            <TooltipButton Icon={<NotificationIcon />} title="Thông báo" />
           </Popover>
         </div>
         <div className="md:hidden sm:block">

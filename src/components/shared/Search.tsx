@@ -1,17 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BackIcon from "../icons/Back";
 import SearchIcon from "../icons/Search";
 import VoiceIcon from "../icons/Voice";
 import TooltipButton from "./TooltipButton";
 import { message } from "antd";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import CloseIcon from "../icons/Close";
 
 const Search = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const searchTermFromParams = searchParams.get("q") || "";
+  const [searchTerm, setSearchTerm] = useState(searchTermFromParams);
   const [showSearch, setShowSearch] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [voiceSearchText, setVoiceSearchText] = useState("");
+
+  useEffect(() => {
+    setSearchTerm(searchTermFromParams);
+  }, [searchTermFromParams]);
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchTerm.trim() === "") return;
+    const encodedSearchTerm = encodeURIComponent(searchTerm).replace(
+      /%20/g,
+      "+"
+    );
+    router.push(`/search?q=${encodedSearchTerm}`);
+  };
 
   const handleVoiceSearch = () => {
     const SpeechRecognition =
@@ -34,9 +51,14 @@ const Search = () => {
     recognition.onresult = (event: any) => {
       const transcript = event.results[0][0].transcript;
       setVoiceSearchText(transcript);
+      setSearchTerm(transcript);
       setIsListening(false);
       hide();
-      router.push(`/search?q=${encodeURIComponent(transcript)}`);
+      const encodedTranscript = encodeURIComponent(transcript).replace(
+        /%20/g,
+        "+"
+      );
+      router.push(`/search?q=${encodedTranscript}`);
     };
 
     recognition.onerror = (event: any) => {
@@ -51,28 +73,49 @@ const Search = () => {
     };
   };
 
+  const handleClearSearch = () => {
+    setSearchTerm("");
+    router.push("/search");
+  };
+
   return (
     <>
-      <div className="sm:hidden  md:flex gap-[10px]">
-        <form className="border-[1px] h-[40px] w-[550px] flex rounded-[40px] overflow-hidden">
+      <div className="sm:hidden md:flex gap-[10px]">
+        <form
+          className="border-[1px] h-[40px] w-[550px] flex rounded-[40px] overflow-hidden"
+          onSubmit={handleSearchSubmit}
+        >
           <input
             type="text"
             placeholder="Tìm kiếm"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full flex-1 h-[100%] border-0 rounded-md pl-[20px] text-[16px] focus:outline-none"
           />
-          <TooltipButton Icon={<CloseIcon />} title="" />
-          <button className="w-[60px] flex justify-center items-center bg-slate-100">
-            <SearchIcon />
+          {searchTerm && (
+            <TooltipButton
+              Icon={<CloseIcon />}
+              title=""
+              onClick={handleClearSearch}
+            />
+          )}
+          <button
+            type="submit"
+            className="w-[60px] flex justify-center items-center bg-slate-100"
+          >
+            <SearchIcon />.
           </button>
         </form>
         <div>
           <TooltipButton
             Icon={<VoiceIcon />}
-            title=""
+            title="Tìm kiếm bằng giọng nói"
             onClick={handleVoiceSearch}
           />
         </div>
       </div>
+
+      {/* Search for Mobile */}
       <div className="sm:block md:hidden">
         <TooltipButton
           title=""
@@ -87,15 +130,22 @@ const Search = () => {
               onClick={() => setShowSearch(false)}
             />
             <div className="flex px-[10px] gap-[10px]">
-              <form className="border-[1px] h-[40px] w-full flex rounded-[40px] overflow-hidden">
+              <form
+                className="border-[1px] h-[40px] w-full flex rounded-[40px] overflow-hidden"
+                onSubmit={handleSearchSubmit}
+              >
                 <input
                   type="text"
                   placeholder="Tìm kiếm"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full flex-1 h-[100%] border-0 rounded-md pl-[20px] text-[16px] focus:outline-none"
                 />
-
-                <button className="w-[60px] flex justify-center items-center bg-slate-100">
-                  <SearchIcon />
+                <button
+                  type="submit"
+                  className="w-[60px] flex justify-center items-center bg-slate-100"
+                >
+                  <SearchIcon />.
                 </button>
               </form>
               <div>

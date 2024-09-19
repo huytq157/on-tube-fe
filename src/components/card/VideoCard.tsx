@@ -53,18 +53,10 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isMuted, setIsMuted] = useState<boolean>(true);
   const [isHovered, setIsHovered] = useState<boolean>(false);
-  const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
   const progressThumbRef = useRef<HTMLDivElement | null>(null);
-
   const [formattedTime, setFormattedTime] = useState<string>("00:00");
-
-  useEffect(() => {
-    if (item.videoThumbnail) {
-      setImageSrc(`${item.videoThumbnail}?${new Date().getTime()}`);
-    }
-  }, [item.videoThumbnail]);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -161,16 +153,6 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
         })}
       >
         <Link href={`/video/${item?._id}`}>
-          {/* <Image
-            src={imageSrc || ""}
-            width={500}
-            height={200}
-            alt={item.title}
-            className={`w-full h-[100%] object-cover rounded-[10px] ${
-              isHovered ? "hidden" : "block"
-            }`}
-            priority
-          /> */}
           {item.videoThumbnail && (
             <Image
               src={item.videoThumbnail || ".././../../public/no-image.png"}

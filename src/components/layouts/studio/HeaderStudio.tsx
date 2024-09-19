@@ -6,9 +6,12 @@ import MenuIcon from "@/components/icons/Menu";
 import TooltipButton from "@/components/shared/TooltipButton";
 import Image from "next/image";
 import Link from "next/link";
-import { Logo_studio, Video } from "../../../../public";
+import { Logo_studio } from "../../../../public";
 import { useMediaQuery } from "react-responsive";
 import { usePathname } from "next/navigation";
+import { useSelector } from "react-redux";
+import { useGetMeQuery } from "@/redux/api/authApi";
+import { selectCurrentToken } from "@/redux/features/authSlice";
 
 const HeaderStudio = ({
   toggleCollapsed,
@@ -19,6 +22,10 @@ const HeaderStudio = ({
 }) => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const pathname = usePathname();
+  const token = useSelector(selectCurrentToken);
+  const { data: user } = useGetMeQuery(undefined, {
+    skip: !token,
+  });
 
   return (
     <div className="flex justify-between h-[100%] items-center">
@@ -45,7 +52,7 @@ const HeaderStudio = ({
 
         <div className="w-[34px] h-[34px] rounded-[50%] overflow-hidden cursor-pointer">
           <Image
-            src={Video}
+            src={user?.user?.avatar}
             width={36}
             height={36}
             alt=""

@@ -10,7 +10,6 @@ import LogoIcon from "@/components/icons/Logo";
 import SearchIcon from "@/components/icons/Search";
 import CamIcon from "@/components/icons/Cam";
 import NotificationIcon from "@/components/icons/Notification";
-import { Back } from "../../../../public";
 import { Divider, Menu, MenuProps, message, Popover, Space } from "antd";
 import styled from "styled-components";
 import LogoutIcon from "@/components/icons/Logout";
@@ -20,6 +19,13 @@ import BackIcon from "@/components/icons/Back";
 import { useGetMeQuery } from "@/redux/api/authApi";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, selectCurrentToken } from "@/redux/features/authSlice";
+import VoiceIcon from "@/components/icons/Voice";
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
+}
 
 const StyledMenu = styled(Menu)`
   .ant-menu-item {
@@ -60,9 +66,13 @@ const Header = ({
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const [showSearch, setShowSearch] = useState(false);
   const [showNotify, setShowNotify] = useState(false);
+
   const pathname = usePathname();
   const router = useRouter();
   const dispatch = useDispatch();
+
+  const [isListening, setIsListening] = useState(false);
+  const [voiceSearchText, setVoiceSearchText] = useState("");
 
   const handleLogout = () => {
     dispatch(logOut());
@@ -77,7 +87,6 @@ const Header = ({
   const onMenuClick = (item: any) => {
     if (item.key === "logout") {
       handleLogout();
-      console.log("đăgn xuất");
     } else {
       router.push(item.key);
     }
@@ -86,14 +95,14 @@ const Header = ({
     router.push(item.key);
   };
 
-  const content = (
+  const contentNotify = (
     <div className="w-[300px] ">
       <Divider />
       <p className="text-center">Chưa có thông báo nào</p>
     </div>
   );
 
-  const content2 = (
+  const contentChannel = (
     <div className="min-w-[280px] ">
       <Space align="start">
         <div className="w-[40px] h-[40px] rounded-[50%] overflow-hidden cursor-pointer">
@@ -125,7 +134,7 @@ const Header = ({
     </div>
   );
 
-  const content3 = (
+  const contentAuth = (
     <div className="min-w-[130px] ">
       <StyledMenu
         theme="light"
@@ -136,6 +145,44 @@ const Header = ({
       />
     </div>
   );
+
+  const handleVoiceSearch = () => {
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      alert("Trình duyệt của bạn không hỗ trợ tìm kiếm bằng giọng nói.");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = "vi-VN";
+    recognition.continuous = false;
+
+    const hide = message.loading("Đang nghe...", 0);
+
+    recognition.start();
+    setIsListening(true);
+
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      setVoiceSearchText(transcript);
+      setIsListening(false);
+      hide();
+      router.push(`/search?q=${encodeURIComponent(transcript)}`);
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error("Lỗi nhận dạng giọng nói:", event.error);
+      setIsListening(false);
+      hide();
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+      hide();
+    };
+  };
 
   return (
     <div className="flex justify-between h-[100%] items-center">
@@ -154,18 +201,25 @@ const Header = ({
         </Link>
       </div>
 
-      <div className="sm:hidden md:block">
+      <div className="sm:hidden  md:flex gap-[10px]">
         <form className="border-[1px] h-[40px] w-[550px] flex rounded-[40px] overflow-hidden">
           <input
             type="text"
             placeholder="Tìm kiếm"
             className="w-full flex-1 h-[100%] border-0 rounded-md pl-[20px] text-[16px] focus:outline-none"
           />
-          <TooltipButton Icon={<CloseIcon />} title="" />
+          {/* <TooltipButton Icon={<CloseIcon />} title="" /> */}
           <button className="w-[60px] flex justify-center items-center bg-slate-100">
             <SearchIcon />
           </button>
         </form>
+        <div>
+          <TooltipButton
+            Icon={<VoiceIcon />}
+            title=""
+            onClick={handleVoiceSearch}
+          />
+        </div>
       </div>
 
       <div className="flex gap-[10px] items-center">
@@ -174,7 +228,7 @@ const Header = ({
         </Link>
         <div className="sm:hidden md:block">
           <Popover
-            content={content}
+            content={contentNotify}
             title="Thông báo"
             trigger="click"
             placement="topRight"
@@ -212,13 +266,32 @@ const Header = ({
                 Icon={<BackIcon />}
                 onClick={() => setShowSearch(false)}
               />
-              <div className="p-[10px]">Tìm kiếm</div>
+              <div className="flex px-[10px] gap-[10px]">
+                <form className="border-[1px] h-[40px] w-full flex rounded-[40px] overflow-hidden">
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm"
+                    className="w-full flex-1 h-[100%] border-0 rounded-md pl-[20px] text-[16px] focus:outline-none"
+                  />
+
+                  <button className="w-[60px] flex justify-center items-center bg-slate-100">
+                    <SearchIcon />
+                  </button>
+                </form>
+                <div>
+                  <TooltipButton
+                    Icon={<VoiceIcon />}
+                    title=""
+                    onClick={handleVoiceSearch}
+                  />
+                </div>
+              </div>
             </div>
           )}
         </div>
         <div className="w-[34px] h-[34px] rounded-[50%] overflow-hidden cursor-pointer">
           <Popover
-            content={user ? content2 : content3}
+            content={user ? contentChannel : contentAuth}
             trigger="click"
             placement="topRight"
           >

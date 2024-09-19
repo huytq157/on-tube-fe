@@ -11,9 +11,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
-import { Logo_studio, Video } from "../../../../public";
+import { Logo_studio } from "../../../../public";
 import OverviewIcon from "@/components/icons/Overview";
 import VideoIcon from "@/components/icons/Video";
+import { useSelector } from "react-redux";
+import { selectCurrentToken } from "@/redux/features/authSlice";
+import { useGetMeQuery } from "@/redux/api/authApi";
 
 function getItem(
   label: React.ReactNode,
@@ -52,6 +55,11 @@ const SidebarStudio = ({
   const router = useRouter();
   const [openKeys, setOpenKeys] = useState<string[]>([]);
   const isMobile = useMediaQuery({ maxWidth: 768 });
+
+  const token = useSelector(selectCurrentToken);
+  const { data: user } = useGetMeQuery(undefined, {
+    skip: !token,
+  });
 
   const onOpenChange = (keys: string[]) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
@@ -112,7 +120,7 @@ const SidebarStudio = ({
             >
               <Link href="/">
                 <Image
-                  src={Video}
+                  src={user?.user?.avatar}
                   width={collapsed ? 32 : 100}
                   height={collapsed ? 32 : 100}
                   alt=""

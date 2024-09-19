@@ -53,12 +53,18 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isMuted, setIsMuted] = useState<boolean>(true);
   const [isHovered, setIsHovered] = useState<boolean>(false);
-
+  const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
   const progressThumbRef = useRef<HTMLDivElement | null>(null);
 
   const [formattedTime, setFormattedTime] = useState<string>("00:00");
+
+  useEffect(() => {
+    if (item.videoThumbnail) {
+      setImageSrc(item.videoThumbnail);
+    }
+  }, [item.videoThumbnail]);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -155,7 +161,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
         })}
       >
         <Link href={`/video/${item?._id}`}>
-          <Image
+          {/* <Image
             src={item ? item.videoThumbnail : ""}
             width={500}
             height={200}
@@ -164,7 +170,19 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
               isHovered ? "hidden" : "block"
             }`}
             loading="lazy"
-          />
+          /> */}
+          {imageSrc && (
+            <Image
+              src={imageSrc}
+              width={500}
+              height={200}
+              alt={item.title}
+              className={`w-full h-[100%] object-cover rounded-[10px] ${
+                isHovered ? "hidden" : "block"
+              }`}
+              loading="lazy"
+            />
+          )}
         </Link>
         <div className=" relative sm:hidden md:block">
           <Link href={`/video/${item?._id}`}>

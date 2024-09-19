@@ -8,6 +8,7 @@ import ListIcon from "../icons/List";
 import ClockIcon from "../icons/Clock";
 import Option2Icon from "../icons/Option2";
 import { calculateCreatedTime } from "../utils/formatDate";
+import { useEffect, useState } from "react";
 
 const items: MenuProps["items"] = [
   {
@@ -29,17 +30,26 @@ const items: MenuProps["items"] = [
 ];
 
 const VideoItem: React.FC<any> = ({ video }) => {
+  const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    if (video?.videoThumbnail) {
+      setImageSrc(video?.videoThumbnail);
+    }
+  }, [video?.videoThumbnail]);
+
   return (
     <div className="flex sm:flex-col md:flex-row gap-[10px] h-[100%]">
       <div className="rounded-[10px]  md:w-[168px] sm:w-full md:h-[100px] sm:h-auto   overflow-hidden bg-[#ccc]  cursor-pointer">
-        <Image
-          src={video ? video?.videoThumbnail : ""}
-          width={168}
-          height={100}
-          alt={video?.title}
-          loading="lazy"
-          className="w-[100%] h-[100%] object-fill"
-        />
+        {imageSrc && (
+          <Image
+            src={imageSrc}
+            width={168}
+            height={100}
+            alt={video?.title}
+            loading="lazy"
+            className="w-[100%] h-[100%] object-fill"
+          />
+        )}
       </div>
 
       <div className="flex-1 flex">

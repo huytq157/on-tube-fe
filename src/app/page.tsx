@@ -35,7 +35,7 @@ export default function Home() {
     setIsFetchingMore(true);
     try {
       const response = await fetch(
-        `http://localhost:8000/api/video/list?page=${page}&limit=6`
+        `${process.env.NEXT_PUBLIC_BASE_URL}video/list?page=${page}&limit=6`
       );
 
       const data = await response.json();

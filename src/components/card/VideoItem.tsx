@@ -61,7 +61,7 @@ const VideoItem: React.FC<any> = ({ video }) => {
               {video?.title}
             </h3>
           </Link>
-          <Link href="/me">
+          <Link href={`/channel/${video?.writer?._id}`}>
             <span className="text-[#606060] text-[13px] cursor-pointer leading-[21px] flex items-center gap-[3px] ">
               {video?.writer?.name} <CheckIcon />
             </span>

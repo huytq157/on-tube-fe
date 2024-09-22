@@ -41,6 +41,7 @@ interface VideoCardProps {
     videoUrl: string;
     videoThumbnail: string;
     writer: {
+      _id: string;
       avatar: string;
       name: string;
     };
@@ -224,14 +225,16 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
 
       <div className="flex gap-[5px] md:mt-2 ">
         <div className="w-[36px] h-[36px] mt-[12px] mr-[8px] rounded-[50%] overflow-hidden cursor-pointer">
-          <Image
-            src={item.writer.avatar || ""}
-            width={36}
-            height={36}
-            alt=""
-            className="w-[100%] h-[100%]"
-            loading="lazy"
-          />
+          <Link href={`/channel/${item?.writer?._id}`}>
+            <Image
+              src={item.writer.avatar || ""}
+              width={36}
+              height={36}
+              alt=""
+              className="w-[100%] h-[100%]"
+              loading="lazy"
+            />
+          </Link>
         </div>
         <div className="flex-1 pr-[20px]">
           <Link href={`/video/${item?._id}`}>
@@ -239,9 +242,11 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
               {item.title}
             </h3>
           </Link>
-          <span className="text-[#606060] font-[500] cursor-pointer flex items-center gap-[3px]">
-            {item.writer.name} <CheckIcon />
-          </span>
+          <Link href={`/channel/${item?.writer?._id}`}>
+            <span className="text-[#606060] font-[500] cursor-pointer flex items-center gap-[3px]">
+              {item.writer.name} <CheckIcon />
+            </span>
+          </Link>
           <div className="flex gap-[5px] text-[#606060] font-medium">
             <span>{item.totalView} lượt xem</span>
             <span>•</span>

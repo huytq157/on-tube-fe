@@ -29,6 +29,12 @@ const VideoDetail = () => {
   const hasViewedRef = useRef(false);
   const [totalDuration, setTotalDuration] = useState<number>(0);
 
+  useEffect(() => {
+    if (video?.video?.title) {
+      document.title = video.video.title;
+    }
+  }, [video]);
+
   const handleLoadedMetadata = () => {
     if (videoRef.current) {
       setTotalDuration(videoRef.current.duration);
@@ -116,6 +122,7 @@ const VideoDetail = () => {
                           onClick={handlePictureInPicture}
                         >
                           <SmallScreenIcon />
+                          {}
                         </button>
                       </div>
                     </div>

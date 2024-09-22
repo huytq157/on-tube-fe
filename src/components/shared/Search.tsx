@@ -103,7 +103,8 @@ const Search = () => {
             type="submit"
             className="w-[60px] flex justify-center items-center bg-slate-100"
           >
-            <SearchIcon />.
+            <SearchIcon />
+            {}
           </button>
         </form>
         <div>

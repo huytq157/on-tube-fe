@@ -7,6 +7,7 @@ import { ConfigProvider } from "antd";
 import RegistyProvider from "@/components/utils/RegistyProvider";
 import ReduxProviderClient from "@/components/utils/ReduxProviderClient";
 import OpenSans from "./assets/fonts";
+import Loading from "./loading";
 
 export const metadata: Metadata = {
   title: "On-tube",
@@ -32,7 +33,7 @@ export default function RootLayout({
           <AntdRegistry>
             <ConfigProvider>
               <RegistyProvider>
-                <Suspense fallback={<>Loading</>}>{children}</Suspense>
+                <Suspense fallback={<Loading />}>{children}</Suspense>
               </RegistyProvider>
             </ConfigProvider>
           </AntdRegistry>

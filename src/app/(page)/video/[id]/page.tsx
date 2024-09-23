@@ -1,9 +1,9 @@
 "use client";
 
-import { Col, Row, Skeleton } from "antd";
+import { Col, Row, Skeleton, Switch } from "antd";
 import Image from "next/image";
 import LayoutDefault from "@/components/layouts/default/LayoutDefault";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
   useDescViewMutation,
   useGetVideoByIdQuery,
@@ -16,15 +16,16 @@ import Head from "next/head";
 import { useCallback, useEffect, useRef, useState } from "react";
 import SmallScreenIcon from "@/components/icons/SmallScreen";
 import { calculateCreatedTime } from "@/components/utils/formatDate";
+import Link from "next/link";
 
 const VideoDetail = () => {
   const params = useParams();
   const { id } = params;
   const [descView] = useDescViewMutation();
-
+  const router = useRouter();
   const { data: video } = useGetVideoByIdQuery(id);
   const { data: vieoRecommend } = useGetVideoRecommendQuery(id);
-
+  const [autoPlay, setAutoPlay] = useState<boolean>(true);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const hasViewedRef = useRef(false);
   const [totalDuration, setTotalDuration] = useState<number>(0);
@@ -71,6 +72,28 @@ const VideoDetail = () => {
     }
   }, [id, totalDuration, descView]);
 
+  // console.log("vieoRecommend-first: ", vieoRecommend?.data[0]);
+  const handleVideoEnded = () => {
+    if (autoPlay && vieoRecommend?.data.length > 0) {
+      const firstRecommendedVideo = vieoRecommend?.data[0];
+      if (firstRecommendedVideo?.videoUrl) {
+        const isYouTube = isYouTubeUrl(firstRecommendedVideo.videoUrl);
+
+        if (isYouTube) {
+          window.location.href = `https://www.youtube.com/embed/${new URL(
+            firstRecommendedVideo.videoUrl
+          ).searchParams.get("v")}`;
+        } else {
+          router.push(`/video/${firstRecommendedVideo._id}`);
+        }
+      }
+    }
+  };
+
+  const toggleAutoPlay = () => {
+    setAutoPlay((prev) => !prev);
+  };
+
   return (
     <LayoutDefault>
       <Head>
@@ -105,6 +128,7 @@ const VideoDetail = () => {
                         autoFocus={true}
                         onTimeUpdate={handleTimeUpdate}
                         onLoadedMetadata={handleLoadedMetadata}
+                        onEnded={() => handleVideoEnded()}
                       >
                         <source src={video?.video?.videoUrl} type="video/mp4" />
                         <track
@@ -124,6 +148,17 @@ const VideoDetail = () => {
                           <SmallScreenIcon />
                           {}
                         </button>
+                      </div>
+                      <div className="absolute autoplay bottom-[39px] left-[140px] hidden">
+                        <span className="font-medium mr-2 text-[#fff]">
+                          Tự động phát
+                        </span>
+                        <Switch
+                          checked={autoPlay}
+                          onChange={toggleAutoPlay}
+                          className="bg-green-500"
+                          size="small"
+                        />
                       </div>
                     </div>
                   )
@@ -145,19 +180,23 @@ const VideoDetail = () => {
                 <div className=" flex items-center gap-[20px]">
                   <div className="flex items-center gap-[15px] md:px-[10px] cursor-pointer rounded-[8px]">
                     <div className="w-[40px] h-[40px] rounded-[50%] overflow-hidden cursor-pointer">
-                      <Image
-                        src={video?.video?.writer?.avatar || ""}
-                        width={40}
-                        height={40}
-                        alt=""
-                        className="w-[100%] h-[100%]"
-                        loading="lazy"
-                      />
+                      <Link href={`/channel/${video?.video?.writer?._id}`}>
+                        <Image
+                          src={video?.video?.writer?.avatar || ""}
+                          width={40}
+                          height={40}
+                          alt=""
+                          className="w-[100%] h-[100%]"
+                          loading="lazy"
+                        />
+                      </Link>
                     </div>
                     <div>
-                      <span className="text-line-camp-1 font-semibold leading-[20px]">
-                        {video?.video?.writer?.name}
-                      </span>
+                      <Link href={`/channel/${video?.video?.writer?._id}`}>
+                        <span className="text-line-camp-1 text-[#333] font-semibold leading-[20px]">
+                          {video?.video?.writer?.name}
+                        </span>
+                      </Link>
                       <span className="text-line-camp-1 text-[#606060] leading-[20px]">
                         16 người đăng ký
                       </span>

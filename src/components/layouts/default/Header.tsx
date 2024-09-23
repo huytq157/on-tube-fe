@@ -161,36 +161,40 @@ const Header = ({
       <Search />
 
       <div className="flex md:gap-[10px] gap-[20px] items-center">
-        <Link href="/studio/upload" target="_blank">
-          <TooltipButton title="Tạo video" Icon={<CamIcon />} />
-        </Link>
-        <div className="sm:hidden md:block">
-          <Popover
-            content={contentNotify}
-            title="Thông báo"
-            trigger="click"
-            placement="topRight"
-          >
-            <TooltipButton Icon={<NotificationIcon />} title="Thông báo" />
-          </Popover>
-        </div>
-        <div className="md:hidden sm:block">
-          <TooltipButton
-            title=""
-            Icon={<NotificationIcon />}
-            onClick={() => setShowNotify(true)}
-          />
-          {showNotify && (
-            <div className="absolute top-0 left-0 bg-[#fff] w-full h-[100vh] bottom-0">
+        {user && (
+          <>
+            <Link href="/studio/upload" target="_blank">
+              <TooltipButton title="Tạo video" Icon={<CamIcon />} />
+            </Link>
+            <div className="sm:hidden md:block">
+              <Popover
+                content={contentNotify}
+                title="Thông báo"
+                trigger="click"
+                placement="topRight"
+              >
+                <TooltipButton Icon={<NotificationIcon />} title="Thông báo" />
+              </Popover>
+            </div>
+            <div className="md:hidden sm:block">
               <TooltipButton
                 title=""
-                Icon={<BackIcon />}
-                onClick={() => setShowNotify(false)}
+                Icon={<NotificationIcon />}
+                onClick={() => setShowNotify(true)}
               />
-              <div className="p-[10px]">Thông báo</div>
+              {showNotify && (
+                <div className="absolute top-0 left-0 bg-[#fff] w-full h-[100vh] bottom-0">
+                  <TooltipButton
+                    title=""
+                    Icon={<BackIcon />}
+                    onClick={() => setShowNotify(false)}
+                  />
+                  <div className="p-[10px]">Thông báo</div>
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </>
+        )}
         <div className="w-[34px] h-[34px] rounded-[50%] overflow-hidden cursor-pointer">
           <Popover
             content={user ? contentChannel : contentAuth}

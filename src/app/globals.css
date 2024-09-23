@@ -92,6 +92,11 @@ body {
   transition: all 1s ease;
 }
 
+.videos:hover .autoplay {
+  display: block;
+  transition: all 2s ease;
+}
+
 .custom-button {
   background-color: #000;
   color: #fff;

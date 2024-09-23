@@ -23,8 +23,9 @@ import TooltipButton from "@/components/shared/TooltipButton";
 import MenuIcon from "@/components/icons/Menu";
 
 // import { Video } from "../../../../public";
-import { useDispatch } from "react-redux";
-import { logOut } from "@/redux/features/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut, selectCurrentToken } from "@/redux/features/authSlice";
+import { useGetMeQuery } from "@/redux/api/authApi";
 
 function getItem(
   label: React.ReactNode,
@@ -44,19 +45,6 @@ interface StyledMenuProps extends MenuProps {
   $collapsed: boolean;
 }
 
-const items: MenuItem[] = [
-  getItem("Trang chủ", "/", <HomeIcon />),
-  getItem("Kênh đăng ký", "/subcription", <SubIcon />),
-  getItem("Thịnh hành", "/trending", <TrendIcon />),
-  getItem("Kênh của bạn", "/me", <ChannelIcon />),
-  getItem("Video đã xem", "/history", <ClockIcon />),
-  getItem("Danh sách phát", "/playlist", <ListIcon />),
-  getItem("Video của ban", "/video1", <VideoIcon />),
-  getItem("Xem sau", "/video2", <LaterIcon />),
-  getItem("Video đã thích", "/video3", <LikeIcon />),
-  getItem("Nôi dung đã tải xuống", "/video4", <DownLoadIcon />),
-];
-
 const Sidebar = ({
   collapsed,
   drawerVisible,
@@ -70,13 +58,31 @@ const Sidebar = ({
   const router = useRouter();
   const [openKeys, setOpenKeys] = useState<string[]>([]);
   const isMobile = useMediaQuery({ maxWidth: 768 });
-
-  const dispatch = useDispatch();
+  const token = useSelector(selectCurrentToken);
+  const { data: user } = useGetMeQuery(undefined, {
+    skip: !token,
+  });
 
   const onOpenChange = (keys: string[]) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
     setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
   };
+
+  const items: MenuItem[] = [
+    getItem("Trang chủ", "/", <HomeIcon />),
+    getItem("Kênh đăng ký", "/subcription", <SubIcon />),
+    getItem("Thịnh hành", "/trending", <TrendIcon />),
+    ...(user
+      ? [
+          getItem("Danh sách phát", "/playlist", <ListIcon />),
+          getItem("Xem sau", "/1", <LaterIcon />),
+          getItem("Video đã thích", "/2", <LikeIcon />),
+          getItem("Video của bạn", "3", <VideoIcon />),
+          getItem("Kênh của bạn", "/me", <ChannelIcon />),
+        ]
+      : []),
+    getItem("Video đã xem", "/history", <ClockIcon />),
+  ];
 
   const onMenuClick = (item: any) => {
     router.push(item.key);
@@ -178,6 +184,21 @@ const Sidebar = ({
               </div>
             </div>
           )} */}
+          {!user && (
+            <>
+              <Divider />
+              <div className="px-[20px]">
+                <p className="text-[14px] text-[#333] mb-2">
+                  Hãy đăng nhập để thích video, bình luận và đăng ký kênh.
+                </p>
+                <Link href="/login">
+                  <button className="bg-[#333] rounded-[50px] px-[13px] text-[#fff] h-[36px]">
+                    Đăng nhập
+                  </button>
+                </Link>
+              </div>
+            </>
+          )}
         </div>
       )}
     </>

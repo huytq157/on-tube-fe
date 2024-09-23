@@ -64,6 +64,7 @@ const Profile = () => {
 
   const { data: channel } = useGetChannelInfoQuery(id);
   const { data: videos, isLoading } = useGetChannelVideoQuery(id);
+  console.log("video is loaded:", videos);
 
   const token = useSelector(selectCurrentToken);
   const { data: user } = useGetMeQuery(undefined, {
@@ -135,12 +136,12 @@ const Profile = () => {
             <h1 className="font-bold text-[30px] leading-[32px]">
               {channel?.channel?.name}
             </h1>
-            <div className="flex gap-[5px] my-[5px] text-[#606060] font-medium">
-              <span> {channel?.channel?.email}</span>
-              <span>•</span>
+            <div className="flex sm:flex-col md:flex-row gap-[15px] my-[5px] text-[#606060] font-medium">
+              <span className="text-[#333]"> {channel?.channel?.email}</span>
+              {/* <span>•</span> */}
               <span>22 người đăng ký</span>
-              <span>•</span>
-              <span>199 video</span>
+              {/* <span>•</span> */}
+              <span>{videos?.total} video</span>
             </div>
             <p>{channel?.channel?.description}</p>
             <div className="flex sm:justify-center md:justify-start gap-[10px]">

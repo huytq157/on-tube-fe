@@ -89,7 +89,7 @@ const FormComment = () => {
         </div>
       ) : (
         <div>
-          Bạn phải{" "}
+          Bạn phải
           <Link
             href="/login"
             className="font-semibold leading-6 px-2 text-indigo-600 hover:text-indigo-500"

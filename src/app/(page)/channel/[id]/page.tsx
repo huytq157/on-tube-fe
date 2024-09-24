@@ -64,7 +64,6 @@ const Profile = () => {
 
   const { data: channel } = useGetChannelInfoQuery(id);
   const { data: videos, isLoading } = useGetChannelVideoQuery(id);
-  console.log("video is loaded:", videos);
 
   const token = useSelector(selectCurrentToken);
   const { data: user } = useGetMeQuery(undefined, {
@@ -154,7 +153,10 @@ const Profile = () => {
                   <button className="bg-[#ccc] mt-[10px] px-[10px] rounded-[50px] min-w-[90px] text-[#000] h-[36px]">
                     Tùy chỉnh kênh
                   </button>
-                  <Link href="/studio/overview" target="_blank">
+                  <Link
+                    href={`/studio/${user?.user?._id}/content`}
+                    target="_blank"
+                  >
                     <button className="bg-[#ccc] mt-[10px] px-[10px] rounded-[50px] min-w-[90px] text-[#000] h-[36px]">
                       Quản lý video
                     </button>

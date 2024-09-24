@@ -35,11 +35,6 @@ interface StyledMenuProps extends MenuProps {
   $collapsed: boolean;
 }
 
-const items: MenuItem[] = [
-  getItem("Tổng quan", "/studio/overview", <OverviewIcon />),
-  getItem("Nội dung", "/studio/content", <VideoIcon />),
-];
-
 const SidebarStudio = ({
   collapsed,
   setCollapsed,
@@ -61,7 +56,14 @@ const SidebarStudio = ({
     skip: !token,
   });
 
-  console.log("user", user);
+  const items: MenuItem[] = [
+    getItem(
+      "Tổng quan",
+      `/studio/${user?.user?._id}/overview`,
+      <OverviewIcon />
+    ),
+    getItem("Nội dung", `/studio/${user?.user?._id}/content`, <VideoIcon />),
+  ];
 
   const onOpenChange = (keys: string[]) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);

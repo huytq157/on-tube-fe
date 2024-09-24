@@ -10,7 +10,7 @@ import OpenSans from "./assets/fonts";
 import Loading from "./loading";
 
 export const metadata: Metadata = {
-  title: "On-tube",
+  title: "H-tube",
   description: "Video của Huy",
 };
 
@@ -33,7 +33,15 @@ export default function RootLayout({
           <AntdRegistry>
             <ConfigProvider>
               <RegistyProvider>
-                <Suspense fallback={<Loading />}>{children}</Suspense>
+                <Suspense
+                  fallback={
+                    <>
+                      <Loading />
+                    </>
+                  }
+                >
+                  {children}
+                </Suspense>
               </RegistyProvider>
             </ConfigProvider>
           </AntdRegistry>

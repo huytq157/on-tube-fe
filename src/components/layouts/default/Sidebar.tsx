@@ -26,6 +26,7 @@ import MenuIcon from "@/components/icons/Menu";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, selectCurrentToken } from "@/redux/features/authSlice";
 import { useGetMeQuery } from "@/redux/api/authApi";
+import { channel } from "diagnostics_channel";
 
 function getItem(
   label: React.ReactNode,
@@ -63,6 +64,8 @@ const Sidebar = ({
     skip: !token,
   });
 
+  console.log(user);
+
   const onOpenChange = (keys: string[]) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
     setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
@@ -75,17 +78,24 @@ const Sidebar = ({
     ...(user
       ? [
           getItem("Danh sách phát", "/playlist", <ListIcon />),
-          getItem("Xem sau", "/1", <LaterIcon />),
-          getItem("Video đã thích", "/2", <LikeIcon />),
-          getItem("Video của bạn", "3", <VideoIcon />),
-          getItem("Kênh của bạn", "/me", <ChannelIcon />),
+          getItem("Xem sau", "/later", <LaterIcon />),
+          getItem("Video đã thích", "/favourite", <LikeIcon />),
+          getItem(
+            "Video của bạn",
+            `/studio/${user?.user?._id}/content`,
+            <VideoIcon />
+          ),
         ]
       : []),
     getItem("Video đã xem", "/history", <ClockIcon />),
   ];
 
   const onMenuClick = (item: any) => {
-    router.push(item.key);
+    if (item.key === `/studio/${user?.user?._id}/content`) {
+      window.open(item.key, "_blank");
+    } else {
+      router.push(item.key);
+    }
     if (isMobile) {
       setDrawerVisible(false);
     }

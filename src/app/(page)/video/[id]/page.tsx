@@ -18,6 +18,10 @@ import SmallScreenIcon from "@/components/icons/SmallScreen";
 import { calculateCreatedTime } from "@/components/utils/formatDate";
 import Link from "next/link";
 
+const renderHTML = (htmlString: string) => {
+  return <div dangerouslySetInnerHTML={{ __html: htmlString }} />;
+};
+
 const VideoDetail = () => {
   const params = useParams();
   const { id } = params;
@@ -227,7 +231,7 @@ const VideoDetail = () => {
                     ))}
                   </div>
                 </div>
-                {video?.video?.description}
+                {renderHTML(video?.video?.description)}
                 <button className="block font-semibold mt-3">Ẩn bớt</button>
               </div>
 

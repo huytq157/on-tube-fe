@@ -38,6 +38,36 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["Video"],
     }),
+
+    addVideo: builder.mutation({
+      query: (newVideo) => ({
+        url: "video/add",
+        method: "POST",
+        body: newVideo,
+      }),
+      invalidatesTags: ["Video"],
+    }),
+
+    updateVideo: builder.mutation({
+      query: ({ videoId, updatedData }) => ({
+        url: `video/${videoId}`,
+        method: "PATCH",
+        body: updatedData,
+      }),
+      invalidatesTags: (result, error, { videoId }) => [
+        { type: "Video", id: videoId },
+      ],
+    }),
+
+    deleteVideo: builder.mutation({
+      query: (videoId) => ({
+        url: `video/${videoId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, videoId) => [
+        { type: "Video", id: videoId },
+      ],
+    }),
   }),
 });
 
@@ -47,4 +77,7 @@ export const {
   useDescViewMutation,
   useGetVideoRecommendQuery,
   useSearchVideoQuery,
+  useAddVideoMutation,
+  useUpdateVideoMutation,
+  useDeleteVideoMutation,
 } = VideoApiSlice;

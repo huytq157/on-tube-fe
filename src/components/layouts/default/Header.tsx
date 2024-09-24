@@ -112,7 +112,7 @@ const Header = ({
         <div className="flex flex-col">
           <span className="font-semibold text-[17px]">{user?.user?.name}</span>
           <span>{user?.user?.email}</span>
-          <Link href="/me" className="mt-[5px]">
+          <Link href={`channel/${user?.user?._id}`} className="mt-[5px]">
             Xem kênh của bạn
           </Link>
         </div>
@@ -163,7 +163,7 @@ const Header = ({
       <div className="flex md:gap-[10px] gap-[20px] items-center">
         {user && (
           <>
-            <Link href="/studio/upload" target="_blank">
+            <Link href={`/studio/${user?.user?._id}/upload`} target="_blank">
               <TooltipButton title="Tạo video" Icon={<CamIcon />} />
             </Link>
             <div className="sm:hidden md:block">

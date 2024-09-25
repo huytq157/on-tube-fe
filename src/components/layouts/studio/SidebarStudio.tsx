@@ -4,7 +4,7 @@ import HomeIcon from "@/components/icons/Home";
 import LogoIcon from "@/components/icons/Logo";
 import MenuIcon from "@/components/icons/Menu";
 import TooltipButton from "@/components/shared/TooltipButton";
-import { Divider, Drawer, Menu, MenuProps } from "antd";
+import { Divider, Drawer, Menu, MenuProps, message } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -14,8 +14,8 @@ import styled from "styled-components";
 import { Logo_studio } from "../../../../public";
 import OverviewIcon from "@/components/icons/Overview";
 import VideoIcon from "@/components/icons/Video";
-import { useSelector } from "react-redux";
-import { selectCurrentToken } from "@/redux/features/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut, selectCurrentToken } from "@/redux/features/authSlice";
 import { useGetMeQuery } from "@/redux/api/authApi";
 
 function getItem(
@@ -50,11 +50,16 @@ const SidebarStudio = ({
   const router = useRouter();
   const [openKeys, setOpenKeys] = useState<string[]>([]);
   const isMobile = useMediaQuery({ maxWidth: 768 });
-
+  const dispatch = useDispatch();
   const token = useSelector(selectCurrentToken);
   const { data: user } = useGetMeQuery(undefined, {
     skip: !token,
   });
+  const handleLogout = () => {
+    dispatch(logOut());
+    message.success("Đăng xuất thành công");
+    router.push("/");
+  };
 
   const items: MenuItem[] = [
     getItem(
@@ -145,6 +150,10 @@ const SidebarStudio = ({
             onOpenChange={onOpenChange}
             onClick={onMenuClick}
           />
+          <Divider />
+          <div className="text-center">
+            <button onClick={handleLogout}>Đăng xuất</button>
+          </div>
         </div>
       )}
     </>

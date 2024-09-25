@@ -6,7 +6,7 @@ import CardVideoSkeleton from "@/components/skeleton/CardVideoSkelenton";
 import { useSearchVideoQuery } from "@/redux/api/videoApi";
 import { useSearchChannelQuery } from "@/redux/api/channelApi";
 import { Col, Row, Tabs } from "antd";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 
 const PageResult = () => {

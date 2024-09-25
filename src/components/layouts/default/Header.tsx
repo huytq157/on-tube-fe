@@ -163,7 +163,10 @@ const Header = ({
       <div className="flex md:gap-[10px] gap-[20px] items-center">
         {user && (
           <>
-            <Link href={`/studio/${user?.user?._id}/upload`} target="_blank">
+            <Link
+              href={`/studio/${user?.user?._id}/upload/add-video`}
+              target="_blank"
+            >
               <TooltipButton title="Tạo video" Icon={<CamIcon />} />
             </Link>
             <div className="sm:hidden md:block">

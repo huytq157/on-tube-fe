@@ -25,14 +25,21 @@ const renderHTML = (htmlString: string) => {
 const VideoDetail = () => {
   const params = useParams();
   const { id } = params;
-  const [descView] = useDescViewMutation();
   const router = useRouter();
+
+  const [descView] = useDescViewMutation();
   const { data: video } = useGetVideoByIdQuery(id);
   const { data: vieoRecommend } = useGetVideoRecommendQuery(id);
+
   const [autoPlay, setAutoPlay] = useState<boolean>(true);
+  const [totalDuration, setTotalDuration] = useState<number>(0);
+  const [isExpanded, setIsExpanded] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const hasViewedRef = useRef(false);
-  const [totalDuration, setTotalDuration] = useState<number>(0);
+
+  const toggleDescription = () => {
+    setIsExpanded((prev) => !prev);
+  };
 
   useEffect(() => {
     if (video?.video?.title) {
@@ -76,7 +83,6 @@ const VideoDetail = () => {
     }
   }, [id, totalDuration, descView]);
 
-  // console.log("vieoRecommend-first: ", vieoRecommend?.data[0]);
   const handleVideoEnded = () => {
     if (autoPlay && vieoRecommend?.data.length > 0) {
       const firstRecommendedVideo = vieoRecommend?.data[0];
@@ -231,8 +237,19 @@ const VideoDetail = () => {
                     ))}
                   </div>
                 </div>
-                {renderHTML(video?.video?.description)}
-                <button className="block font-semibold mt-3">Ẩn bớt</button>
+                <div>
+                  {renderHTML(
+                    isExpanded
+                      ? video?.video?.description
+                      : video?.video?.description.slice(0, 300) + "..."
+                  )}{" "}
+                  <button
+                    className="block font-semibold mt-3"
+                    onClick={toggleDescription}
+                  >
+                    {isExpanded ? "Ẩn bớt" : "Xem thêm"}{" "}
+                  </button>
+                </div>
               </div>
 
               <Comments />

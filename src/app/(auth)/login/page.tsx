@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import LogoIcon from "@/components/icons/Logo";
-import { useGetMeQuery, useLoginMutation } from "@/redux/api/authApi";
+import { useLoginMutation } from "@/redux/api/authApi";
 import { useState } from "react";
 import { message } from "antd";
 import { useRouter } from "next/navigation";

@@ -163,7 +163,6 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
               className={`w-full h-[100%] object-cover rounded-[10px] ${
                 isHovered ? "hidden" : "block"
               }`}
-              // loading="lazy"
               priority
             />
           )}
@@ -238,7 +237,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
         </div>
         <div className="flex-1 pr-[20px]">
           <Link href={`/video/${item?._id}`}>
-            <h3 className="md:mt-[12px] sm:mt-[8px] text-[16px] mb-[4px] text-[#0f0f0f] font-semibold cursor-pointer text-line-camp-2">
+            <h3 className="md:mt-[12px]  sm:mt-[8px] text-[16px] mb-[4px] text-[#0f0f0f] font-semibold cursor-pointer text-line-camp-2">
               {item.title}
             </h3>
           </Link>

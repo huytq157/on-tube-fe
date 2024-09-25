@@ -64,8 +64,6 @@ const Sidebar = ({
     skip: !token,
   });
 
-  console.log(user);
-
   const onOpenChange = (keys: string[]) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
     setOpenKeys(latestOpenKey ? [latestOpenKey] : []);

@@ -46,7 +46,7 @@ const HeaderStudio = ({
       </div>
 
       <div className="flex gap-[10px] items-center">
-        <Link href={`/studio/${user?.user?._id}/upload`}>
+        <Link href={`/studio/${user?.user?._id}/upload/add-video`}>
           <TooltipButton title="Tạo" Icon={<CamIcon />} />
         </Link>
 

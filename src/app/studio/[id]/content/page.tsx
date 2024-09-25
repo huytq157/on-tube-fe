@@ -11,6 +11,7 @@ import {
   message,
   Popconfirm,
   Tooltip,
+  Badge,
 } from "antd";
 import Image from "next/image";
 import Link from "next/link";
@@ -43,6 +44,11 @@ const Content = () => {
 
   const columns = [
     {
+      title: "STT",
+      key: "index",
+      render: (_: any, __: any, index: number) => index + 1,
+    },
+    {
       title: "Tiêu đề",
       dataIndex: "title",
       key: "title",
@@ -68,6 +74,16 @@ const Content = () => {
       ),
     },
     {
+      title: "Trạng thái",
+      dataIndex: "isPublic",
+      key: "isPublic",
+      render: (isPublic: boolean) => (
+        <Button type={isPublic ? "primary" : "default"}>
+          {isPublic ? "Công khai" : "Riêng tư"}
+        </Button>
+      ),
+    },
+    {
       title: "Lượt xem",
       dataIndex: "totalView",
       key: "totalView",
@@ -89,11 +105,13 @@ const Content = () => {
       key: "dislikesCount",
     },
     {
-      title: "Bình luận cho phép",
+      title: " Cho phép bình luận",
       dataIndex: "allowComments",
       key: "allowComments",
       render: (allowComments: boolean) => (
-        <Switch checked={allowComments} disabled />
+        <Button type={allowComments ? "primary" : "default"}>
+          {allowComments ? "Cho phép" : "Không cho phép"}
+        </Button>
       ),
     },
 

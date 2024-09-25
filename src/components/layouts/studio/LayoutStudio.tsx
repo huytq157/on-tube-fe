@@ -31,7 +31,7 @@ const LayoutStudio = ({ children }: Props) => {
           drawerVisible={drawerVisible}
           setDrawerVisible={setDrawerVisible}
         />
-        <div className="flex-1 w-[100%] max-w-[2080px] mx-auto px-[15px] py-[20px]  h-[calc(100vh-56px)] ">
+        <div className="flex-1 w-[100%] max-w-[100%] mx-auto px-[15px] py-[20px]  h-[calc(100vh-56px)] ">
           {children}
         </div>
       </div>

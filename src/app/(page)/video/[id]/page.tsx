@@ -110,7 +110,7 @@ const VideoDetail = () => {
         <title>{video?.video?.title || "on-tube"}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="md:px-[4%] sm:px-0">
+      <div className="md:px-[4%] sm:px-0 pb-[20px]">
         <Row gutter={[24, 24]}>
           <Col xs={24} sm={24} md={24} lg={24} xl={17} xxl={18}>
             <div className="min-h-[100vh] overflow-hidden">
@@ -182,7 +182,6 @@ const VideoDetail = () => {
                   </div>
                 )}
               </div>
-
               <h1 className="sm:text-[18px] md:text-[22px] leading-[32px] font-semibold mt-[10px]">
                 {video?.video?.title}
               </h1>
@@ -251,8 +250,13 @@ const VideoDetail = () => {
                   </button>
                 </div>
               </div>
-
-              <Comments />
+              {video?.video?.allowComments === true ? (
+                <Comments />
+              ) : (
+                <p className="font-[500] text-center">
+                  Nhà sáng tạo đã tắt bình luận
+                </p>
+              )}
             </div>
           </Col>
           <Col xs={24} sm={24} md={24} lg={24} xl={7} xxl={6}>

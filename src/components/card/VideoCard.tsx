@@ -40,6 +40,8 @@ interface VideoCardProps {
     createdAt: Date;
     videoUrl: string;
     videoThumbnail: string;
+    isPublic: boolean;
+    publishedDate: Date;
     writer: {
       _id: string;
       avatar: string;

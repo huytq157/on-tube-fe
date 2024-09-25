@@ -3,8 +3,9 @@ import { apiSlice } from "./baseApi";
 export const VideoApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getVideo: builder.query({
-      query: () => ({
+      query: ({ page = 1, limit = 6, category }) => ({
         url: "video/list",
+        params: { page, limit, category },
       }),
       keepUnusedDataFor: 5,
       providesTags: ["Video"],

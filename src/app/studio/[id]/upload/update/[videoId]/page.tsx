@@ -28,7 +28,10 @@ import {
 } from "@/redux/api/categoryApi";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { selectCurrentToken } from "@/redux/features/authSlice";
+import { useGetMeQuery } from "@/redux/api/authApi";
 
 const { Option } = Select;
 
@@ -36,7 +39,7 @@ const UpdateVideo = () => {
   const [form] = Form.useForm();
   const params = useParams();
   const { videoId } = params;
-
+  const router = useRouter();
   const [thumbnailUrl, setThumbnailUrl] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -47,6 +50,10 @@ const UpdateVideo = () => {
   const { data: video } = useGetVideoByIdQuery(videoId);
   const [uploadImage] = useUploadImageMutation();
   const [updateVideo, { isLoading: isUpdateting }] = useUpdateVideoMutation();
+  const token = useSelector(selectCurrentToken);
+  const { data: user } = useGetMeQuery(undefined, {
+    skip: !token,
+  });
 
   useEffect(() => {
     if (video) {
@@ -54,6 +61,7 @@ const UpdateVideo = () => {
         title: video.video.title,
         description: video.video.description,
         isPublic: video.video.isPublic,
+        allowComments: video.video.allowComments,
         category: video.video.category,
         playlist: video.video.playlist,
         tags: video.video.tags,
@@ -118,7 +126,7 @@ const UpdateVideo = () => {
         ...values,
         videoUrl,
         videoThumbnail: thumbnailUrl,
-        publishedDate: values.publishedDate.format("YYYY-MM-DD"),
+        publishedDate: values.publishedDate.format("YYYY-MM-DD HH:mm"),
         tags: values.tags || [],
         category: values.category,
         playlist: values.playlist,
@@ -127,6 +135,7 @@ const UpdateVideo = () => {
       await updateVideo({ videoId, updatedData: videoData }).unwrap();
 
       message.success("Upload video thành công");
+      router.push(`/studio/${user?.user?._id}/content`);
       form.resetFields();
       setVideoUrl("");
       setThumbnailUrl("");
@@ -206,6 +215,14 @@ const UpdateVideo = () => {
         </Form.Item>
 
         <Form.Item
+          label="Cho phép bình luận"
+          name="allowComments"
+          valuePropName="checked"
+        >
+          <Switch />
+        </Form.Item>
+
+        <Form.Item
           label="Danh mục"
           name="category"
           rules={[{ required: true }]}
@@ -246,7 +263,11 @@ const UpdateVideo = () => {
         </Form.Item>
 
         <Form.Item label="Ngày công khai" name="publishedDate">
-          <DatePicker defaultValue={moment()} format="YYYY-MM-DD" />
+          <DatePicker
+            defaultValue={moment()}
+            showTime={{ format: "HH:mm" }}
+            format="YYYY-MM-DD  HH:mm"
+          />
         </Form.Item>
 
         <Form.Item>

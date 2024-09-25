@@ -22,12 +22,16 @@ import {
 } from "@/redux/api/categoryApi";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { useSelector } from "react-redux";
+import { selectCurrentToken } from "@/redux/features/authSlice";
+import { useGetMeQuery } from "@/redux/api/authApi";
+import { useRouter } from "next/navigation";
 
 const { Option } = Select;
 
 const UploadVideo = () => {
   const [form] = Form.useForm();
-
+  const router = useRouter();
   const [thumbnailUrl, setThumbnailUrl] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -37,6 +41,10 @@ const UploadVideo = () => {
   const { data: playlists } = useGetPlaylistQuery("");
   const [uploadImage] = useUploadImageMutation();
   const [addVideo, { isLoading: isAdding }] = useAddVideoMutation();
+  const token = useSelector(selectCurrentToken);
+  const { data: user } = useGetMeQuery(undefined, {
+    skip: !token,
+  });
 
   const handleUploadThumbnail = async ({ file }: any) => {
     const formData = new FormData();
@@ -92,7 +100,7 @@ const UploadVideo = () => {
         ...values,
         videoUrl,
         videoThumbnail: thumbnailUrl,
-        publishedDate: values.publishedDate.format("YYYY-MM-DD"),
+        publishedDate: values.publishedDate.format("YYYY-MM-DD HH:mm"),
         tags: values.tags || [],
         category: values.category,
         playlist: values.playlist,
@@ -100,6 +108,7 @@ const UploadVideo = () => {
 
       await addVideo(videoData).unwrap();
       message.success("Upload video thành công");
+      router.push(`/studio/${user?.user?._id}/content`);
       form.resetFields();
       setVideoUrl("");
       setThumbnailUrl("");
@@ -179,6 +188,14 @@ const UploadVideo = () => {
         </Form.Item>
 
         <Form.Item
+          label="Cho phép bình luận"
+          name="allowComments"
+          valuePropName="checked"
+        >
+          <Switch />
+        </Form.Item>
+
+        <Form.Item
           label="Danh mục"
           name="category"
           rules={[{ required: true }]}
@@ -218,8 +235,29 @@ const UploadVideo = () => {
           </Select>
         </Form.Item>
 
-        <Form.Item label="Ngày công khai" name="publishedDate">
-          <DatePicker defaultValue={moment()} format="YYYY-MM-DD" />
+        <Form.Item
+          label="Ngày công khai"
+          name="publishedDate"
+          rules={[
+            {
+              required: true,
+              message: "Vui lòng chọn ngày công khai!",
+            },
+            {
+              validator: (_, value) =>
+                value && value.isBefore(moment())
+                  ? Promise.reject(
+                      new Error("Ngày công khai không được ở quá khứ")
+                    )
+                  : Promise.resolve(),
+            },
+          ]}
+        >
+          <DatePicker
+            defaultValue={moment()}
+            showTime={{ format: "HH:mm" }}
+            format="YYYY-MM-DD  HH:mm"
+          />
         </Form.Item>
 
         <Form.Item>

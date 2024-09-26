@@ -189,7 +189,9 @@ const VideoDetail = () => {
                 <div className=" flex items-center gap-[20px]">
                   <div className="flex items-center gap-[15px] md:px-[10px] cursor-pointer rounded-[8px]">
                     <div className="w-[40px] h-[40px] rounded-[50%] overflow-hidden cursor-pointer">
-                      <Link href={`/channel/${video?.video?.writer?._id}`}>
+                      <Link
+                        href={`/channel/${video?.video?.writer?._id}/playlist`}
+                      >
                         <Image
                           src={video?.video?.writer?.avatar || ""}
                           width={40}
@@ -201,7 +203,9 @@ const VideoDetail = () => {
                       </Link>
                     </div>
                     <div>
-                      <Link href={`/channel/${video?.video?.writer?._id}`}>
+                      <Link
+                        href={`/channel/${video?.video?.writer?._id}/playlist`}
+                      >
                         <span className="text-line-camp-1 text-[#333] font-semibold leading-[20px]">
                           {video?.video?.writer?.name}
                         </span>

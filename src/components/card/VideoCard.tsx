@@ -226,7 +226,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
 
       <div className="flex gap-[5px] md:mt-2 ">
         <div className="w-[36px] h-[36px] mt-[12px] mr-[8px] rounded-[50%] overflow-hidden cursor-pointer">
-          <Link href={`/channel/${item?.writer?._id}`}>
+          <Link href={`/channel/${item?.writer?._id}/playlist`}>
             <Image
               src={item.writer.avatar || ""}
               width={36}
@@ -243,7 +243,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
               {item.title}
             </h3>
           </Link>
-          <Link href={`/channel/${item?.writer?._id}`}>
+          <Link href={`/channel/${item?.writer?._id}/playlist`}>
             <span className="text-[#606060] font-[500] cursor-pointer flex items-center gap-[3px]">
               {item.writer.name} <CheckIcon />
             </span>

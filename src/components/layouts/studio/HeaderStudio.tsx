@@ -1,7 +1,6 @@
 "use client";
 
 import CamIcon from "@/components/icons/Cam";
-import LogoIcon from "@/components/icons/Logo";
 import MenuIcon from "@/components/icons/Menu";
 import TooltipButton from "@/components/shared/TooltipButton";
 import Image from "next/image";
@@ -35,14 +34,13 @@ const HeaderStudio = ({
         ) : (
           <TooltipButton Icon={<MenuIcon />} onClick={toggleCollapsed} />
         )}
-        <Link href="/studio/overview">
-          <Image
-            src={Logo_studio}
-            width={95}
-            height={25}
-            alt="Picture of the author"
-          />
-        </Link>
+
+        <Image
+          src={Logo_studio}
+          width={95}
+          height={25}
+          alt="Picture of the author"
+        />
       </div>
 
       <div className="flex gap-[10px] items-center">

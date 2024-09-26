@@ -67,7 +67,8 @@ const SidebarStudio = ({
       `/studio/${user?.user?._id}/overview`,
       <OverviewIcon />
     ),
-    getItem("Nội dung", `/studio/${user?.user?._id}/content`, <VideoIcon />),
+    getItem("Playlist", `/studio/${user?.user?._id}/playlist`, <VideoIcon />),
+    getItem("Video", `/studio/${user?.user?._id}/content`, <VideoIcon />),
   ];
 
   const onOpenChange = (keys: string[]) => {

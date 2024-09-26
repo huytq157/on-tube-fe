@@ -69,6 +69,14 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
         { type: "Video", id: videoId },
       ],
     }),
+
+    getVideoTrending: builder.query({
+      query: () => ({
+        url: "video/trending",
+      }),
+      keepUnusedDataFor: 5,
+      providesTags: ["Video"],
+    }),
   }),
 });
 
@@ -81,4 +89,5 @@ export const {
   useAddVideoMutation,
   useUpdateVideoMutation,
   useDeleteVideoMutation,
+  useGetVideoTrendingQuery,
 } = VideoApiSlice;

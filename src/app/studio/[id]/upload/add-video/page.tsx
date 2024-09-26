@@ -63,8 +63,8 @@ const UploadVideo = () => {
     formData.append("videos", file);
 
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:8000/api/upload/video", true);
-    // xhr.open("POST", `${process.env.NEXT_PUBLIC_BASE_URL}/upload/video`, true);
+    // xhr.open("POST", "http://localhost:8000/api/upload/video", true);
+    xhr.open("POST", `${process.env.NEXT_PUBLIC_BASE_URL}/upload/video`, true);
 
     xhr.upload.onprogress = (event) => {
       if (event.lengthComputable) {

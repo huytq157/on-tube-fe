@@ -9,14 +9,7 @@ export const CategoryApiSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
       providesTags: ["Category"],
     }),
-    getPlaylist: builder.query({
-      query: () => ({
-        url: "playlist/list",
-      }),
-      keepUnusedDataFor: 5,
-      providesTags: ["Playlist"],
-    }),
   }),
 });
 
-export const { useGetCategoryQuery, useGetPlaylistQuery } = CategoryApiSlice;
+export const { useGetCategoryQuery } = CategoryApiSlice;

@@ -16,16 +16,14 @@ import moment from "moment";
 import { useUploadImageMutation } from "@/redux/api/uploadApi";
 import { useAddVideoMutation } from "@/redux/api/videoApi";
 import Image from "next/image";
-import {
-  useGetCategoryQuery,
-  useGetPlaylistQuery,
-} from "@/redux/api/categoryApi";
+import { useGetCategoryQuery } from "@/redux/api/categoryApi";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "@/redux/features/authSlice";
 import { useGetMeQuery } from "@/redux/api/authApi";
 import { useRouter } from "next/navigation";
+import { useGetPlaylistQuery } from "@/redux/api/playListApi";
 
 const { Option } = Select;
 

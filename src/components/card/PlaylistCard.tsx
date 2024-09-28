@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { NoThumbnail, Video1 } from "../../../public";
 import PlayIcon from "../icons/Play";
+import Link from "next/link";
 
 interface PlayListCardProps {
   playlist: {
@@ -56,9 +57,11 @@ const PlaylistCard: React.FC<PlayListCardProps> = ({ playlist }) => {
         <span>-</span>
         <span>Danh sách phát</span>
       </div>
-      <button className="text-[14px] font-[500]">
-        Xem toàn bộ danh sách phát
-      </button>
+      <Link href={`playlist/${playlist?._id}`}>
+        <button className="text-[14px] font-[500]">
+          Xem toàn bộ danh sách phát
+        </button>
+      </Link>
     </div>
   );
 };

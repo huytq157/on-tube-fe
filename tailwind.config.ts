@@ -12,6 +12,8 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "linear-playlist":
+          "linear-gradient(to bottom, rgb(112 100 98 / 80%) 0%, rgb(31 29 29 / 30%) 33%, rgb(87 82 81 / 80%) 100%)",
       },
       screens: {
         sm: "290px",

@@ -20,12 +20,23 @@ import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "@/redux/features/authSlice";
 import { useGetMeQuery } from "@/redux/api/authApi";
+import { useState } from "react";
 
 const Content = () => {
   const params = useParams();
   const { id } = params;
   const router = useRouter();
-  const { data: videos, isLoading, refetch } = useGetChannelVideoQuery(id);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const {
+    data: videos,
+    isLoading,
+    refetch,
+  } = useGetChannelVideoQuery({
+    id,
+    page: currentPage,
+    limit: pageSize,
+  });
   const [deleteVideo, { isLoading: isDeleting }] = useDeleteVideoMutation();
   const token = useSelector(selectCurrentToken);
   const { data: user } = useGetMeQuery(undefined, {
@@ -46,7 +57,8 @@ const Content = () => {
     {
       title: "STT",
       key: "index",
-      render: (_: any, __: any, index: number) => index + 1,
+      render: (_: any, __: any, index: number) =>
+        (currentPage - 1) * pageSize + index + 1,
     },
     {
       title: "Tiêu đề",
@@ -54,17 +66,17 @@ const Content = () => {
       key: "title",
     },
 
-    {
-      title: "Video",
-      dataIndex: "videoUrl",
-      key: "videoUrl",
-      render: (videoUrl: string) => (
-        <video width="300" height="200" controls>
-          <source src={videoUrl} type="video/mp4" />
-          Trình duyệt của bạn không hỗ trợ thẻ video.
-        </video>
-      ),
-    },
+    // {
+    //   title: "Video",
+    //   dataIndex: "videoUrl",
+    //   key: "videoUrl",
+    //   render: (videoUrl: string) => (
+    //     <video width="300" height="200" controls>
+    //       <source src={videoUrl} type="video/mp4" />
+    //       Trình duyệt của bạn không hỗ trợ thẻ video.
+    //     </video>
+    //   ),
+    // },
     {
       title: "Thumbnail",
       dataIndex: "videoThumbnail",
@@ -163,14 +175,27 @@ const Content = () => {
     return <Spin tip="Đang tải..." />;
   }
 
+  const handleTableChange = (pagination: any) => {
+    setCurrentPage(pagination.current);
+    setPageSize(pagination.pageSize);
+  };
+
   return (
     <LayoutStudio>
-      <Table dataSource={videos?.videos} columns={columns} rowKey="id" />
+      <Table
+        dataSource={videos?.videos}
+        columns={columns}
+        rowKey="id"
+        pagination={{
+          current: currentPage,
+          pageSize: pageSize,
+          total: videos?.total,
+          showSizeChanger: true,
+        }}
+        onChange={handleTableChange}
+      />
     </LayoutStudio>
   );
 };
 
 export default Content;
-
-// http://localhost:3001/studio/66e02262656729492255ec34/upload/add-video
-// http://localhost:3001/studio/66e02262656729492255ec34/upload/66f378c75b76effc90097dd1

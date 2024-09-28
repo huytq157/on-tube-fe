@@ -4,6 +4,7 @@ import VideoItem from "@/components/card/VideoItem";
 import HistoryIcon from "@/components/icons/History";
 import LayoutDefault from "@/components/layouts/default/LayoutDefault";
 import { useGetMeQuery } from "@/redux/api/authApi";
+import { useGetVideoHistoryQuery } from "@/redux/api/videoApi";
 import { selectCurrentToken } from "@/redux/features/authSlice";
 import Link from "next/link";
 import { useSelector } from "react-redux";
@@ -14,10 +15,35 @@ const History = () => {
     skip: !token,
   });
 
-  return (
+  console.log("user: ", user?.user?._id);
+
+  const {
+    data: historys,
+    isLoading,
+    refetch,
+  } = useGetVideoHistoryQuery({ userId: user?.user?._id });
+
+  console.log("historry: ", historys);
+
+  http: return (
     <LayoutDefault>
       {user ? (
-        <>Video đã xem</>
+        <div className="p-4">
+          <h1 className="text-2xl font-bold mb-4">Video đã xem</h1>
+          {isLoading ? (
+            <p>Loading...</p> // Hoặc có thể hiển thị một skeleton loader
+          ) : (
+            <div className="grid grid-cols-1 gap-4">
+              {historys && historys.length > 0 ? (
+                historys.map((item: any) => (
+                  <VideoItem key={item.video._id} video={item.video} />
+                ))
+              ) : (
+                <p>Không có video nào đã xem.</p>
+              )}
+            </div>
+          )}
+        </div>
       ) : (
         <div className="h-[100vh] flex justify-center pt-[100px] text-center">
           <div>

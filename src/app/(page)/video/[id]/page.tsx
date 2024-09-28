@@ -6,6 +6,7 @@ import LayoutDefault from "@/components/layouts/default/LayoutDefault";
 import { useParams, useRouter } from "next/navigation";
 import {
   useDescViewMutation,
+  useDescViewAuthMutation,
   useGetVideoByIdQuery,
   useGetVideoRecommendQuery,
 } from "@/redux/api/videoApi";
@@ -17,6 +18,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import SmallScreenIcon from "@/components/icons/SmallScreen";
 import { calculateCreatedTime } from "@/components/utils/formatDate";
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import { selectCurrentToken } from "@/redux/features/authSlice";
+import { useGetMeQuery } from "@/redux/api/authApi";
 
 const renderHTML = (htmlString: string) => {
   return <div dangerouslySetInnerHTML={{ __html: htmlString }} />;
@@ -26,8 +30,15 @@ const VideoDetail = () => {
   const params = useParams();
   const { id } = params;
   const router = useRouter();
+  const token = useSelector(selectCurrentToken);
+  const { data: user } = useGetMeQuery(undefined, {
+    skip: !token,
+  });
+
+  console.log("user:", user);
 
   const [descView] = useDescViewMutation();
+  const [descViewAuth] = useDescViewAuthMutation();
   const { data: video } = useGetVideoByIdQuery(id);
   const { data: vieoRecommend } = useGetVideoRecommendQuery(id);
 
@@ -71,14 +82,30 @@ const VideoDetail = () => {
       const currentTime = videoRef.current.currentTime;
       if (totalDuration > 0 && currentTime >= totalDuration * 0.5) {
         hasViewedRef.current = true;
-        descView({ videoId: id, watchTime: totalDuration * 0.5 })
-          .unwrap()
-          .then(() => {
-            console.log("descView called successfully");
+
+        if (token) {
+          descViewAuth({
+            videoId: id,
+            watchTime: totalDuration * 0.5,
+            userId: user?.user?._id,
           })
-          .catch((error) => {
-            console.error("Error updating view", error);
-          });
+            .unwrap()
+            .then(() => {
+              console.log("descView called successfully");
+            })
+            .catch((error) => {
+              console.error("Error updating view", error);
+            });
+        } else {
+          descView({ videoId: id, watchTime: totalDuration * 0.5 })
+            .unwrap()
+            .then(() => {
+              console.log("descView called successfully");
+            })
+            .catch((error) => {
+              console.error("Error updating view", error);
+            });
+        }
       }
     }
   }, [id, totalDuration, descView]);

@@ -22,16 +22,14 @@ import {
   useGetVideoByIdQuery,
 } from "@/redux/api/videoApi";
 import Image from "next/image";
-import {
-  useGetCategoryQuery,
-  useGetPlaylistQuery,
-} from "@/redux/api/categoryApi";
+import { useGetCategoryQuery } from "@/redux/api/categoryApi";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useParams, useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "@/redux/features/authSlice";
 import { useGetMeQuery } from "@/redux/api/authApi";
+import { useGetPlaylistQuery } from "@/redux/api/playListApi";
 
 const { Option } = Select;
 
@@ -134,13 +132,13 @@ const UpdateVideo = () => {
 
       await updateVideo({ videoId, updatedData: videoData }).unwrap();
 
-      message.success("Upload video thành công");
+      message.success("Thành công");
       router.push(`/studio/${user?.user?._id}/content`);
       form.resetFields();
       setVideoUrl("");
       setThumbnailUrl("");
     } catch (error) {
-      message.error("Lỗi khi upload!");
+      message.error("Lỗi khi ");
       console.error(error);
     }
   };

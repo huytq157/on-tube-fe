@@ -85,7 +85,7 @@ const Sidebar = ({
           ),
         ]
       : []),
-    getItem("Video đã xem", "/history", <ClockIcon />),
+    getItem("Video đã xem", `/history`, <ClockIcon />),
   ];
 
   const onMenuClick = (item: any) => {
@@ -200,7 +200,7 @@ const Sidebar = ({
                   Hãy đăng nhập để thích video, bình luận và đăng ký kênh.
                 </p>
                 <Link href="/login">
-                  <button className="bg-[#333] rounded-[50px] px-[13px] text-[#fff] h-[36px]">
+                  <button className="bg-[#333] text-[14px] rounded-[50px] px-[13px] text-[#fff] h-[36px]">
                     Đăng nhập
                   </button>
                 </Link>
@@ -234,12 +234,13 @@ const StyledMenu = styled((props: StyledMenuProps) => <Menu {...props} />)<{
     color: #333;
     border-radius: 8px;
     height: 42px;
-    font-weight: 550 !important;
+    font-weight: 700 !important;
   }
 
   .ant-menu-title-content {
     margin-left: 15px;
     font-size: 14px;
+    font-weight: 500;
     display: ${({ $collapsed }) => ($collapsed ? "none" : "inline")};
   }
 

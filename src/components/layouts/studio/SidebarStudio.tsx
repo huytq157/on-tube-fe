@@ -1,7 +1,5 @@
 "use client";
 
-import HomeIcon from "@/components/icons/Home";
-import LogoIcon from "@/components/icons/Logo";
 import MenuIcon from "@/components/icons/Menu";
 import TooltipButton from "@/components/shared/TooltipButton";
 import { Divider, Drawer, Menu, MenuProps, message } from "antd";
@@ -17,6 +15,7 @@ import VideoIcon from "@/components/icons/Video";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, selectCurrentToken } from "@/redux/features/authSlice";
 import { useGetMeQuery } from "@/redux/api/authApi";
+import ListIcon from "@/components/icons/List";
 
 function getItem(
   label: React.ReactNode,
@@ -67,7 +66,7 @@ const SidebarStudio = ({
       `/studio/${user?.user?._id}/overview`,
       <OverviewIcon />
     ),
-    getItem("Playlist", `/studio/${user?.user?._id}/playlist`, <VideoIcon />),
+    getItem("Playlist", `/studio/${user?.user?._id}/playlist`, <ListIcon />),
     getItem("Video", `/studio/${user?.user?._id}/content`, <VideoIcon />),
   ];
 

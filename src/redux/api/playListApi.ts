@@ -13,6 +13,13 @@ export const PlaylistApiSlice = apiSlice.injectEndpoints({
 
     getPlaylistById: builder.query({
       query: (id) => ({
+        url: `playlist/user/${id}`,
+      }),
+      providesTags: (result, error, id) => [{ type: "Playlist", id }],
+    }),
+
+    getPlaylistDetail: builder.query({
+      query: (id) => ({
         url: `playlist/${id}`,
       }),
       providesTags: (result, error, id) => [{ type: "Playlist", id }],
@@ -53,6 +60,7 @@ export const PlaylistApiSlice = apiSlice.injectEndpoints({
 export const {
   useGetPlaylistQuery,
   useGetPlaylistByIdQuery,
+  useGetPlaylistDetailQuery,
   useAddPlaylistMutation,
   useUpdatePlaylistMutation,
   useDeletePlaylistMutation,

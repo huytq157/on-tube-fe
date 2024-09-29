@@ -3,7 +3,15 @@
 import LayoutStudio from "@/components/layouts/studio/LayoutStudio";
 import { useGetChannelVideoQuery } from "@/redux/api/channelApi";
 import { useParams, useRouter } from "next/navigation";
-import { Table, Spin, Button, message, Popconfirm, Tooltip } from "antd";
+import {
+  Table,
+  Spin,
+  Button,
+  message,
+  Popconfirm,
+  Tooltip,
+  Select,
+} from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { useDeleteVideoMutation } from "@/redux/api/videoApi";
@@ -19,6 +27,7 @@ const Content = () => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
+  const [isPublic, setIsPublic] = useState<boolean | undefined>(true);
 
   const token = useSelector(selectCurrentToken);
   const { data: user } = useGetMeQuery(undefined, {
@@ -31,10 +40,20 @@ const Content = () => {
     refetch,
   } = useGetChannelVideoQuery({
     id,
+    isPublic,
     page: currentPage,
     limit: pageSize,
   });
   const [deleteVideo, { isLoading: isDeleting }] = useDeleteVideoMutation();
+
+  const handlePublicChange = (value: string) => {
+    if (value === "all") {
+      setIsPublic(undefined);
+    } else {
+      setIsPublic(value === "true");
+    }
+    refetch();
+  };
 
   const handleDelete = async (videoId: string) => {
     try {
@@ -174,6 +193,17 @@ const Content = () => {
 
   return (
     <LayoutStudio>
+      <div className="mb-4">
+        <Select
+          defaultValue="true"
+          style={{ width: 120 }}
+          onChange={handlePublicChange}
+          options={[
+            { value: "true", label: "Công khai" },
+            { value: "false", label: "Riêng tư" },
+          ]}
+        />
+      </div>
       <Table
         dataSource={videos?.videos}
         columns={columns}

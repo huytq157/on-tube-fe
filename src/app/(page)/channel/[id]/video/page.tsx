@@ -19,6 +19,7 @@ const VideoChannel = () => {
     refetch,
   } = useGetChannelVideoQuery({
     id,
+    isPublic: true,
     page: currentPage,
     limit: pageSize,
   });

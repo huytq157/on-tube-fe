@@ -1,11 +1,28 @@
 "use client";
 
 import PlaylistCard from "@/components/card/PlaylistCard";
+import { useGetChannelPlaylistQuery } from "@/redux/api/channelApi";
 import { useGetPlaylistQuery } from "@/redux/api/playListApi";
 import { Col, Row } from "antd";
+import { useParams } from "next/navigation";
+import { useState } from "react";
 
 const PlayListChannel = () => {
-  const { data: playlists } = useGetPlaylistQuery("");
+  const params = useParams();
+  const { id } = params;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  const {
+    data: playlists,
+    isLoading,
+    refetch,
+  } = useGetChannelPlaylistQuery({
+    id,
+    isPublic: true,
+    page: currentPage,
+    limit: pageSize,
+  });
 
   return (
     <div>
@@ -18,7 +35,7 @@ const PlayListChannel = () => {
           ))
         ) : (
           <div className="text-center w-full">
-            <h2 className="text-xl">Chưa có danh sách phát</h2>
+            <h2 className="text-[14px]">Chưa có danh sách phát</h2>
           </div>
         )}
       </Row>

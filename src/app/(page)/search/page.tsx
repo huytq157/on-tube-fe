@@ -76,7 +76,9 @@ const PageResult = () => {
                     </div>
                     <div>
                       <Link href={`/channel/${item?._id}/playlist`}>
-                        <h1 className="font-[600] text-[20px]">{item.name}</h1>
+                        <h1 className="font-[600] text-[#000] text-[20px]">
+                          {item.name}
+                        </h1>
                       </Link>
                       <p>{item.email}</p>
                       <p>{item?.description}</p>

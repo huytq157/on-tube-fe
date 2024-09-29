@@ -44,6 +44,7 @@ export default function Home() {
     page,
     limit: 6,
     category: selectedCategory,
+    isPublic: true,
   });
 
   useEffect(() => {
@@ -75,10 +76,10 @@ export default function Home() {
   }, [hasMore, isLoading]);
 
   const handleCategoryChange = (categoryId: string | null) => {
+    refetch();
     setVideos([]);
     setPage(1);
     setSelectedCategory(categoryId);
-    refetch();
   };
 
   return (
@@ -89,7 +90,7 @@ export default function Home() {
             !selectedCategory
               ? "bg-[#333] text-[#fff]"
               : "bg-[#f2f2f2] text-[#000]"
-          } rounded-[8px] min-w-[40px] text-[14px] h-[32px] px-[10px]`}
+          } rounded-[8px] min-w-[90px] text-[14px] h-[32px] px-[10px]`}
           onClick={() => handleCategoryChange(null)}
         >
           Tất cả
@@ -118,10 +119,8 @@ export default function Home() {
                 </Col>
               ))
             : videos
-                .filter(
-                  (item: any) =>
-                    item.isPublic &&
-                    dayjs().isSameOrAfter(dayjs(item.publishedDate), "day")
+                .filter((item: any) =>
+                  dayjs().isSameOrAfter(dayjs(item.publishedDate), "day")
                 )
                 .map((item: any) => (
                   <Col key={item._id} xs={24} sm={12} lg={8} xl={8} xxl={6}>

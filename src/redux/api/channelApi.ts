@@ -10,9 +10,17 @@ export const ChannelApiSlice = apiSlice.injectEndpoints({
     }),
 
     getChannelVideo: builder.query({
-      query: ({ id, page = 1, limit = 10 }) => ({
+      query: ({ id, isPublic, page = 1, limit = 10 }) => ({
         url: `channel/video/${id}`,
-        params: { page, limit },
+        params: { isPublic, page, limit },
+      }),
+      providesTags: (result, error, id) => [{ type: "Channel", id }],
+    }),
+
+    getChannelPlaylist: builder.query({
+      query: ({ id, isPublic, page = 1, limit = 10 }) => ({
+        url: `channel/playlist/${id}`,
+        params: { isPublic, page, limit },
       }),
       providesTags: (result, error, id) => [{ type: "Channel", id }],
     }),
@@ -31,4 +39,5 @@ export const {
   useGetChannelInfoQuery,
   useSearchChannelQuery,
   useGetChannelVideoQuery,
+  useGetChannelPlaylistQuery,
 } = ChannelApiSlice;

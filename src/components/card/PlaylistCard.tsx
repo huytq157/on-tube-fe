@@ -2,6 +2,7 @@ import Image from "next/image";
 import { NoThumbnail, Video1 } from "../../../public";
 import PlayIcon from "../icons/Play";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface PlayListCardProps {
   playlist: {
@@ -18,9 +19,23 @@ interface PlayListCardProps {
 }
 
 const PlaylistCard: React.FC<PlayListCardProps> = ({ playlist }) => {
+  const router = useRouter();
   const videoThumbnail = playlist?.videos.length
     ? playlist.videos[0].videoThumbnail
     : NoThumbnail;
+
+  const handleViewPlaylist = () => {
+    router.push(`/playlist/${playlist?._id}`);
+  };
+
+  const handlePlayAll = () => {
+    const videoId = playlist?.videos[0]?._id;
+    if (videoId) {
+      router.push(
+        `/video/${videoId}?from=playlist&playlistId=${playlist?._id}`
+      );
+    }
+  };
 
   return (
     <div>
@@ -44,27 +59,29 @@ const PlaylistCard: React.FC<PlayListCardProps> = ({ playlist }) => {
         <div className="box-1"></div>
         <div className="box-2"></div>
         <div className="box-3">
-          <Link href={`/video/${playlist?.videos[0]?._id}`}>
-            <div className="z-30 cursor-pointer w-full h-full flex justify-center items-center">
-              <PlayIcon />
-              <span className="text-[#fff]">Phát tất cả</span>
-            </div>
-          </Link>
+          <div
+            className="z-30 cursor-pointer w-full h-full flex justify-center items-center"
+            onClick={handlePlayAll}
+          >
+            <PlayIcon />
+            <span className="text-[#fff]">Phát tất cả</span>
+          </div>
         </div>
       </div>
       <h3 className="md:mt-[12px] font-[700]  sm:mt-[8px] text-[16px] mb-[4px] text-[#0f0f0f]  cursor-pointer text-line-camp-2">
         {playlist?.title}
       </h3>
-      <div className="flex gap-[10px] text-[14px] items-center py-[3px]">
+      <div className="flex gap-[10px] text-[14px] items-center ">
         <span>{playlist.isPublic ? "Công khai" : "Riêng tư"}</span>
         <span>-</span>
         <span>Danh sách phát</span>
       </div>
-      <Link href={`playlist/${playlist?._id}`}>
-        <button className="text-[14px] font-[500]">
-          Xem toàn bộ danh sách phát
-        </button>
-      </Link>
+      <button
+        onClick={handleViewPlaylist}
+        className="text-[14px] py-2 font-[500]"
+      >
+        Xem toàn bộ danh sách phát
+      </button>
     </div>
   );
 };

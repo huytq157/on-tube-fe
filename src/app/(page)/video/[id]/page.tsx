@@ -3,7 +3,7 @@
 import { Col, Row, Skeleton, Switch } from "antd";
 import Image from "next/image";
 import LayoutDefault from "@/components/layouts/default/LayoutDefault";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import {
   useDescViewMutation,
   useDescViewAuthMutation,
@@ -21,6 +21,7 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "@/redux/features/authSlice";
 import { useGetMeQuery } from "@/redux/api/authApi";
+import { useGetPlaylistDetailQuery } from "@/redux/api/playListApi";
 
 const renderHTML = (htmlString: string) => {
   return <div dangerouslySetInnerHTML={{ __html: htmlString }} />;
@@ -29,6 +30,10 @@ const renderHTML = (htmlString: string) => {
 const VideoDetail = () => {
   const params = useParams();
   const { id } = params;
+  const searchParams = useSearchParams();
+  const fromPlaylist = searchParams.get("from") === "playlist";
+  const playlistId = searchParams.get("playlistId");
+
   const router = useRouter();
   const token = useSelector(selectCurrentToken);
   const { data: user } = useGetMeQuery(undefined, {
@@ -36,6 +41,10 @@ const VideoDetail = () => {
   });
   const { data: video } = useGetVideoByIdQuery(id);
   const { data: vieoRecommend } = useGetVideoRecommendQuery(id);
+  const { data: playlists } = useGetPlaylistDetailQuery(playlistId);
+
+  console.log("playlist video", playlists);
+  console.log("video", video);
 
   const [descView] = useDescViewMutation();
   const [descViewAuth] = useDescViewAuthMutation();
@@ -48,6 +57,10 @@ const VideoDetail = () => {
 
   const toggleDescription = () => {
     setIsExpanded((prev) => !prev);
+  };
+
+  const isCurrentVideoPlaying = (videoId: string) => {
+    return videoId === id;
   };
 
   useEffect(() => {
@@ -82,35 +95,42 @@ const VideoDetail = () => {
       if (totalDuration > 0 && currentTime >= totalDuration * 0.5) {
         hasViewedRef.current = true;
 
-        if (token) {
-          descViewAuth({
-            videoId: id,
-            watchTime: totalDuration * 0.5,
-            userId: user?.user?._id,
+        const payload = {
+          videoId: id,
+          watchTime: totalDuration * 0.5,
+          ...(token && { userId: user?.user?._id }),
+        };
+
+        const descViewFunction = token ? descViewAuth : descView;
+
+        descViewFunction(payload)
+          .unwrap()
+          .then(() => {
+            console.log("descView called successfully");
           })
-            .unwrap()
-            .then(() => {
-              console.log("descView called successfully");
-            })
-            .catch((error) => {
-              console.error("Error updating view", error);
-            });
-        } else {
-          descView({ videoId: id, watchTime: totalDuration * 0.5 })
-            .unwrap()
-            .then(() => {
-              console.log("descView called successfully");
-            })
-            .catch((error) => {
-              console.error("Error updating view", error);
-            });
-        }
+          .catch((error) => {
+            console.error("Error updating view", error);
+          });
       }
     }
   }, [id, totalDuration, descView]);
 
   const handleVideoEnded = () => {
-    if (autoPlay && vieoRecommend?.data.length > 0) {
+    if (fromPlaylist && playlists?.playlist?.videos?.length > 0) {
+      const currentIndex = playlists.playlist.videos.findIndex(
+        (videoItem: any) => videoItem._id === id
+      );
+
+      if (
+        currentIndex !== -1 &&
+        currentIndex < playlists.playlist.videos.length - 1
+      ) {
+        const nextVideo = playlists.playlist.videos[currentIndex + 1];
+        router.push(
+          `/video/${nextVideo._id}?from=playlist&playlistId=${playlistId}`
+        );
+      }
+    } else if (autoPlay && vieoRecommend?.data.length > 0) {
       const firstRecommendedVideo = vieoRecommend?.data[0];
       if (firstRecommendedVideo?.videoUrl) {
         const isYouTube = isYouTubeUrl(firstRecommendedVideo.videoUrl);
@@ -291,36 +311,65 @@ const VideoDetail = () => {
             </div>
           </Col>
           <Col xs={24} sm={24} md={24} lg={24} xl={7} xxl={6}>
-            <div className="h-[500px] overflow-hidden overflow-y-auto w-full border-[1px]  rounded-[10px] p-[15px] mb-4">
-              <div className="header">
-                <span className="text-[18px] mb-3 font-[600] ">Giải trí</span>
-              </div>
-              <div className="mt-3">
-                {Array.from({ length: 10 }).map((_, index) => (
-                  <div key={index} className="flex gap-[10px] video-items mb-3">
-                    <div className="rounded-[10px] w-[150px] h-[60px] overflow-hidden">
-                      <Image
-                        src={video?.video?.videoThumbnail || ""}
-                        width={120}
-                        height={56}
-                        alt=""
-                        className="w-[100%] h-[100%] object-cover"
-                        loading="lazy"
-                      />
-                    </div>
-                    <div>
-                      <h3 className="font-[500] mb-1 leading-[16px]">
-                        Nhạc phim Đi Giữa Trời Rực Rỡ - Ngô Lan Hương (MV
-                        Lyrics)
-                      </h3>
-                      <span className="text-[12px] text-[#3b3b3b] font-[400]">
-                        Huy offical
-                      </span>
-                    </div>
+            {fromPlaylist && (
+              <div className="min-h-[100px] max-h-[500px] overflow-hidden overflow-y-auto w-full border-[1px]  rounded-[10px] p-[15px] mb-4">
+                <div className="header">
+                  <span className="text-[18px]  font-[600] ">
+                    {playlists?.playlist?.title}
+                  </span>
+
+                  <div className="flex  gap-[15px] mt-3">
+                    <span className="border-[1px] rounded-[10px] px-2">
+                      {playlists?.playlist?.isPublic === true
+                        ? "Công khai"
+                        : "Riêng tư"}
+                    </span>
+                    <span className="font-[500]">
+                      {playlists?.playlist?.writer?.name}
+                    </span>
                   </div>
-                ))}
+                </div>
+                <div className="mt-3">
+                  {playlists?.playlist?.videos
+                    .filter((item: any) => item.isPublic)
+                    .map((item: any) => (
+                      <div
+                        key={item?._id}
+                        className={`flex gap-[10px] rounded-[10px] p-2  ${
+                          isCurrentVideoPlaying(item?._id) ? "bg-[#ccc]" : ""
+                        }`}
+                      >
+                        <div className="rounded-[10px] max-w-[30%] h-[60px] overflow-hidden">
+                          <Link
+                            href={`/video/${item?._id}?from=playlist&playlistId=${playlistId}`}
+                          >
+                            <Image
+                              src={item?.videoThumbnail || ""}
+                              width={120}
+                              height={56}
+                              alt=""
+                              className="w-[100%] h-[100%] object-cover"
+                              loading="lazy"
+                            />
+                          </Link>
+                        </div>
+                        <div className="max-w-[70%]">
+                          <Link
+                            href={`/video/${item?._id}?from=playlist&playlistId=${playlistId}`}
+                          >
+                            <h3 className="font-[500] text-[#000] mb-1 leading-[16px] text-line-camp-2">
+                              {item?.title}
+                            </h3>
+                          </Link>
+                          <span className="text-[12px] text-[#3b3b3b] font-[400]">
+                            {item?.writer?.name}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                </div>
               </div>
-            </div>
+            )}
             <VideoRecomment vieoRecommend={vieoRecommend} />
           </Col>
         </Row>

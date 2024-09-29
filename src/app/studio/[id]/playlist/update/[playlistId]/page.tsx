@@ -55,6 +55,7 @@ const UpdatePlaylist = () => {
   };
   return (
     <LayoutStudio>
+      <h2 className="mb-2">Chỉnh sửa danh sách phát</h2>
       <Form form={form} onFinish={onFinish} layout="vertical">
         <Form.Item
           label="Tiêu đề danh sách phát"

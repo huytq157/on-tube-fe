@@ -116,6 +116,14 @@ const Playlist = () => {
 
   return (
     <LayoutStudio>
+      <Button
+        onClick={() =>
+          router.push(`/studio/${user?.user?._id}/playlist/add-playlist`)
+        }
+        type="primary"
+      >
+        Thêm danh sách phát
+      </Button>
       <Table
         dataSource={playlists?.playlists}
         columns={columns}

@@ -1,14 +1,27 @@
 "use client";
+
 import VideoCard from "@/components/card/VideoCard";
 import CardVideoSkeleton from "@/components/skeleton/CardVideoSkelenton";
 import { useGetChannelVideoQuery } from "@/redux/api/channelApi";
 import { Col, Row } from "antd";
 import { useParams } from "next/navigation";
+import { useState } from "react";
 
 const VideoChannel = () => {
   const params = useParams();
   const { id } = params;
-  const { data: videos, isLoading } = useGetChannelVideoQuery(id);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  const {
+    data: videos,
+    isLoading,
+    refetch,
+  } = useGetChannelVideoQuery({
+    id,
+    page: currentPage,
+    limit: pageSize,
+  });
 
   return (
     <div>

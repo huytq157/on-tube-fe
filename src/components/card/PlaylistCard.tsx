@@ -7,6 +7,7 @@ interface PlayListCardProps {
   playlist: {
     _id: string;
     title: string;
+    isPublic: boolean;
     videos: Array<{
       _id: string;
       title: string;
@@ -43,17 +44,19 @@ const PlaylistCard: React.FC<PlayListCardProps> = ({ playlist }) => {
         <div className="box-1"></div>
         <div className="box-2"></div>
         <div className="box-3">
-          <div className="z-30 cursor-pointer w-full h-full flex justify-center items-center">
-            <PlayIcon />
-            <span className="text-[#fff]">Phát tất cả</span>
-          </div>
+          <Link href={`/video/${playlist?.videos[0]?._id}`}>
+            <div className="z-30 cursor-pointer w-full h-full flex justify-center items-center">
+              <PlayIcon />
+              <span className="text-[#fff]">Phát tất cả</span>
+            </div>
+          </Link>
         </div>
       </div>
       <h3 className="md:mt-[12px] font-[700]  sm:mt-[8px] text-[16px] mb-[4px] text-[#0f0f0f]  cursor-pointer text-line-camp-2">
         {playlist?.title}
       </h3>
       <div className="flex gap-[10px] text-[14px] items-center py-[3px]">
-        <span>Công khai</span>
+        <span>{playlist.isPublic ? "Công khai" : "Riêng tư"}</span>
         <span>-</span>
         <span>Danh sách phát</span>
       </div>

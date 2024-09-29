@@ -12,21 +12,16 @@ import LogoIcon from "@/components/icons/Logo";
 import HomeIcon from "@/components/icons/Home";
 import SubIcon from "@/components/icons/Sub";
 import TrendIcon from "@/components/icons/Trend";
-import ChannelIcon from "@/components/icons/Channel";
 import ClockIcon from "@/components/icons/Clock";
 import ListIcon from "@/components/icons/List";
 import VideoIcon from "@/components/icons/Video";
 import LaterIcon from "@/components/icons/Later";
 import LikeIcon from "@/components/icons/Like";
-import DownLoadIcon from "@/components/icons/DownLoad";
 import TooltipButton from "@/components/shared/TooltipButton";
 import MenuIcon from "@/components/icons/Menu";
-
-// import { Video } from "../../../../public";
-import { useDispatch, useSelector } from "react-redux";
-import { logOut, selectCurrentToken } from "@/redux/features/authSlice";
+import { useSelector } from "react-redux";
+import { selectCurrentToken } from "@/redux/features/authSlice";
 import { useGetMeQuery } from "@/redux/api/authApi";
-import { channel } from "diagnostics_channel";
 
 function getItem(
   label: React.ReactNode,

@@ -1,5 +1,4 @@
 import { Dropdown, MenuProps } from "antd";
-import VideoItem from "../card/VideoItem";
 import FormComment from "../card/FormComment";
 import CommentItem from "../card/CommentItem";
 import SortIcon from "@/components/icons/Sort";

@@ -34,13 +34,11 @@ const VideoDetail = () => {
   const { data: user } = useGetMeQuery(undefined, {
     skip: !token,
   });
-
-  console.log("user:", user);
+  const { data: video } = useGetVideoByIdQuery(id);
+  const { data: vieoRecommend } = useGetVideoRecommendQuery(id);
 
   const [descView] = useDescViewMutation();
   const [descViewAuth] = useDescViewAuthMutation();
-  const { data: video } = useGetVideoByIdQuery(id);
-  const { data: vieoRecommend } = useGetVideoRecommendQuery(id);
 
   const [autoPlay, setAutoPlay] = useState<boolean>(true);
   const [totalDuration, setTotalDuration] = useState<number>(0);
@@ -63,6 +61,7 @@ const VideoDetail = () => {
       setTotalDuration(videoRef.current.duration);
     }
   };
+
   const isYouTubeUrl = (url: string) => {
     return url.includes("youtube.com") || url.includes("youtu.be");
   };
@@ -152,6 +151,7 @@ const VideoDetail = () => {
                         ).searchParams.get("v")}`}
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
+                        title={video?.video?.title}
                       />
                     </div>
                   ) : (
@@ -277,7 +277,7 @@ const VideoDetail = () => {
                     className="block font-semibold mt-3"
                     onClick={toggleDescription}
                   >
-                    {isExpanded ? "Ẩn bớt" : "Xem thêm"}{" "}
+                    {isExpanded ? "Ẩn bớt" : "Xem thêm..."}{" "}
                   </button>
                 </div>
               </div>
@@ -291,6 +291,36 @@ const VideoDetail = () => {
             </div>
           </Col>
           <Col xs={24} sm={24} md={24} lg={24} xl={7} xxl={6}>
+            <div className="h-[500px] overflow-hidden overflow-y-auto w-full border-[1px]  rounded-[10px] p-[15px] mb-4">
+              <div className="header">
+                <span className="text-[18px] mb-3 font-[600] ">Giải trí</span>
+              </div>
+              <div className="mt-3">
+                {Array.from({ length: 10 }).map((_, index) => (
+                  <div key={index} className="flex gap-[10px] video-items mb-3">
+                    <div className="rounded-[10px] w-[150px] h-[60px] overflow-hidden">
+                      <Image
+                        src={video?.video?.videoThumbnail || ""}
+                        width={120}
+                        height={56}
+                        alt=""
+                        className="w-[100%] h-[100%] object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="font-[500] mb-1 leading-[16px]">
+                        Nhạc phim Đi Giữa Trời Rực Rỡ - Ngô Lan Hương (MV
+                        Lyrics)
+                      </h3>
+                      <span className="text-[12px] text-[#3b3b3b] font-[400]">
+                        Huy offical
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
             <VideoRecomment vieoRecommend={vieoRecommend} />
           </Col>
         </Row>

@@ -62,14 +62,12 @@ const LayoutChannel = ({ children }: Props) => {
   const params = useParams();
   const pathName = usePathname();
   const { id } = params;
-
-  const { data: channel } = useGetChannelInfoQuery(id);
-  const { data: videos, isLoading } = useGetChannelVideoQuery(id);
-
   const token = useSelector(selectCurrentToken);
   const { data: user } = useGetMeQuery(undefined, {
     skip: !token,
   });
+
+  const { data: channel } = useGetChannelInfoQuery(id);
 
   const isOwner = user?.user?._id === channel?.channel?._id;
 
@@ -101,7 +99,6 @@ const LayoutChannel = ({ children }: Props) => {
           <div className="flex sm:flex-col md:flex-row gap-[15px] my-[5px] text-[#606060] font-medium">
             <span className="text-[#333]">{channel?.channel?.email}</span>
             <span>22 người đăng ký</span>
-            <span>{videos?.total} video</span>
           </div>
           <p>{channel?.channel?.description}</p>
           <div className="flex sm:justify-center md:justify-start gap-[10px]">
@@ -128,7 +125,7 @@ const LayoutChannel = ({ children }: Props) => {
         </div>
       </div>
 
-      <div className="flex gap-[30px] py-[20px] mt-[20px]">
+      <div className="flex gap-[30px] py-[20px] my-[20px]">
         <span
           className={` ${
             pathName === `/channel/${id}/video`

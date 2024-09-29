@@ -68,15 +68,15 @@ const Header = ({
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const handleLogout = () => {
-    dispatch(logOut());
-    message.success("Đăng xuất thành công");
-  };
-
   const token = useSelector(selectCurrentToken);
   const { data: user } = useGetMeQuery(undefined, {
     skip: !token,
   });
+
+  const handleLogout = () => {
+    dispatch(logOut());
+    message.success("Đăng xuất thành công");
+  };
 
   const onMenuClick = (item: any) => {
     if (item.key === "logout") {

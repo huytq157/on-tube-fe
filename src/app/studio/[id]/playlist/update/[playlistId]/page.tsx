@@ -7,16 +7,7 @@ import {
   useUpdatePlaylistMutation,
 } from "@/redux/api/playListApi";
 import { selectCurrentToken } from "@/redux/features/authSlice";
-import {
-  Form,
-  Input,
-  Button,
-  Upload,
-  message,
-  Switch,
-  DatePicker,
-  Select,
-} from "antd";
+import { Form, Input, Button, Upload, message, Switch } from "antd";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import ReactQuill from "react-quill";
@@ -29,12 +20,13 @@ const UpdatePlaylist = () => {
   const { playlistId } = params;
   const router = useRouter();
   const token = useSelector(selectCurrentToken);
-  const [updatePlaylist, { isLoading: isUpdateting }] =
-    useUpdatePlaylistMutation();
-  const { data: playlist } = useGetPlaylistByIdQuery(playlistId);
   const { data: user } = useGetMeQuery(undefined, {
     skip: !token,
   });
+
+  const [updatePlaylist, { isLoading: isUpdateting }] =
+    useUpdatePlaylistMutation();
+  const { data: playlist } = useGetPlaylistByIdQuery(playlistId);
 
   useEffect(() => {
     if (playlist) {
@@ -58,8 +50,7 @@ const UpdatePlaylist = () => {
       router.push(`/studio/${user?.user?._id}/playlist`);
       form.resetFields();
     } catch (error) {
-      message.error("Lỗi khi ");
-      console.error(error);
+      message.error("Failed to update");
     }
   };
   return (

@@ -5,18 +5,20 @@ import LayoutDefault from "@/components/layouts/default/LayoutDefault";
 import { useGetPlaylistByIdQuery } from "@/redux/api/playListApi";
 import { Col, Row } from "antd";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { NoThumbnail } from "../../../../../public";
 import { calculateCreatedTime } from "@/components/utils/formatDate";
+import Link from "next/link";
+
+const renderHTML = (htmlString: string) => {
+  return <div dangerouslySetInnerHTML={{ __html: htmlString }} />;
+};
 
 const PlayListDetail = () => {
   const params = useParams();
   const { id } = params;
-  const router = useRouter();
 
   const { data: playlists } = useGetPlaylistByIdQuery(id);
-
-  console.log("playlists: ", playlists);
 
   const videoThumbnail = playlists?.playlist.videos.length
     ? playlists.playlist?.videos[0].videoThumbnail
@@ -49,11 +51,13 @@ const PlayListDetail = () => {
                 </span>
               </div>
 
-              <button className="bg-[#fff] my-[15px] text-[14px] rounded-[50px] px-[20px] text-[#000] h-[36px]">
-                Phát tất cả
-              </button>
+              <Link href={`/video/${playlists?.playlist?.videos[0]?._id}`}>
+                <button className="bg-[#fff] my-[15px] text-[14px] rounded-[50px] px-[20px] text-[#000] h-[36px]">
+                  Phát tất cả
+                </button>
+              </Link>
 
-              <p>{playlists?.playlist?.description}</p>
+              <p>{renderHTML(playlists?.playlist?.description)}</p>
             </div>
           </Col>
 

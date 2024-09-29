@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import SmellIcon from "../icons/Smell";
 import { useState, ChangeEvent, FocusEvent } from "react";
@@ -23,6 +24,7 @@ const FormComment = () => {
     setInputValue((prev) => prev + emojiObject.emoji);
     setShowEmojiPicker(false);
   };
+
   const handleCancel = () => {
     setIsInputFocused(false);
     setInputValue("");

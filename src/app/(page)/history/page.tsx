@@ -15,15 +15,11 @@ const History = () => {
     skip: !token,
   });
 
-  console.log("user: ", user?.user?._id);
-
   const {
     data: historys,
     isLoading,
     refetch,
   } = useGetVideoHistoryQuery({ userId: user?.user?._id });
-
-  console.log("historry: ", historys);
 
   http: return (
     <LayoutDefault>
@@ -31,7 +27,7 @@ const History = () => {
         <div className="p-4">
           <h1 className="text-2xl font-bold mb-4">Video đã xem</h1>
           {isLoading ? (
-            <p>Loading...</p> // Hoặc có thể hiển thị một skeleton loader
+            <p>Loading...</p>
           ) : (
             <div className="grid grid-cols-1 gap-4">
               {historys && historys.length > 0 ? (

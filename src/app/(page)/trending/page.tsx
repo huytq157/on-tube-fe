@@ -6,14 +6,12 @@ import CardVideoSkeleton from "@/components/skeleton/CardVideoSkelenton";
 import { useGetVideoTrendingQuery } from "@/redux/api/videoApi";
 import { Col, Row } from "antd";
 import dayjs from "dayjs";
-
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 
 dayjs.extend(isSameOrAfter);
 
 const Trending = () => {
   const { data: trendings, isLoading, refetch } = useGetVideoTrendingQuery("");
-  console.log("trendings", trendings);
 
   return (
     <LayoutDefault>

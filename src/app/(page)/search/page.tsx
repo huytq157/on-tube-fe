@@ -8,6 +8,7 @@ import { useSearchChannelQuery } from "@/redux/api/channelApi";
 import { Col, Row, Tabs } from "antd";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 const PageResult = () => {
   const searchParams = useSearchParams();
@@ -62,17 +63,21 @@ const PageResult = () => {
                 <Col key={item._id} xs={24} sm={24} lg={24} xl={24} xxl={24}>
                   <div className="flex gap-[20px] my-3 items-center">
                     <div className="w-[100px]  h-[100px] bg-black rounded-[50%] overflow-hidden">
-                      <Image
-                        src={item?.avatar}
-                        width={300}
-                        height={100}
-                        alt={item.title}
-                        priority
-                        className="w-full h-full object-cover"
-                      />
+                      <Link href={`/channel/${item?._id}/playlist`}>
+                        <Image
+                          src={item?.avatar}
+                          width={300}
+                          height={100}
+                          alt={item.title}
+                          priority
+                          className="w-full h-full object-cover"
+                        />
+                      </Link>
                     </div>
                     <div>
-                      <h1 className="font-[600] text-[20px]">{item.name}</h1>
+                      <Link href={`/channel/${item?._id}/playlist`}>
+                        <h1 className="font-[600] text-[20px]">{item.name}</h1>
+                      </Link>
                       <p>{item.email}</p>
                       <p>{item?.description}</p>
                     </div>

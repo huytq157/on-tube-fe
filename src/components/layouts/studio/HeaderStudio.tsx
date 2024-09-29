@@ -7,7 +7,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Logo_studio } from "../../../../public";
 import { useMediaQuery } from "react-responsive";
-import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 import { useGetMeQuery } from "@/redux/api/authApi";
 import { selectCurrentToken } from "@/redux/features/authSlice";
@@ -20,7 +19,7 @@ const HeaderStudio = ({
   toggleDrawer: () => void;
 }) => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
-  const pathname = usePathname();
+
   const token = useSelector(selectCurrentToken);
   const { data: user } = useGetMeQuery(undefined, {
     skip: !token,

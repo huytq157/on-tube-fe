@@ -3,16 +3,7 @@
 import LayoutStudio from "@/components/layouts/studio/LayoutStudio";
 import { useGetChannelVideoQuery } from "@/redux/api/channelApi";
 import { useParams, useRouter } from "next/navigation";
-import {
-  Table,
-  Spin,
-  Switch,
-  Button,
-  message,
-  Popconfirm,
-  Tooltip,
-  Badge,
-} from "antd";
+import { Table, Spin, Button, message, Popconfirm, Tooltip } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { useDeleteVideoMutation } from "@/redux/api/videoApi";
@@ -28,6 +19,12 @@ const Content = () => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
+
+  const token = useSelector(selectCurrentToken);
+  const { data: user } = useGetMeQuery(undefined, {
+    skip: !token,
+  });
+
   const {
     data: videos,
     isLoading,
@@ -38,10 +35,6 @@ const Content = () => {
     limit: pageSize,
   });
   const [deleteVideo, { isLoading: isDeleting }] = useDeleteVideoMutation();
-  const token = useSelector(selectCurrentToken);
-  const { data: user } = useGetMeQuery(undefined, {
-    skip: !token,
-  });
 
   const handleDelete = async (videoId: string) => {
     try {
@@ -65,7 +58,6 @@ const Content = () => {
       dataIndex: "title",
       key: "title",
     },
-
     // {
     //   title: "Video",
     //   dataIndex: "videoUrl",

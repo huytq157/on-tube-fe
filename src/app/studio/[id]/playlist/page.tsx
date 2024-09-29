@@ -1,38 +1,28 @@
 "use client";
 
+import { useState } from "react";
 import LayoutStudio from "@/components/layouts/studio/LayoutStudio";
-import { useGetChannelVideoQuery } from "@/redux/api/channelApi";
-import { useParams, useRouter } from "next/navigation";
-import {
-  Table,
-  Spin,
-  Switch,
-  Button,
-  message,
-  Popconfirm,
-  Tooltip,
-  Badge,
-} from "antd";
-import Image from "next/image";
-import Link from "next/link";
-import { useDeleteVideoMutation } from "@/redux/api/videoApi";
-import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
+import { useRouter } from "next/navigation";
+import { Table, Spin, Button, message, Popconfirm, Tooltip } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "@/redux/features/authSlice";
 import { useGetMeQuery } from "@/redux/api/authApi";
-
-import { useState } from "react";
 import {
   useDeletePlaylistMutation,
   useGetPlaylistQuery,
 } from "@/redux/api/playListApi";
 
 const Playlist = () => {
-  const params = useParams();
-  const { id } = params;
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
+
+  const token = useSelector(selectCurrentToken);
+  const { data: user } = useGetMeQuery(undefined, {
+    skip: !token,
+  });
+
   const {
     data: playlists,
     isLoading,
@@ -40,10 +30,6 @@ const Playlist = () => {
   } = useGetPlaylistQuery({ page: currentPage, limit: pageSize });
   const [deletePlaylist, { isLoading: isDeleting }] =
     useDeletePlaylistMutation();
-  const token = useSelector(selectCurrentToken);
-  const { data: user } = useGetMeQuery(undefined, {
-    skip: !token,
-  });
 
   const handleDelete = async (playlistId: string) => {
     try {
@@ -86,13 +72,7 @@ const Playlist = () => {
       key: "action",
       render: (_: any, record: any) => (
         <div className="flex gap-[10px] items-center">
-          <Link target="_blank" href={`/video/${record._id}`}>
-            <Tooltip title="Xem video">
-              <Button type="primary" shape="circle" icon={<EyeOutlined />} />
-            </Tooltip>
-          </Link>
-
-          <Tooltip title="Update video">
+          <Tooltip title="Chỉnh sửa">
             <Button
               type="primary"
               shape="circle"
@@ -105,7 +85,7 @@ const Playlist = () => {
             />
           </Tooltip>
           <Popconfirm
-            title="Bạn có chắc chắn muốn xóa video này?"
+            title="Bạn có chắc chắn muốn xóa playlist này?"
             onConfirm={() => handleDelete(record._id)}
             okText="Xóa"
             cancelText="Hủy"

@@ -32,7 +32,7 @@ const FormComment = () => {
   };
 
   return (
-    <>
+    <div>
       {user?.user ? (
         <div className="flex justify-start mb-[30px]">
           <div className="w-[40px] h-[40px] mr-[12px] rounded-[50%] overflow-hidden cursor-pointer">
@@ -101,7 +101,7 @@ const FormComment = () => {
           để có thể bình luận
         </div>
       )}
-    </>
+    </div>
   );
 };
 

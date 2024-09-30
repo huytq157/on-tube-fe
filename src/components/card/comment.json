@@ -1,0 +1,41 @@
+{
+  "user": {
+    "_id": "66ea9c3742092cef6b493b95",
+    "name": "Trần Quang Hùng",
+    "avatar": "https://res.cloudinary.com/dkbothcn5/image/upload/v1726761619/h-tube-image/h-tube-image-1726761619416-images.webp"
+  },
+  "comment": "hihi😮",
+  "createdAt": "2024-09-30T16:04:39.943Z",
+  "updatedAt": "2024-09-30T16:04:39.943Z",
+  "_id": "66facc1757103d0e2d179686",
+  "replies": [
+    {
+      "_id": "66facd0157103d0e2d17969f",
+      "user": {
+        "_id": "66e02262656729492255ec34",
+        "name": "Huy official",
+        "avatar": "https://res.cloudinary.com/dkbothcn5/image/upload/v1726739349/h-tube-image/h-tube-image-1726739347437-456422138_873681300859399_3528096317377982058_n.webp"
+      },
+      "comment": "Gì",
+      "parent_id": "66facc1757103d0e2d179686",
+      "createdAt": "2024-09-30T16:08:33.258Z",
+      "updatedAt": "2024-09-30T16:08:33.258Z",
+      "replies": [
+        {
+          "_id": "66facd8b57103d0e2d1796b8",
+          "user": {
+            "_id": "66ea9c3742092cef6b493b95",
+            "name": "Trần Quang Hùng",
+            "avatar": "https://res.cloudinary.com/dkbothcn5/image/upload/v1726761619/h-tube-image/h-tube-image-1726761619416-images.webp"
+          },
+          "comment": "OK",
+          "parent_id": "66facd0157103d0e2d17969f",
+          "createdAt": "2024-09-30T16:10:51.824Z",
+          "updatedAt": "2024-09-30T16:10:51.824Z",
+          "replies": []
+        }
+      ]
+    }
+  ],
+  "is_owner": false
+}

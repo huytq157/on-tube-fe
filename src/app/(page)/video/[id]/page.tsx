@@ -41,10 +41,9 @@ const VideoDetail = () => {
   });
   const { data: video } = useGetVideoByIdQuery(id);
   const { data: vieoRecommend } = useGetVideoRecommendQuery(id);
-  const { data: playlists } = useGetPlaylistDetailQuery(playlistId);
-
-  console.log("playlist video", playlists);
-  console.log("video", video);
+  const { data: playlists } = useGetPlaylistDetailQuery(playlistId, {
+    skip: !fromPlaylist || !playlistId,
+  });
 
   const [descView] = useDescViewMutation();
   const [descViewAuth] = useDescViewAuthMutation();
@@ -156,10 +155,10 @@ const VideoDetail = () => {
         <title>{video?.video?.title || "on-tube"}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="md:px-[4%] sm:px-0 pb-[20px]">
+      <div className="md:px-[4%] sm:px-0 pb-[20px] min-h-[200vh]">
         <Row gutter={[24, 24]}>
           <Col xs={24} sm={24} md={24} lg={24} xl={17} xxl={18}>
-            <div className="min-h-[100vh] overflow-hidden">
+            <div className="min-h-[200vh] overflow-hidden">
               <div className="w-full bg-black rounded-[10px] overflow-hidden">
                 {video?.video?.videoUrl ? (
                   isYouTubeUrl(video.video.videoUrl) ? (
@@ -302,7 +301,7 @@ const VideoDetail = () => {
                 </div>
               </div>
               {video?.video?.allowComments === true ? (
-                <Comments />
+                <Comments videoId={id} />
               ) : (
                 <p className="font-[500] text-center">
                   Nhà sáng tạo đã tắt bình luận

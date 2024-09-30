@@ -42,7 +42,7 @@ export default function Home() {
     refetch,
   } = useGetVideoQuery({
     page,
-    limit: 6,
+    limit: 12,
     category: selectedCategory,
     isPublic: true,
   });

@@ -3,7 +3,7 @@
 import PlaylistCard from "@/components/card/PlaylistCard";
 import { useGetChannelPlaylistQuery } from "@/redux/api/channelApi";
 import { useGetPlaylistQuery } from "@/redux/api/playListApi";
-import { Col, Row } from "antd";
+import { Col, Row, Skeleton } from "antd";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 
@@ -13,11 +13,7 @@ const PlayListChannel = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
-  const {
-    data: playlists,
-    isLoading,
-    refetch,
-  } = useGetChannelPlaylistQuery({
+  const { data: playlists, isLoading } = useGetChannelPlaylistQuery({
     id,
     isPublic: true,
     page: currentPage,
@@ -26,19 +22,25 @@ const PlayListChannel = () => {
 
   return (
     <div>
-      <Row gutter={[18, 48]}>
-        {playlists?.playlists?.length > 0 ? (
+      <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 4xl:grid-cols-6 gap-x-4 gap-y-12">
+        {isLoading ? (
+          Array.from({ length: 8 }).map((_, index) => (
+            <div key={index}>
+              <Skeleton active />
+            </div>
+          ))
+        ) : playlists?.playlists?.length > 0 ? (
           playlists.playlists.map((playlist: any) => (
-            <Col key={playlist?._id} xs={24} sm={12} lg={8} xl={6} xxl={6}>
+            <div key={playlist._id}>
               <PlaylistCard playlist={playlist} />
-            </Col>
+            </div>
           ))
         ) : (
           <div className="text-center w-full">
-            <h2 className="text-[14px]">Chưa có danh sách phát</h2>
+            <h2 className="text-xl">Chưa có danh sách phát</h2>
           </div>
         )}
-      </Row>
+      </div>
     </div>
   );
 };

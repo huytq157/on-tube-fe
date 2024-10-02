@@ -13,11 +13,7 @@ const VideoChannel = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
-  const {
-    data: videos,
-    isLoading,
-    refetch,
-  } = useGetChannelVideoQuery({
+  const { data: videos, isLoading } = useGetChannelVideoQuery({
     id,
     isPublic: true,
     page: currentPage,
@@ -26,23 +22,23 @@ const VideoChannel = () => {
 
   return (
     <div>
-      <Row gutter={[18, 48]}>
+      <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 4xl:grid-cols-6 gap-x-4 gap-y-12">
         {isLoading ? (
           Array.from({ length: 6 }).map((_, index) => (
-            <Col key={index} xs={24} sm={12} lg={8} xl={8} xxl={6}>
+            <div key={index}>
               <CardVideoSkeleton />
-            </Col>
+            </div>
           ))
         ) : videos?.videos.length > 0 ? (
           videos.videos.map((video: any) => (
-            <Col key={video._id} xs={24} sm={12} lg={8} xl={8} xxl={6}>
+            <div key={video._id}>
               <VideoCard item={video} />
-            </Col>
+            </div>
           ))
         ) : (
           <p>Chưa có video nào</p>
         )}
-      </Row>
+      </div>
     </div>
   );
 };

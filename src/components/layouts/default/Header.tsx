@@ -12,12 +12,13 @@ import NotificationIcon from "@/components/icons/Notification";
 import { Divider, Menu, MenuProps, message, Popover, Space } from "antd";
 import styled from "styled-components";
 import LogoutIcon from "@/components/icons/Logout";
-import { useState } from "react";
+import React, { useState } from "react";
 import BackIcon from "@/components/icons/Back";
 import { useGetMeQuery } from "@/redux/api/authApi";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, selectCurrentToken } from "@/redux/features/authSlice";
 import Search from "@/components/shared/Search";
+import SearchIcon from "@/components/icons/Search";
 declare global {
   interface Window {
     SpeechRecognition: any;
@@ -63,6 +64,7 @@ const Header = ({
 }) => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const [showNotify, setShowNotify] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
 
   const pathname = usePathname();
   const router = useRouter();
@@ -158,11 +160,18 @@ const Header = ({
         </Link>
       </div>
 
-      <Search />
+      <Search showSearch={showSearch} setShowSearch={setShowSearch} />
 
-      <div className="flex md:gap-[10px] gap-[20px] items-center">
+      <div className="flex md:gap-[10px] gap-[10px] items-center">
+        <div className="sm:block md:hidden">
+          <TooltipButton
+            title=""
+            Icon={<SearchIcon />}
+            onClick={() => setShowSearch(true)}
+          />
+        </div>
         {user && (
-          <>
+          <React.Fragment>
             <Link
               href={`/studio/${user?.user?._id}/upload/add-video`}
               target="_blank"
@@ -196,7 +205,7 @@ const Header = ({
                 </div>
               )}
             </div>
-          </>
+          </React.Fragment>
         )}
         <div className="w-[34px] h-[34px] rounded-[50%] overflow-hidden cursor-pointer">
           <Popover

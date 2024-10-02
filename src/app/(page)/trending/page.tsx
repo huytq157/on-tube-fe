@@ -4,7 +4,6 @@ import VideoCard from "@/components/card/VideoCard";
 import LayoutDefault from "@/components/layouts/default/LayoutDefault";
 import CardVideoSkeleton from "@/components/skeleton/CardVideoSkelenton";
 import { useGetVideoTrendingQuery } from "@/redux/api/videoApi";
-import { Col, Row } from "antd";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 
@@ -15,12 +14,12 @@ const Trending = () => {
 
   return (
     <LayoutDefault>
-      <Row gutter={[18, 48]}>
+      <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 4xl:grid-cols-6 gap-x-4 gap-y-12">
         {isLoading
           ? Array.from({ length: 8 }).map((_, index) => (
-              <Col key={index} xs={24} sm={12} lg={8} xl={8} xxl={6}>
+              <div key={index}>
                 <CardVideoSkeleton />
-              </Col>
+              </div>
             ))
           : trendings.data
               .filter(
@@ -29,11 +28,11 @@ const Trending = () => {
                   dayjs().isSameOrAfter(dayjs(item.publishedDate), "day")
               )
               .map((item: any) => (
-                <Col key={item._id} xs={24} sm={12} lg={8} xl={8} xxl={6}>
+                <div key={item._id}>
                   <VideoCard item={item} />
-                </Col>
+                </div>
               ))}
-      </Row>
+      </div>
     </LayoutDefault>
   );
 };

@@ -149,7 +149,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
   return (
     <div>
       <div
-        className=" rounded-[10px] min-h-[200px]  w-full cursor-pointer"
+        className=" rounded-[10px] min-h-[100px]  w-full cursor-pointer"
         {...(!isYouTubeUrl(item?.videoUrl) && {
           onMouseEnter: handleMouseEnter,
           onMouseLeave: handleMouseLeave,
@@ -224,13 +224,13 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
         </div>
       </div>
 
-      <div className="flex gap-[5px] md:mt-2 ">
-        <div className="w-[36px] h-[36px] mt-[12px] mr-[8px] rounded-[50%] overflow-hidden cursor-pointer">
+      <div className="flex gap-[2px] md:mt-1 ">
+        <div className="w-[32px] h-[32px] mt-[12px] mr-[8px] rounded-[50%] overflow-hidden cursor-pointer">
           <Link href={`/channel/${item?.writer?._id}/playlist`}>
             <Image
               src={item.writer.avatar || ""}
-              width={36}
-              height={36}
+              width={32}
+              height={32}
               alt=""
               className="w-[100%] h-[100%]"
               loading="lazy"
@@ -239,16 +239,16 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
         </div>
         <div className="flex-1 pr-[20px]">
           <Link href={`/video/${item?._id}`}>
-            <h3 className="md:mt-[12px]  sm:mt-[8px] text-[16px] mb-[4px] text-[#0f0f0f] font-semibold cursor-pointer text-line-camp-2">
+            <h3 className="md:mt-[5px]  sm:mt-[8px] text-[15px] mb-[4px] text-[#0f0f0f] font-semibold cursor-pointer text-line-camp-2">
               {item.title}
             </h3>
           </Link>
           <Link href={`/channel/${item?.writer?._id}/playlist`}>
-            <span className="text-[#606060] font-[500] cursor-pointer flex items-center gap-[3px]">
+            <span className="text-[#606060] text-[14px] font-[500] cursor-pointer flex items-center gap-[3px]">
               {item.writer.name} <CheckIcon />
             </span>
           </Link>
-          <div className="flex gap-[5px] text-[#606060] font-medium">
+          <div className="flex gap-[5px] text-[14px] text-[#606060] font-medium">
             <span>{item.totalView} lượt xem</span>
             <span>•</span>
             <span>{calculateCreatedTime(item.createdAt)}</span>

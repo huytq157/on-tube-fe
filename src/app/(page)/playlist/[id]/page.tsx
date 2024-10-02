@@ -33,10 +33,10 @@ const PlayListDetail = () => {
 
   return (
     <LayoutDefault>
-      <div className="px-[20px] pt-[30px]">
+      <div className="md:px-[20px] sm:px-0 pt-[30px]">
         <Row gutter={[16, 16]}>
           <Col xs={24} sm={24} md={6} lg={6}>
-            <div className="bg-linear-playlist h-[500px] rounded-[10px] p-[20px] text-[#fff]">
+            <div className="bg-linear-playlist min-h-[300px] rounded-[10px] p-[20px] text-[#fff]">
               <div className="h-[175px] rounded-[10px] overflow-hidden">
                 <Image
                   src={videoThumbnail}

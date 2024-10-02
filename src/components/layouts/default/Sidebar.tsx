@@ -53,7 +53,7 @@ const Sidebar = ({
   const pathname = usePathname();
   const router = useRouter();
   const [openKeys, setOpenKeys] = useState<string[]>([]);
-  const isMobile = useMediaQuery({ maxWidth: 768 });
+  const isMobile = useMediaQuery({ maxWidth: 900 });
   const token = useSelector(selectCurrentToken);
   const { data: user } = useGetMeQuery(undefined, {
     skip: !token,
@@ -71,7 +71,7 @@ const Sidebar = ({
     ...(user
       ? [
           getItem("Danh sách phát", "/playlist", <ListIcon />),
-          getItem("Xem sau", "/later", <LaterIcon />),
+          // getItem("Xem sau", "/later", <LaterIcon />),
           getItem("Video đã thích", "/favourite", <LikeIcon />),
           getItem(
             "Video của bạn",

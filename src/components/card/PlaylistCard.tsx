@@ -71,14 +71,14 @@ const PlaylistCard: React.FC<PlayListCardProps> = ({ playlist }) => {
       <h3 className="md:mt-[12px] font-[700]  sm:mt-[8px] text-[16px] mb-[4px] text-[#0f0f0f]  cursor-pointer text-line-camp-2">
         {playlist?.title}
       </h3>
-      <div className="flex gap-[10px] text-[14px] items-center ">
+      <div className="flex gap-[10px] text-[#606060] font-[500] text-[14px] items-center ">
         <span>{playlist.isPublic ? "Công khai" : "Riêng tư"}</span>
         <span>-</span>
         <span>Danh sách phát</span>
       </div>
       <button
         onClick={handleViewPlaylist}
-        className="text-[14px] py-2 font-[500]"
+        className="text-[14px] py-2 text-[#606060] hover:text-[#000] font-[600]"
       >
         Xem toàn bộ danh sách phát
       </button>

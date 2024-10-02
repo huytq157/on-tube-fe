@@ -6,8 +6,10 @@ import LayoutDefault from "@/components/layouts/default/LayoutDefault";
 import { useGetMeQuery } from "@/redux/api/authApi";
 import { useGetVideoHistoryQuery } from "@/redux/api/videoApi";
 import { selectCurrentToken } from "@/redux/features/authSlice";
+import { Spin } from "antd";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const History = () => {
   const token = useSelector(selectCurrentToken);
@@ -15,11 +17,14 @@ const History = () => {
     skip: !token,
   });
 
-  const {
-    data: historys,
-    isLoading,
-    refetch,
-  } = useGetVideoHistoryQuery({ userId: user?.user?._id });
+  const { data: historys, isLoading } = useGetVideoHistoryQuery(
+    {
+      userId: user?.user?._id,
+    },
+    {
+      skip: !user,
+    }
+  );
 
   http: return (
     <LayoutDefault>
@@ -27,7 +32,7 @@ const History = () => {
         <div className="p-4">
           <h1 className="text-2xl font-bold mb-4">Video đã xem</h1>
           {isLoading ? (
-            <p>Loading...</p>
+            <Spin indicator={<LoadingOutlined spin />} size="large" />
           ) : (
             <div className="grid grid-cols-1 gap-4">
               {historys && historys.length > 0 ? (

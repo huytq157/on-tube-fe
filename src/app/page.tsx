@@ -33,6 +33,7 @@ export default function Home() {
   const [videos, setVideos] = useState<Video[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
+  const [loadingSkeleton, setLoadingSkeleton] = useState(false);
   const loaderRef = useRef<HTMLDivElement | null>(null);
 
   const { data: categories } = useGetCategoryQuery("");
@@ -51,6 +52,7 @@ export default function Home() {
     if (videoData?.videos) {
       setVideos((prevVideos) => [...prevVideos, ...videoData.videos]);
       setHasMore(videoData.videos.length > 0);
+      setLoadingSkeleton(false);
     }
   }, [videoData]);
 
@@ -76,15 +78,16 @@ export default function Home() {
   }, [hasMore, isLoading]);
 
   const handleCategoryChange = (categoryId: string | null) => {
-    refetch();
+    setLoadingSkeleton(true);
     setVideos([]);
     setPage(1);
     setSelectedCategory(categoryId);
+    refetch();
   };
 
   return (
     <LayoutDefault>
-      <div className="flex gap-[10px] mb-[20px] overflow-y-auto">
+      <div className="flex  gap-[10px] mb-[20px] overflow-y-auto">
         <button
           className={`${
             !selectedCategory
@@ -111,23 +114,23 @@ export default function Home() {
       </div>
 
       <div>
-        <Row gutter={[18, 48]}>
-          {isLoading && !videos.length
+        <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 4xl:grid-cols-6 gap-x-4 gap-y-12">
+          {(loadingSkeleton || isLoading) && !videos.length
             ? Array.from({ length: 8 }).map((_, index) => (
-                <Col key={index} xs={24} sm={12} lg={8} xl={8} xxl={6}>
+                <div key={index}>
                   <CardVideoSkeleton />
-                </Col>
+                </div>
               ))
             : videos
                 .filter((item: any) =>
                   dayjs().isSameOrAfter(dayjs(item.publishedDate), "day")
                 )
                 .map((item: any) => (
-                  <Col key={item._id} xs={24} sm={12} lg={8} xl={8} xxl={6}>
+                  <div key={item._id}>
                     <VideoCard item={item} />
-                  </Col>
+                  </div>
                 ))}
-        </Row>
+        </div>
 
         <div
           ref={loaderRef}

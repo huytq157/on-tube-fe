@@ -25,6 +25,8 @@ const config: Config = {
       lg: "1024px", // Large devices (desktops, 1024px and up)
       xl: "1280px", // Extra large devices (large desktops, 1280px and up)
       "2xl": "1536px", // 2XL devices (larger desktops, 1536px and up)
+      "3xl": "1920px", // 2XL devices (larger desktops, 1536px and up)
+      "4xl": "2560px", // 2XL devices (larger desktops, 1536px and up)
     },
   },
   plugins: [],

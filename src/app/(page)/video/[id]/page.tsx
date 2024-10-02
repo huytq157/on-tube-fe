@@ -22,6 +22,7 @@ import { useSelector } from "react-redux";
 import { selectCurrentToken } from "@/redux/features/authSlice";
 import { useGetMeQuery } from "@/redux/api/authApi";
 import { useGetPlaylistDetailQuery } from "@/redux/api/playListApi";
+import VideoItemSkeleton from "@/components/skeleton/VideoItemSkeleton";
 
 const renderHTML = (htmlString: string) => {
   return <div dangerouslySetInnerHTML={{ __html: htmlString }} />;
@@ -40,7 +41,7 @@ const VideoDetail = () => {
     skip: !token,
   });
   const { data: video } = useGetVideoByIdQuery(id);
-  const { data: vieoRecommend } = useGetVideoRecommendQuery(id);
+  const { data: vieoRecommend, isLoading } = useGetVideoRecommendQuery(id);
   const { data: playlists } = useGetPlaylistDetailQuery(playlistId, {
     skip: !fromPlaylist || !playlistId,
   });
@@ -78,38 +79,35 @@ const VideoDetail = () => {
     return url.includes("youtube.com") || url.includes("youtu.be");
   };
 
-  const handlePictureInPicture = async () => {
-    if (videoRef.current) {
-      if (document.pictureInPictureElement) {
-        await document.exitPictureInPicture();
-      } else {
-        await videoRef.current.requestPictureInPicture();
-      }
-    }
-  };
-
   const handleTimeUpdate = useCallback(() => {
     if (videoRef.current && !hasViewedRef.current) {
       const currentTime = videoRef.current.currentTime;
       if (totalDuration > 0 && currentTime >= totalDuration * 0.5) {
         hasViewedRef.current = true;
 
-        const payload = {
-          videoId: id,
-          watchTime: totalDuration * 0.5,
-          ...(token && { userId: user?.user?._id }),
-        };
-
-        const descViewFunction = token ? descViewAuth : descView;
-
-        descViewFunction(payload)
-          .unwrap()
-          .then(() => {
-            console.log("descView called successfully");
+        if (token) {
+          descViewAuth({
+            videoId: id,
+            watchTime: totalDuration * 0.5,
+            userId: user?.user?._id,
           })
-          .catch((error) => {
-            console.error("Error updating view", error);
-          });
+            .unwrap()
+            .then(() => {
+              console.log("descView called successfully");
+            })
+            .catch((error) => {
+              console.error("Error updating view", error);
+            });
+        } else {
+          descView({ videoId: id, watchTime: totalDuration * 0.5 })
+            .unwrap()
+            .then(() => {
+              console.log("descView called successfully");
+            })
+            .catch((error) => {
+              console.error("Error updating view", error);
+            });
+        }
       }
     }
   }, [id, totalDuration, descView]);
@@ -196,15 +194,6 @@ const VideoDetail = () => {
                         Your browser does not support the video tag.
                       </video>
 
-                      <div className="custom-controls">
-                        <button
-                          className="custom-button bg-[#333] text-white p-2 rounded-md mt-2"
-                          onClick={handlePictureInPicture}
-                        >
-                          <SmallScreenIcon />
-                          {}
-                        </button>
-                      </div>
                       <div className="absolute autoplay bottom-[39px] left-[140px] hidden">
                         <span className="font-medium mr-2 text-[#fff]">
                           Tự động phát
@@ -369,7 +358,14 @@ const VideoDetail = () => {
                 </div>
               </div>
             )}
-            <VideoRecomment vieoRecommend={vieoRecommend} />
+
+            {isLoading ? (
+              Array.from({ length: 6 }).map((_, index) => (
+                <VideoItemSkeleton key={index} />
+              ))
+            ) : (
+              <VideoRecomment vieoRecommend={vieoRecommend} />
+            )}
           </Col>
         </Row>
       </div>

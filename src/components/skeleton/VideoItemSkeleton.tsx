@@ -2,7 +2,7 @@ import { Skeleton } from "antd";
 
 const VideoItemSkeleton = () => {
   return (
-    <div className="flex gap-[10px]">
+    <div className="flex gap-[10px] mb-3">
       <div className="rounded-[10px] flex-1 w-full overflow-hidden bg-[#ccc]  cursor-pointer">
         <Skeleton.Image className="!w-[100%] !h-[120px]" />
       </div>

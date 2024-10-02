@@ -7,12 +7,16 @@ import { message } from "antd";
 import { useRouter, useSearchParams } from "next/navigation";
 import CloseIcon from "../icons/Close";
 
-const Search = () => {
+interface SearchProps {
+  showSearch: boolean;
+  setShowSearch: (value: boolean) => void;
+}
+
+const Search: React.FC<SearchProps> = ({ showSearch, setShowSearch }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const searchTermFromParams = searchParams.get("q") || "";
   const [searchTerm, setSearchTerm] = useState(searchTermFromParams);
-  const [showSearch, setShowSearch] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [voiceSearchText, setVoiceSearchText] = useState("");
 
@@ -79,7 +83,7 @@ const Search = () => {
   };
 
   return (
-    <>
+    <div>
       <div className="sm:hidden md:flex gap-[10px]">
         <form
           className="border-[1px] h-[40px] w-[550px] flex rounded-[40px] overflow-hidden"
@@ -118,11 +122,6 @@ const Search = () => {
 
       {/* Search for Mobile */}
       <div className="sm:block md:hidden">
-        <TooltipButton
-          title=""
-          Icon={<SearchIcon />}
-          onClick={() => setShowSearch(true)}
-        />
         {showSearch && (
           <div className="absolute top-0 left-0 bg-[#fff] w-full h-[100vh] bottom-0">
             <TooltipButton
@@ -160,7 +159,7 @@ const Search = () => {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

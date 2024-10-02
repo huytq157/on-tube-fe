@@ -10,33 +10,28 @@ import ClockIcon from "../icons/Clock";
 import Option2Icon from "../icons/Option2";
 import { calculateCreatedTime } from "../utils/formatDate";
 import { useEffect, useState } from "react";
-
-const items: MenuProps["items"] = [
-  {
-    label: (
-      <li className="flex gap-[10px]">
-        <ListIcon /> Thêm vào danh sách phát
-      </li>
-    ),
-    key: "0",
-  },
-  {
-    label: (
-      <li className="flex gap-[10px]">
-        <ClockIcon /> Thêm vào video yêu thích
-      </li>
-    ),
-    key: "1",
-  },
-];
+import ModalSave from "../shared/ModalSave";
 
 const VideoItem: React.FC<any> = ({ video }) => {
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   useEffect(() => {
     if (video?.videoThumbnail) {
       setImageSrc(video?.videoThumbnail);
     }
   }, [video?.videoThumbnail]);
+
+  const items: MenuProps["items"] = [
+    {
+      label: (
+        <li className="flex gap-[10px]" onClick={() => setIsModalOpen(true)}>
+          <ListIcon /> Thêm vào danh sách phát
+        </li>
+      ),
+      key: "0",
+    },
+  ];
 
   return (
     <div className="flex sm:flex-col md:flex-row gap-[10px] h-[100%]">
@@ -86,6 +81,12 @@ const VideoItem: React.FC<any> = ({ video }) => {
           </Dropdown>
         </div>
       </div>
+
+      <ModalSave
+        open={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        videoId={video._id}
+      />
     </div>
   );
 };

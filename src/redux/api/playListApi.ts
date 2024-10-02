@@ -54,6 +54,23 @@ export const PlaylistApiSlice = apiSlice.injectEndpoints({
         { type: "Playlist", id: playlistId },
       ],
     }),
+
+    saveVideoPlaylist: builder.mutation({
+      query: (data) => ({
+        url: "playlist/save-to-playlist",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Playlist"],
+    }),
+    removeVideoPlaylist: builder.mutation({
+      query: (data) => ({
+        url: "playlist/remove-to-playlist",
+        method: "DELETE",
+        body: data,
+      }),
+      invalidatesTags: ["Playlist"],
+    }),
   }),
 });
 
@@ -62,6 +79,8 @@ export const {
   useGetPlaylistByIdQuery,
   useGetPlaylistDetailQuery,
   useAddPlaylistMutation,
+  useSaveVideoPlaylistMutation,
+  useRemoveVideoPlaylistMutation,
   useUpdatePlaylistMutation,
   useDeletePlaylistMutation,
 } = PlaylistApiSlice;

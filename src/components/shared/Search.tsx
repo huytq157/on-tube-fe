@@ -31,6 +31,7 @@ const Search: React.FC<SearchProps> = ({ showSearch, setShowSearch }) => {
       /%20/g,
       "+"
     );
+    setShowSearch(false);
     router.push(`/search?q=${encodedSearchTerm}`);
   };
 

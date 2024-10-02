@@ -12,25 +12,7 @@ import Link from "next/link";
 import { calculateCreatedTime } from "../utils/formatDate";
 import AudioIcon from "../icons/Audio";
 import Audio2Icon from "../icons/Audio2";
-
-const items: MenuProps["items"] = [
-  {
-    label: (
-      <li className="flex gap-[10px]">
-        <ListIcon /> Thêm vào danh sách phát
-      </li>
-    ),
-    key: "0",
-  },
-  {
-    label: (
-      <li className="flex gap-[10px]">
-        <ClockIcon /> Thêm vào video yêu thích
-      </li>
-    ),
-    key: "1",
-  },
-];
+import ModalSave from "../shared/ModalSave";
 
 interface VideoCardProps {
   item: {
@@ -60,6 +42,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
   const progressRef = useRef<HTMLDivElement | null>(null);
   const progressThumbRef = useRef<HTMLDivElement | null>(null);
   const [formattedTime, setFormattedTime] = useState<string>("00:00");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -145,6 +128,17 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
   const isYouTubeUrl = (url: string) => {
     return url.includes("youtube.com") || url.includes("youtu.be");
   };
+
+  const items: MenuProps["items"] = [
+    {
+      label: (
+        <li className="flex gap-[10px]" onClick={() => setIsModalOpen(true)}>
+          <ListIcon /> Thêm vào danh sách phát
+        </li>
+      ),
+      key: "0",
+    },
+  ];
 
   return (
     <div>
@@ -265,6 +259,12 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
           </Dropdown>
         </div>
       </div>
+
+      <ModalSave
+        open={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        videoId={item._id}
+      />
     </div>
   );
 };

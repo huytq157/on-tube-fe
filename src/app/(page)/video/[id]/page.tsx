@@ -1,6 +1,6 @@
 "use client";
 
-import { Col, Row, Skeleton, Switch } from "antd";
+import { Col, Modal, Row, Skeleton, Switch } from "antd";
 import Image from "next/image";
 import LayoutDefault from "@/components/layouts/default/LayoutDefault";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -15,7 +15,6 @@ import Comments from "@/components/shared/Comment";
 import VideoAction from "@/components/shared/VideoAction";
 import Head from "next/head";
 import { useCallback, useEffect, useRef, useState } from "react";
-import SmallScreenIcon from "@/components/icons/SmallScreen";
 import { calculateCreatedTime } from "@/components/utils/formatDate";
 import Link from "next/link";
 import { useSelector } from "react-redux";
@@ -48,7 +47,6 @@ const VideoDetail = () => {
 
   const [descView] = useDescViewMutation();
   const [descViewAuth] = useDescViewAuthMutation();
-
   const [autoPlay, setAutoPlay] = useState<boolean>(true);
   const [totalDuration, setTotalDuration] = useState<number>(0);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -73,10 +71,6 @@ const VideoDetail = () => {
     if (videoRef.current) {
       setTotalDuration(videoRef.current.duration);
     }
-  };
-
-  const isYouTubeUrl = (url: string) => {
-    return url.includes("youtube.com") || url.includes("youtu.be");
   };
 
   const handleTimeUpdate = useCallback(() => {
@@ -129,16 +123,8 @@ const VideoDetail = () => {
       }
     } else if (autoPlay && vieoRecommend?.data.length > 0) {
       const firstRecommendedVideo = vieoRecommend?.data[0];
-      if (firstRecommendedVideo?.videoUrl) {
-        const isYouTube = isYouTubeUrl(firstRecommendedVideo.videoUrl);
-
-        if (isYouTube) {
-          window.location.href = `https://www.youtube.com/embed/${new URL(
-            firstRecommendedVideo.videoUrl
-          ).searchParams.get("v")}`;
-        } else {
-          router.push(`/video/${firstRecommendedVideo._id}`);
-        }
+      if (firstRecommendedVideo?._id) {
+        router.push(`/video/${firstRecommendedVideo._id}`);
       }
     }
   };
@@ -159,54 +145,40 @@ const VideoDetail = () => {
             <div className="min-h-[200vh] overflow-hidden">
               <div className="w-full bg-black rounded-[10px] overflow-hidden">
                 {video?.video?.videoUrl ? (
-                  isYouTubeUrl(video.video.videoUrl) ? (
-                    <div className="relative pb-[56.25%] h-0">
-                      <iframe
-                        className="absolute top-0 left-0 w-full h-full"
-                        src={`https://www.youtube.com/embed/${new URL(
-                          video.video.videoUrl
-                        ).searchParams.get("v")}`}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        title={video?.video?.title}
+                  <div className="relative pb-[56.25%] h-0 videos">
+                    <video
+                      ref={videoRef}
+                      className="absolute top-0 left-0 w-full h-full "
+                      controls
+                      preload="metadata"
+                      autoPlay={true}
+                      autoFocus={true}
+                      onTimeUpdate={handleTimeUpdate}
+                      onLoadedMetadata={handleLoadedMetadata}
+                      onEnded={() => handleVideoEnded()}
+                    >
+                      <source src={video?.video?.videoUrl} type="video/mp4" />
+                      <track
+                        src="/path/to/captions.vtt"
+                        kind="subtitles"
+                        srcLang="en"
+                        label="English"
+                      />
+                      Your browser does not support the video tag.
+                    </video>
+
+                    <div className="absolute autoplay bottom-[39px] left-[140px] hidden">
+                      <span className="font-medium mr-2 text-[#fff]">
+                        Tự động phát
+                      </span>
+                      <Switch
+                        checked={autoPlay}
+                        onChange={toggleAutoPlay}
+                        className="bg-green-500"
+                        size="small"
                       />
                     </div>
-                  ) : (
-                    <div className="relative pb-[56.25%] h-0 videos">
-                      <video
-                        ref={videoRef}
-                        className="absolute top-0 left-0 w-full h-full "
-                        controls
-                        preload="metadata"
-                        autoPlay={true}
-                        autoFocus={true}
-                        onTimeUpdate={handleTimeUpdate}
-                        onLoadedMetadata={handleLoadedMetadata}
-                        onEnded={() => handleVideoEnded()}
-                      >
-                        <source src={video?.video?.videoUrl} type="video/mp4" />
-                        <track
-                          src="/path/to/captions.vtt"
-                          kind="subtitles"
-                          srcLang="en"
-                          label="English"
-                        />
-                        Your browser does not support the video tag.
-                      </video>
-
-                      <div className="absolute autoplay bottom-[39px] left-[140px] hidden">
-                        <span className="font-medium mr-2 text-[#fff]">
-                          Tự động phát
-                        </span>
-                        <Switch
-                          checked={autoPlay}
-                          onChange={toggleAutoPlay}
-                          className="bg-green-500"
-                          size="small"
-                        />
-                      </div>
-                    </div>
-                  )
+                  </div>
                 ) : (
                   <div className="w-full bg-slate-200 md:h-[550px] sm:h-[220px] rounded-[10px] overflow-hidden">
                     <Skeleton.Input
@@ -256,7 +228,7 @@ const VideoDetail = () => {
                     </button>
                   </div>
                 </div>
-                <VideoAction />
+                <VideoAction videoId={id} />
               </div>
               <div className="bg-[#f2f2f2] rounded-[5px] mt-[20px] mb-[24px] p-[10px]">
                 <div className="flex gap-[5px] flex-wrap mb-2 text-[#606060] font-semibold">
@@ -324,7 +296,7 @@ const VideoDetail = () => {
                       <div
                         key={item?._id}
                         className={`flex gap-[10px] rounded-[10px] p-2  ${
-                          isCurrentVideoPlaying(item?._id) ? "bg-[#ccc]" : ""
+                          isCurrentVideoPlaying(item?._id) ? "bg-[#ddd]" : ""
                         }`}
                       >
                         <div className="rounded-[10px] max-w-[30%] h-[60px] overflow-hidden">

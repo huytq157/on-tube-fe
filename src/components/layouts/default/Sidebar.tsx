@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { Menu, MenuProps, Drawer, Divider, message } from "antd";
+import React, { useState } from "react";
+import { Menu, MenuProps, Drawer, Divider } from "antd";
 import styled from "styled-components";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
@@ -15,14 +15,12 @@ import TrendIcon from "@/components/icons/Trend";
 import ClockIcon from "@/components/icons/Clock";
 import ListIcon from "@/components/icons/List";
 import VideoIcon from "@/components/icons/Video";
-import LaterIcon from "@/components/icons/Later";
 import LikeIcon from "@/components/icons/Like";
 import TooltipButton from "@/components/shared/TooltipButton";
 import MenuIcon from "@/components/icons/Menu";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "@/redux/features/authSlice";
 import { useGetMeQuery } from "@/redux/api/authApi";
-import { Video1 } from "../../../../public";
 import { useListSubcriberQuery } from "@/redux/api/subcription";
 
 function getItem(
@@ -197,11 +195,14 @@ const Sidebar = ({
             <>
               <Divider />
               <div className="px-[20px]">
-                <p className="text-[14px] text-[#333] mb-2">
+                <p className="text-[14px] text-[#333] mb-2" aria-live="polite">
                   Hãy đăng nhập để thích video, bình luận và đăng ký kênh.
                 </p>
                 <Link href="/login">
-                  <button className="bg-[#333] text-[14px] rounded-[50px] px-[13px] text-[#fff] h-[36px]">
+                  <button
+                    className="bg-[#333] text-[14px] rounded-[50px] px-[13px] text-[#fff] h-[36px]"
+                    aria-label="Đăng nhập để tiếp tục"
+                  >
                     Đăng nhập
                   </button>
                 </Link>

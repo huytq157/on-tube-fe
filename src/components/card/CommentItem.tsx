@@ -49,7 +49,6 @@ interface CommentItemProps {
 const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
   const token = useSelector(selectCurrentToken);
   const { data: user } = useGetMeQuery(undefined, { skip: !token });
-  console.log("comment: ", comment);
 
   const [showReplies, setShowReplies] = useState(false);
   const [replyingToId, setReplyingToId] = useState<string | null>(null);

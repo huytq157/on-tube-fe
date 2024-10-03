@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import SmellIcon from "../icons/Smell";
-import { useState, ChangeEvent, FocusEvent } from "react";
+import { useState, ChangeEvent } from "react";
 import { EmojiClickData } from "emoji-picker-react";
 import EmojiPicker from "emoji-picker-react";
 import { useSelector } from "react-redux";

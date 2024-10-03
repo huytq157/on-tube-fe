@@ -3,7 +3,6 @@
 import VideoCard from "@/components/card/VideoCard";
 import CardVideoSkeleton from "@/components/skeleton/CardVideoSkelenton";
 import { useGetChannelVideoQuery } from "@/redux/api/channelApi";
-import { Col, Row } from "antd";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 

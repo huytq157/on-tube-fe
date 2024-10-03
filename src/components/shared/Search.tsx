@@ -107,6 +107,7 @@ const Search: React.FC<SearchProps> = ({ showSearch, setShowSearch }) => {
           <button
             type="submit"
             className="w-[60px] flex justify-center items-center bg-slate-100"
+            aria-label="Tìm kiếm"
           >
             <SearchIcon />
             {}

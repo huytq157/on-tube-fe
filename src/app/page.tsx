@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import VideoCard from "@/components/card/VideoCard";
 import { Col, Row, Spin } from "antd";
 import LayoutDefault from "@/components/layouts/default/LayoutDefault";
@@ -10,6 +10,7 @@ import { useGetCategoryQuery } from "@/redux/api/categoryApi";
 import { LoadingOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import { useMediaQuery } from "react-responsive";
 
 dayjs.extend(isSameOrAfter);
 
@@ -29,6 +30,7 @@ interface Video {
 }
 
 export default function Home() {
+  const isMobile = useMediaQuery({ maxWidth: 768 });
   const [page, setPage] = useState(1);
   const [videos, setVideos] = useState<Video[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -37,16 +39,19 @@ export default function Home() {
   const loaderRef = useRef<HTMLDivElement | null>(null);
 
   const { data: categories } = useGetCategoryQuery("");
+
   const {
     data: videoData,
     isLoading,
     refetch,
   } = useGetVideoQuery({
     page,
-    limit: 12,
+    limit: isMobile ? 3 : 12,
     category: selectedCategory,
     isPublic: true,
   });
+
+  const skeletonLength = isMobile ? 3 : 8;
 
   useEffect(() => {
     if (videoData?.videos) {
@@ -56,6 +61,12 @@ export default function Home() {
     }
   }, [videoData]);
 
+  const memoizedVideos = useMemo(() => {
+    return videos.filter((item: any) =>
+      dayjs().isSameOrAfter(dayjs(item.publishedDate), "day")
+    );
+  }, [videos]);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -63,7 +74,7 @@ export default function Home() {
           setPage((prevPage) => prevPage + 1);
         }
       },
-      { threshold: 1.0 }
+      { threshold: 0.5 }
     );
 
     if (loaderRef.current) {
@@ -116,20 +127,16 @@ export default function Home() {
       <div>
         <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 4xl:grid-cols-6 gap-x-4 gap-y-12">
           {(loadingSkeleton || isLoading) && !videos.length
-            ? Array.from({ length: 12 }).map((_, index) => (
+            ? Array.from({ length: skeletonLength }).map((_, index) => (
                 <div key={index}>
                   <CardVideoSkeleton />
                 </div>
               ))
-            : videos
-                .filter((item: any) =>
-                  dayjs().isSameOrAfter(dayjs(item.publishedDate), "day")
-                )
-                .map((item: any) => (
-                  <div key={item._id}>
-                    <VideoCard item={item} />
-                  </div>
-                ))}
+            : memoizedVideos.map((item: any) => (
+                <div key={item._id}>
+                  <VideoCard item={item} />
+                </div>
+              ))}
         </div>
 
         <div

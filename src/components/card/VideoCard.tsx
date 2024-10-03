@@ -7,7 +7,6 @@ import Option2Icon from "../icons/Option2";
 import TooltipButton from "../shared/TooltipButton";
 import { Dropdown, MenuProps } from "antd";
 import ListIcon from "../icons/List";
-import ClockIcon from "../icons/Clock";
 import Link from "next/link";
 import { calculateCreatedTime } from "../utils/formatDate";
 import AudioIcon from "../icons/Audio";
@@ -159,7 +158,9 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
               className={`w-full h-[100%] object-cover rounded-[10px] ${
                 isHovered ? "hidden" : "block"
               }`}
-              priority
+              loading="lazy"
+              role="img"
+              aria-labelledby="thumbnail-title"
             />
           )}
         </Link>
@@ -225,15 +226,18 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
               src={item.writer.avatar || ""}
               width={32}
               height={32}
-              alt=""
-              className="w-[100%] h-[100%]"
+              alt="Avatar của người dùng"
+              className="w-[100%] h-[100%] rounded-full object-cover"
               loading="lazy"
             />
           </Link>
         </div>
         <div className="flex-1 pr-[20px]">
           <Link href={`/video/${item?._id}`}>
-            <h3 className="md:mt-[5px]  sm:mt-[8px] text-[15px] mb-[4px] text-[#0f0f0f] font-semibold cursor-pointer text-line-camp-2">
+            <h3
+              id="thumbnail-title"
+              className="md:mt-[5px]  sm:mt-[8px] text-[15px] mb-[4px] text-[#0f0f0f] font-semibold cursor-pointer text-line-camp-2"
+            >
               {item.title}
             </h3>
           </Link>

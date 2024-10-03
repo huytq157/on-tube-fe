@@ -29,8 +29,9 @@ const LayoutChannel = ({ children }: Props) => {
           src={channel?.channel?.background}
           width={1070}
           height={170}
-          alt="Picture of the author"
-          className="w-[100%] h-[100%] object-fill rounded-[12px] "
+          alt={channel?.channel?.name}
+          className="w-[100%] h-[100%] object-fill rounded-[12px]"
+          loading="lazy"
         />
       </div>
       <div className="flex mt-[15px] sm:flex-col sm:text-center md:flex-row md:text-start items-center gap-[15px]">
@@ -39,8 +40,9 @@ const LayoutChannel = ({ children }: Props) => {
             src={channel?.channel?.avatar}
             width={160}
             height={160}
-            alt="Picture of the author"
-            className="w-[100%] h-[100%] object-fill rounded-[12px] "
+            alt={channel?.channel?.name}
+            className="w-[100%] h-[100%] object-fill rounded-[12px]"
+            loading="lazy"
           />
         </div>
         <div>

@@ -12,6 +12,9 @@ import PublicIcon from "../icons/Public";
 import PlusIcon from "../icons/Plus";
 import { useEffect, useState } from "react";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
+import { useSelector } from "react-redux";
+import { selectCurrentToken } from "@/redux/features/authSlice";
+import { useGetMeQuery } from "@/redux/api/authApi";
 
 interface Playlist {
   _id: string;
@@ -27,7 +30,14 @@ interface ModalProps {
 }
 
 const ModalSave: React.FC<ModalProps> = ({ open, setIsModalOpen, videoId }) => {
-  const { data: playlists } = useGetPlaylistQuery("");
+  const token = useSelector(selectCurrentToken);
+  const { data: user } = useGetMeQuery(undefined, {
+    skip: !token,
+  });
+
+  const { data: playlists } = useGetPlaylistQuery("", {
+    skip: !token || !user,
+  });
   const [saveVideoPlaylist] = useSaveVideoPlaylistMutation();
   const [removeVideoPlaylist] = useRemoveVideoPlaylistMutation();
   const [addPlaylist] = useAddPlaylistMutation();

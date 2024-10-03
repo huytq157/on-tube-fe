@@ -10,7 +10,7 @@ import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 dayjs.extend(isSameOrAfter);
 
 const Trending = () => {
-  const { data: trendings, isLoading, refetch } = useGetVideoTrendingQuery("");
+  const { data: trendings, isLoading } = useGetVideoTrendingQuery("");
 
   return (
     <LayoutDefault>

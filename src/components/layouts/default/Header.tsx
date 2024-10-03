@@ -155,7 +155,7 @@ const Header = ({
             title=""
           />
         )}
-        <Link href="/">
+        <Link href="/" aria-label="Trang chủ">
           <LogoIcon />
         </Link>
       </div>

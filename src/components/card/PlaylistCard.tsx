@@ -47,7 +47,7 @@ const PlaylistCard: React.FC<PlayListCardProps> = ({ playlist }) => {
             height={200}
             alt=""
             className="w-full h-[100%] z-50 object-cover rounded-[10px] "
-            priority
+            loading="lazy"
           />
         </div>
 

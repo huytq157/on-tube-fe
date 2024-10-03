@@ -27,16 +27,12 @@ export default function RootLayout({
           height={2}
           shadow="none"
           showSpinner={false}
-          crawlSpeed={300}
+          crawlSpeed={100}
         />
         <ReduxProviderClient>
           <AntdRegistry>
             <ConfigProvider>
-              <RegistyProvider>
-                {children}
-                {/* <Suspense fallback={<Loading />}>
-                </Suspense> */}
-              </RegistyProvider>
+              <RegistyProvider>{children}</RegistyProvider>
             </ConfigProvider>
           </AntdRegistry>
         </ReduxProviderClient>

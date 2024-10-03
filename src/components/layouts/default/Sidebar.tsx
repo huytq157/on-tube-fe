@@ -22,6 +22,8 @@ import MenuIcon from "@/components/icons/Menu";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "@/redux/features/authSlice";
 import { useGetMeQuery } from "@/redux/api/authApi";
+import { Video1 } from "../../../../public";
+import { useListSubcriberQuery } from "@/redux/api/subcription";
 
 function getItem(
   label: React.ReactNode,
@@ -57,6 +59,10 @@ const Sidebar = ({
   const token = useSelector(selectCurrentToken);
   const { data: user } = useGetMeQuery(undefined, {
     skip: !token,
+  });
+
+  const { data: subcribers, isLoading } = useListSubcriberQuery("", {
+    skip: !user || !token,
   });
 
   const onOpenChange = (keys: string[]) => {
@@ -126,21 +132,28 @@ const Sidebar = ({
               onClick={onMenuClick}
             />
             <Divider />
-
-            {/* <div className="flex items-center gap-[15px] px-[10px] cursor-pointer rounded-[8px] h-[40px] hover:bg-[#f2f2f2]">
-              <div className="w-[24px] h-[24px] rounded-[50%] overflow-hidden cursor-pointer">
-                <Image
-                  src={Video}
-                  width={24}
-                  height={24}
-                  alt=""
-                  className="w-[100%] h-[100%]"
-                />
+            {subcribers?.data?.length > 0 && (
+              <div>
+                <h3 className="font-[600] mb-3">Kênh đăng ký</h3>
+                {subcribers?.data?.map((sub: any) => (
+                  <div
+                    key={sub?._id}
+                    className="flex items-center gap-[15px] px-[10px] cursor-pointer rounded-[8px] h-[40px] hover:bg-[#f2f2f2]"
+                  >
+                    <div className="w-[24px] h-[24px] rounded-[50%] overflow-hidden cursor-pointer">
+                      <Image
+                        src={sub?.avatar}
+                        width={24}
+                        height={24}
+                        alt=""
+                        className="w-[100%] h-[100%]"
+                      />
+                    </div>
+                    <span className="text-line-camp-1 flex-1">{sub?.name}</span>
+                  </div>
+                ))}
               </div>
-              <span className="text-line-camp-1 flex-1">
-                Challenge Me Hãy Thách Thức Tôi
-              </span>
-            </div> */}
+            )}
           </Drawer>
         </>
       ) : (
@@ -155,38 +168,31 @@ const Sidebar = ({
             onOpenChange={onOpenChange}
             onClick={onMenuClick}
           />
-          {/* {!collapsed && (
+          {!collapsed && subcribers?.data?.length > 0 && (
             <div className="px-[8px]">
               <Divider />
               <h3 className="font-[600] mb-3">Kênh đăng ký</h3>
-              <div className="flex items-center gap-[15px] px-[10px] cursor-pointer rounded-[8px] h-[40px] hover:bg-[#f2f2f2]">
-                <div className="w-[24px] h-[24px] rounded-[50%] overflow-hidden cursor-pointer">
-                  <Image
-                    src={Video}
-                    width={24}
-                    height={24}
-                    alt=""
-                    className="w-[100%] h-[100%]"
-                  />
+
+              {subcribers?.data?.map((sub: any) => (
+                <div
+                  onClick={() => router.push(`/channel/${sub?._id}`)}
+                  key={sub?._id}
+                  className="flex items-center gap-[15px] px-[10px] cursor-pointer rounded-[8px] h-[40px] hover:bg-[#f2f2f2]"
+                >
+                  <div className="w-[24px] h-[24px] rounded-[50%] overflow-hidden cursor-pointer">
+                    <Image
+                      src={sub?.avatar}
+                      width={24}
+                      height={24}
+                      alt=""
+                      className="w-[100%] h-[100%]"
+                    />
+                  </div>
+                  <span className="text-line-camp-1 flex-1">{sub?.name}</span>
                 </div>
-                <span className="text-line-camp-1 flex-1">
-                  Challenge Me Hãy Thách Thức Tôi
-                </span>
-              </div>
-              <div className="flex items-center gap-[15px] px-[10px] cursor-pointer rounded-[8px] h-[40px] hover:bg-[#f2f2f2]">
-                <div className="w-[24px] h-[24px] rounded-[50%] overflow-hidden cursor-pointer">
-                  <Image
-                    src={Video}
-                    width={24}
-                    height={24}
-                    alt=""
-                    className="w-[100%] h-[100%]"
-                  />
-                </div>
-                <span className="text-line-camp-1 flex-1">Kẻ du mục</span>
-              </div>
+              ))}
             </div>
-          )} */}
+          )}
           {!user && (
             <>
               <Divider />

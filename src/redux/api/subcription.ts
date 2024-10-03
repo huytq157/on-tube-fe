@@ -10,7 +10,27 @@ export const SubcriptionApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Subcription"],
     }),
+    listVideoSubcription: builder.query({
+      query: ({}) => ({
+        url: "subcription/video-sub",
+        params: {},
+      }),
+      keepUnusedDataFor: 5,
+      providesTags: ["Subcription"],
+    }),
+    listSubcriber: builder.query({
+      query: ({}) => ({
+        url: "subcription/subcriber",
+        params: {},
+      }),
+      keepUnusedDataFor: 5,
+      providesTags: ["Subcription"],
+    }),
   }),
 });
 
-export const { useSubCriptionMutation } = SubcriptionApiSlice;
+export const {
+  useSubCriptionMutation,
+  useListVideoSubcriptionQuery,
+  useListSubcriberQuery,
+} = SubcriptionApiSlice;

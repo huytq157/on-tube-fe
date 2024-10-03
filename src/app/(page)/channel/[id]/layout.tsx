@@ -7,10 +7,8 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <LayoutDefault>
-        <LayoutChannel>{children}</LayoutChannel>
-      </LayoutDefault>
-    </>
+    <LayoutDefault>
+      <LayoutChannel>{children}</LayoutChannel>
+    </LayoutDefault>
   );
 }

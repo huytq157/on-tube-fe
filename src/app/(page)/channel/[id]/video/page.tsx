@@ -36,7 +36,7 @@ const VideoChannel = () => {
             </div>
           ))
         ) : (
-          <p>Chưa có video nào</p>
+          <p className="text-[14px]">Chưa có video nào</p>
         )}
       </div>
     </div>

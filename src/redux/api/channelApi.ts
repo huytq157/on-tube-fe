@@ -32,6 +32,17 @@ export const ChannelApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["Channel"],
     }),
+
+    updateChannel: builder.mutation({
+      query: ({ channelId, data }) => ({
+        url: `channel/${channelId}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: (result, error, { channelId }) => [
+        { type: "Channel", id: channelId },
+      ],
+    }),
   }),
 });
 
@@ -40,4 +51,5 @@ export const {
   useSearchChannelQuery,
   useGetChannelVideoQuery,
   useGetChannelPlaylistQuery,
+  useUpdateChannelMutation,
 } = ChannelApiSlice;

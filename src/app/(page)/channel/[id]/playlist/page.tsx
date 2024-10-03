@@ -2,8 +2,7 @@
 
 import PlaylistCard from "@/components/card/PlaylistCard";
 import { useGetChannelPlaylistQuery } from "@/redux/api/channelApi";
-import { useGetPlaylistQuery } from "@/redux/api/playListApi";
-import { Col, Row, Skeleton } from "antd";
+import { Skeleton } from "antd";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 
@@ -37,7 +36,7 @@ const PlayListChannel = () => {
           ))
         ) : (
           <div className="text-center w-full">
-            <h2 className="text-xl">Chưa có danh sách phát</h2>
+            <p>Chưa có danh sách phát</p>
           </div>
         )}
       </div>

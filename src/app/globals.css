@@ -9,6 +9,11 @@
 }
 body {
   letter-spacing: 0.2px;
+  font-size: 14px;
+}
+
+p {
+  font-size: 14px;
 }
 
 .text-line-camp-2 {

@@ -21,6 +21,7 @@ export const apiSlice = createApi({
     "Playlist",
     "Comment",
     "Subcription",
+    "Notification",
   ],
   endpoints: () => ({}),
 });

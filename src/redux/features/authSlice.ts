@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { io, Socket } from "socket.io-client";
 
 interface AuthState {
   token: string | null;
@@ -10,6 +11,8 @@ const initialState: AuthState = {
     null,
 };
 
+let socket: Socket | null = null;
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -20,12 +23,25 @@ const authSlice = createSlice({
 
       const expirationTime = new Date().getTime() + 30 * 24 * 60 * 60 * 1000;
       localStorage.setItem("expirationTime", expirationTime.toString());
+
+      if (!socket) {
+        socket = io("http://localhost:5000/", {
+          auth: {
+            token: action.payload,
+          },
+        });
+      }
     },
 
     logOut: (state: AuthState) => {
       state.token = null;
       localStorage.removeItem("authToken");
       localStorage.removeItem("expirationTime");
+
+      if (socket) {
+        socket.disconnect();
+        socket = null;
+      }
     },
   },
 });

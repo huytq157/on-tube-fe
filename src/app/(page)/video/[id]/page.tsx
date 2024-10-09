@@ -262,7 +262,7 @@ const VideoDetail = () => {
                 </div>
               </div>
               {video?.video?.allowComments === true ? (
-                <Comments videoId={id} />
+                <Comments videoId={id} video={video} />
               ) : (
                 <p className="font-[500] text-center">
                   Nhà sáng tạo đã tắt bình luận

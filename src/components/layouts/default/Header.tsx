@@ -9,7 +9,7 @@ import MenuIcon from "@/components/icons/Menu";
 import LogoIcon from "@/components/icons/Logo";
 import CamIcon from "@/components/icons/Cam";
 import NotificationIcon from "@/components/icons/Notification";
-import { Divider, Menu, MenuProps, message, Popover, Space } from "antd";
+import { Divider, Menu, MenuProps, message, Popover, Space, Spin } from "antd";
 import styled from "styled-components";
 import LogoutIcon from "@/components/icons/Logout";
 import React, { useState } from "react";
@@ -19,6 +19,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { logOut, selectCurrentToken } from "@/redux/features/authSlice";
 import Search from "@/components/shared/Search";
 import SearchIcon from "@/components/icons/Search";
+import { useGetNotificationQuery } from "@/redux/api/notificationApi";
+import { calculateCreatedTime } from "@/components/utils/formatDate";
+import { LoadingOutlined } from "@ant-design/icons";
 declare global {
   interface Window {
     SpeechRecognition: any;
@@ -75,6 +78,14 @@ const Header = ({
     skip: !token,
   });
 
+  const {
+    data: notifications,
+    isLoading: isNotificationLoading,
+    error: notificationError,
+  } = useGetNotificationQuery(undefined, {
+    skip: !token,
+  });
+
   const handleLogout = () => {
     dispatch(logOut());
     message.success("Đăng xuất thành công");
@@ -93,9 +104,42 @@ const Header = ({
   };
 
   const contentNotify = (
-    <div className="w-[300px] ">
+    <div className="min-w-[300px] ">
       <Divider />
-      <p className="text-center">Chưa có thông báo nào</p>
+      <div>
+        {isNotificationLoading ? (
+          <p>
+            <Spin
+              indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />}
+            />
+          </p>
+        ) : notificationError ? (
+          <p>Lỗi khi hiện thông báo.</p>
+        ) : notifications && notifications?.data?.length > 0 ? (
+          notifications?.data?.map((notification: any) => (
+            <Link href={notification?.url} key={notification.id}>
+              <div className="py-2  text-[#000] hover:bg-[#eee] px-3 rounded-md">
+                <div className="flex gap-2 items-center">
+                  {notification.read ? (
+                    <></>
+                  ) : (
+                    <div className="w-[8px] h-[8px] mt-1 bg-blue-700 rounded-[50%]"></div>
+                  )}
+                  <span className="font-[500] ">
+                    {notification?.from_user?.name}
+                  </span>{" "}
+                  <p>
+                    {notification.message} -{" "}
+                    {calculateCreatedTime(notification.createdAt)}{" "}
+                  </p>
+                </div>
+              </div>
+            </Link>
+          ))
+        ) : (
+          <p>Chưa có thông báo nào.</p>
+        )}
+      </div>
     </div>
   );
 
@@ -201,7 +245,42 @@ const Header = ({
                     Icon={<BackIcon />}
                     onClick={() => setShowNotify(false)}
                   />
-                  <div className="p-[10px]">Thông báo</div>
+                  <div>
+                    {isNotificationLoading ? (
+                      <p>
+                        <Spin
+                          indicator={
+                            <LoadingOutlined style={{ fontSize: 48 }} spin />
+                          }
+                        />
+                      </p>
+                    ) : notificationError ? (
+                      <p>Lỗi khi hiện thông báo.</p>
+                    ) : notifications && notifications?.data?.length > 0 ? (
+                      notifications?.data?.map((notification: any) => (
+                        <Link href={notification?.url} key={notification.id}>
+                          <div className="py-2  text-[#000] hover:bg-[#eee] px-3 rounded-md">
+                            <div className="flex gap-2 items-center">
+                              {notification.read ? (
+                                <></>
+                              ) : (
+                                <div className="w-[8px] h-[8px] mt-1 bg-blue-700 rounded-[50%]"></div>
+                              )}
+                              <span className="font-[500] ">
+                                {notification?.from_user?.name}
+                              </span>{" "}
+                              <p>
+                                {notification.message} -{" "}
+                                {calculateCreatedTime(notification.createdAt)}{" "}
+                              </p>
+                            </div>
+                          </div>
+                        </Link>
+                      ))
+                    ) : (
+                      <p>Chưa có thông báo nào.</p>
+                    )}
+                  </div>
                 </div>
               )}
             </div>

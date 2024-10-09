@@ -15,9 +15,11 @@ import {
   useAddCommentMutation,
   useGetCommentsQuery,
 } from "@/redux/api/commentApi";
+import { useCreateNotificationMutation } from "@/redux/api/notificationApi";
 
 interface CommentsProps {
   videoId: string | any;
+  video: any;
 }
 
 const items: MenuProps["items"] = [
@@ -31,7 +33,9 @@ const items: MenuProps["items"] = [
   },
 ];
 
-const Comments: React.FC<CommentsProps> = ({ videoId }) => {
+const Comments: React.FC<CommentsProps> = ({ videoId, video }) => {
+  console.log("video comment: ", video);
+
   const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
@@ -42,6 +46,7 @@ const Comments: React.FC<CommentsProps> = ({ videoId }) => {
   const { data: comments, error, isLoading } = useGetCommentsQuery({ videoId });
 
   const [addComment] = useAddCommentMutation();
+  const [createNotification] = useCreateNotificationMutation();
 
   const handleEmojiClick = (emojiObject: EmojiClickData) => {
     setInputValue((prev) => prev + emojiObject.emoji);
@@ -58,7 +63,19 @@ const Comments: React.FC<CommentsProps> = ({ videoId }) => {
     e.preventDefault();
     if (inputValue.trim()) {
       try {
-        await addComment({ comment: inputValue, video_id: videoId }).unwrap();
+        const commentResponse = await addComment({
+          comment: inputValue,
+          video_id: videoId,
+        }).unwrap();
+
+        await createNotification({
+          comment: commentResponse?._id,
+          video: videoId,
+          message: "đã bình luận video của bạn",
+          url: `/video/${videoId}`,
+          user: [video?.video?.writer?._id],
+        }).unwrap();
+
         setInputValue("");
       } catch (error) {
         console.error("Lỗi khi thêm bình luận:", error);
@@ -161,7 +178,7 @@ const Comments: React.FC<CommentsProps> = ({ videoId }) => {
           <p>Error loading comments.</p>
         ) : (
           comments?.data?.map((comment: any) => (
-            <CommentItem key={comment.id} comment={comment} />
+            <CommentItem key={comment._id} comment={comment} />
           ))
         )}
       </div>

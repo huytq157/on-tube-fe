@@ -122,8 +122,6 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
     setEditingCommentId(commentId);
     setEditingCommentText(commentText);
     setIsEditing(true);
-
-    console.log("comment", commentId);
   };
 
   const handleUpdateComment = async (e: React.FormEvent) => {

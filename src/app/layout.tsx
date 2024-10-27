@@ -29,6 +29,7 @@ export default function RootLayout({
           showSpinner={false}
           crawlSpeed={100}
         />
+
         <ReduxProviderClient>
           <AntdRegistry>
             <ConfigProvider>

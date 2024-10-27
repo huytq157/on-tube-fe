@@ -158,9 +158,9 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
               className={`w-full h-[100%] object-cover rounded-[10px] ${
                 isHovered ? "hidden" : "block"
               }`}
-              loading="lazy"
               role="img"
               aria-labelledby="thumbnail-title"
+              priority={true}
             />
           )}
         </Link>

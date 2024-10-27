@@ -30,6 +30,10 @@ const authSlice = createSlice({
             token: action.payload,
           },
         });
+
+        socket.on("connect", () => {
+          console.log("Socket connected, ID:", socket?.id);
+        });
       }
     },
 

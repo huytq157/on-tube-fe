@@ -3,7 +3,7 @@
 import { Dropdown, MenuProps } from "antd";
 import CommentItem from "../card/CommentItem";
 import SortIcon from "@/components/icons/Sort";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "@/redux/features/authSlice";
 import { useGetMeQuery } from "@/redux/api/authApi";
@@ -34,15 +34,12 @@ const items: MenuProps["items"] = [
 ];
 
 const Comments: React.FC<CommentsProps> = ({ videoId, video }) => {
-  console.log("video comment: ", video);
-
   const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
 
   const token = useSelector(selectCurrentToken);
   const { data: user } = useGetMeQuery(undefined, { skip: !token });
-
   const { data: comments, error, isLoading } = useGetCommentsQuery({ videoId });
 
   const [addComment] = useAddCommentMutation();
@@ -68,12 +65,14 @@ const Comments: React.FC<CommentsProps> = ({ videoId, video }) => {
           video_id: videoId,
         }).unwrap();
 
+        if (video?.video?.writer?._id === user?.user?._id) return;
+
         await createNotification({
           comment: commentResponse?._id,
           video: videoId,
           message: "đã bình luận video của bạn",
           url: `/video/${videoId}`,
-          user: [video?.video?.writer?._id],
+          user: [video?.video?.writer?._id], // người nhận thông báo
         }).unwrap();
 
         setInputValue("");

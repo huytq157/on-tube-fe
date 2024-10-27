@@ -20,6 +20,7 @@ import {
 
 import EmojiPicker from "emoji-picker-react";
 import SmellIcon from "../icons/Smell";
+import { useCreateNotificationMutation } from "@/redux/api/notificationApi";
 
 interface User {
   _id: string;
@@ -62,6 +63,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
   const [replyComment] = useReplyCommentMutation();
   const [deleteComment] = useDeleteCommentMutation();
   const [updateComment] = useUpdateCommentMutation();
+  const [createNotification] = useCreateNotificationMutation();
 
   const handleDeleteComment = async (commentId: string) => {
     try {
@@ -92,10 +94,21 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
   const handleReplySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await replyComment({
+      const replyresponse = await replyComment({
         comment: replyText,
         parent_id: replyingToId,
       }).unwrap();
+
+      if (comment?.user?._id === user?.user?._id) return;
+
+      await createNotification({
+        comment: replyresponse?._id,
+        video: replyresponse?.reply?.video,
+        message: "trả lời bình luận của bạn",
+        url: `/video/${replyresponse?.reply?.video}`,
+        user: comment?.user?._id,
+      }).unwrap();
+
       setReplyText("");
       setReplyingToId(null);
     } catch (error) {

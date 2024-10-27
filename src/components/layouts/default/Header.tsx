@@ -19,7 +19,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { logOut, selectCurrentToken } from "@/redux/features/authSlice";
 import Search from "@/components/shared/Search";
 import SearchIcon from "@/components/icons/Search";
-import { useGetNotificationQuery } from "@/redux/api/notificationApi";
+import {
+  useGetNotificationQuery,
+  useUpdateSeenNotificationMutation,
+} from "@/redux/api/notificationApi";
 import { calculateCreatedTime } from "@/components/utils/formatDate";
 import { LoadingOutlined } from "@ant-design/icons";
 declare global {
@@ -78,6 +81,16 @@ const Header = ({
     skip: !token,
   });
 
+  const [updateSeenNotification] = useUpdateSeenNotificationMutation();
+
+  const handleNotificationClick = async (notification: any) => {
+    if (!notification.read) {
+      await updateSeenNotification({
+        notificationId: notification._id,
+        user_id: user?.user?._id,
+      });
+    }
+  };
   const {
     data: notifications,
     isLoading: isNotificationLoading,
@@ -117,13 +130,17 @@ const Header = ({
           <p>Lỗi khi hiện thông báo.</p>
         ) : notifications && notifications?.data?.length > 0 ? (
           notifications?.data?.map((notification: any) => (
-            <Link href={notification?.url} key={notification.id}>
+            <Link
+              href={notification?.url}
+              key={notification._id}
+              onClick={() => handleNotificationClick(notification)}
+            >
               <div className="py-2  text-[#000] hover:bg-[#eee] px-3 rounded-md">
                 <div className="flex gap-2 items-center">
                   {notification.read ? (
-                    <></>
+                    <span className="text-gray-500">&#x2714;</span>
                   ) : (
-                    <div className="w-[8px] h-[8px] mt-1 bg-blue-700 rounded-[50%]"></div>
+                    <div className="w-[4px] h-[4px] mt-1 bg-blue-700 rounded-[50%]"></div>
                   )}
                   <span className="font-[500] ">
                     {notification?.from_user?.name}
@@ -153,6 +170,7 @@ const Header = ({
             height={40}
             alt=""
             className="w-[100%] h-[100%]"
+            priority={true}
           />
         </div>
         <div className="flex flex-col">
@@ -258,13 +276,17 @@ const Header = ({
                       <p>Lỗi khi hiện thông báo.</p>
                     ) : notifications && notifications?.data?.length > 0 ? (
                       notifications?.data?.map((notification: any) => (
-                        <Link href={notification?.url} key={notification.id}>
+                        <Link
+                          href={notification?.url}
+                          key={notification._id}
+                          onClick={() => handleNotificationClick(notification)}
+                        >
                           <div className="py-2  text-[#000] hover:bg-[#eee] px-3 rounded-md">
                             <div className="flex gap-2 items-center">
                               {notification.read ? (
-                                <></>
+                                <span className="text-gray-500">&#x2714;</span>
                               ) : (
-                                <div className="w-[8px] h-[8px] mt-1 bg-blue-700 rounded-[50%]"></div>
+                                <div className="w-[4px] h-[4px] mt-1 bg-blue-700 rounded-[50%]"></div>
                               )}
                               <span className="font-[500] ">
                                 {notification?.from_user?.name}

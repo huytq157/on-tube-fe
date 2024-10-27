@@ -18,12 +18,13 @@ export const NotificationApiSlice = apiSlice.injectEndpoints({
       providesTags: ["Notification"],
     }),
 
-    updateSeenNotification: builder.query({
-      query: () => ({
+    updateSeenNotification: builder.mutation({
+      query: ({ notificationId, user_id }) => ({
         url: "notification/update-seen",
+        method: "PUT",
+        body: { notificationId, user_id },
       }),
-      keepUnusedDataFor: 5,
-      providesTags: ["Notification"],
+      invalidatesTags: ["Notification"],
     }),
   }),
 });
@@ -31,5 +32,5 @@ export const NotificationApiSlice = apiSlice.injectEndpoints({
 export const {
   useCreateNotificationMutation,
   useGetNotificationQuery,
-  useUpdateSeenNotificationQuery,
+  useUpdateSeenNotificationMutation,
 } = NotificationApiSlice;

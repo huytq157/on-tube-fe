@@ -1,27 +1,15 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  Form,
-  Input,
-  Button,
-  Upload,
-  message,
-  Switch,
-  DatePicker,
-  Select,
-} from "antd";
+import { Form, Input, Button, message, Switch, DatePicker, Select } from "antd";
 import LayoutStudio from "@/components/layouts/studio/LayoutStudio";
 import moment from "moment";
-import {
-  useUploadImageMutation,
-  useUploadVideoMutation,
-} from "@/redux/api/uploadApi";
+import { useUploadImageMutation } from "@/redux/api/uploadApi";
+import { DeleteOutlined } from "@ant-design/icons";
 import {
   useUpdateVideoMutation,
   useGetVideoByIdQuery,
 } from "@/redux/api/videoApi";
-import Image from "next/image";
 import { useGetCategoryQuery } from "@/redux/api/categoryApi";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -30,6 +18,9 @@ import { useSelector } from "react-redux";
 import { selectCurrentToken } from "@/redux/features/authSlice";
 import { useGetMeQuery } from "@/redux/api/authApi";
 import { useGetPlaylistQuery } from "@/redux/api/playListApi";
+import ImageUpload from "@/components/shared/ImageUpload";
+import VideoUpload from "@/components/shared/VideoUpload";
+import axios from "axios";
 
 const { Option } = Select;
 
@@ -47,7 +38,7 @@ const UpdateVideo = () => {
   const { data: playlists } = useGetPlaylistQuery("");
   const { data: video } = useGetVideoByIdQuery(videoId);
   const [uploadImage] = useUploadImageMutation();
-  const [updateVideo, { isLoading: isUpdateting }] = useUpdateVideoMutation();
+  const [updateVideo, { isLoading: isUpdating }] = useUpdateVideoMutation();
   const token = useSelector(selectCurrentToken);
   const { data: user } = useGetMeQuery(undefined, {
     skip: !token,
@@ -65,57 +56,60 @@ const UpdateVideo = () => {
         tags: video.video.tags,
         publishedDate: moment(video.video.publishedDate),
       });
-      setThumbnailUrl(video?.video?.videoThumbnail);
-      setVideoUrl(video?.video?.videoUrl);
+      setThumbnailUrl(video.video.videoThumbnail);
+      setVideoUrl(video.video.videoUrl);
     }
   }, [video, form]);
 
-  const handleUploadThumbnail = async ({ file }: any) => {
+  const handleUploadThumbnail = async (file: File) => {
     const formData = new FormData();
     formData.append("images", file);
+
     try {
       const response = await uploadImage(formData).unwrap();
       setThumbnailUrl(response[0]);
-      message.success("Upload ảnh video thành công!");
-    } catch (error) {
+      message.success("Upload ảnh thành công!");
+    } catch (error: any) {
       message.error("Lỗi khi upload ảnh.");
     }
   };
 
-  const handleUploadVideo = async (file: any) => {
+  const handleUploadVideo = async (file: File) => {
+    const MAX_VIDEO_SIZE_MB = 500;
+    if (file.size > MAX_VIDEO_SIZE_MB * 1024 * 1024) {
+      message.error("Kích thước video vượt quá giới hạn cho phép.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("videos", file);
 
-    const xhr = new XMLHttpRequest();
-    // xhr.open("POST", "http://localhost:8000/api/upload/video", true);
-    xhr.open("POST", `${process.env.NEXT_PUBLIC_BASE_URL}/upload/video`, true);
-
-    xhr.upload.onprogress = (event) => {
-      if (event.lengthComputable) {
-        const percent = Math.round((event.loaded * 100) / event.total);
-        setUploadProgress(percent);
-      }
-    };
-
-    xhr.onload = async () => {
-      if (xhr.status === 200) {
-        const response = JSON.parse(xhr.responseText);
-        setVideoUrl(response.data[0].url);
-        message.success("Upload video thành công");
-      } else {
-        message.error("Lỗi khi upload");
-      }
-      setUploading(false);
-    };
-
-    xhr.onerror = () => {
-      message.error("Upload error.");
-      setUploading(false);
-    };
-
     setUploading(true);
     setUploadProgress(0);
-    xhr.send(formData);
+    setVideoUrl("");
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/upload/video`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          onUploadProgress: (progressEvent: any) => {
+            const percent = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            setUploadProgress(percent);
+          },
+        }
+      );
+      setVideoUrl(response.data.data[0].url);
+      message.success("Video đã được tải lên thành công!");
+    } catch (error) {
+      message.error("Lỗi khi upload video");
+    } finally {
+      setUploading(false);
+    }
   };
 
   const onFinish = async (values: any) => {
@@ -138,58 +132,39 @@ const UpdateVideo = () => {
       setVideoUrl("");
       setThumbnailUrl("");
     } catch (error) {
-      message.error("Lỗi khi ");
+      message.error("Lỗi khi cập nhật video!");
       console.error(error);
     }
   };
 
-  const getFileSize = (size: number) => {
-    return size > 1024 ? `${(size / 1024).toFixed(2)} MB` : `${size} KB`;
+  const handleDelete = () => {
+    setThumbnailUrl("");
+  };
+  const handleDeleteVideo = () => {
+    setVideoUrl("");
   };
 
   return (
     <LayoutStudio>
       <Form form={form} onFinish={onFinish} layout="vertical">
         <Form.Item label="Ảnh video">
-          <Upload
-            showUploadList={false}
-            customRequest={handleUploadThumbnail}
-            accept="image/*"
-          >
-            <Button>Upload ảnh</Button>
-          </Upload>
-          {thumbnailUrl && (
-            <Image
-              src={thumbnailUrl}
-              width={200}
-              height={100}
-              alt="Thumbnail"
-            />
-          )}
+          <ImageUpload
+            onUpload={handleUploadThumbnail}
+            thumbnailUrl={thumbnailUrl}
+            onDelete={handleDelete}
+          />
         </Form.Item>
 
         <Form.Item label="Video">
-          <Upload
-            showUploadList={false}
-            beforeUpload={handleUploadVideo}
-            accept="video/*"
-          >
-            <Button>Tải video lên</Button>
-          </Upload>
-          {uploading && (
-            <div className="mt-2">
-              <p>Đang tải lên... {uploadProgress}%</p>
-              <div className="progress-bars">
-                <div
-                  className="progress-fill"
-                  style={{ width: `${uploadProgress}%` }}
-                ></div>
-              </div>
-            </div>
-          )}
-          {videoUrl && (
-            <video width="400" controls src={videoUrl} className="mt-[10px]" />
-          )}
+          <div className="flex sm:flex-col md:flex-row gap-[20px]">
+            <VideoUpload
+              onUpload={handleUploadVideo}
+              uploading={uploading}
+              uploadProgress={uploadProgress}
+              videoUrl={videoUrl}
+              onDeleteVideo={handleDeleteVideo}
+            />
+          </div>
         </Form.Item>
 
         <Form.Item
@@ -232,7 +207,6 @@ const UpdateVideo = () => {
           >
             {categories?.data?.map((category: any) => (
               <Option key={category._id} value={category._id}>
-                {" "}
                 {category.title}
               </Option>
             ))}
@@ -247,7 +221,6 @@ const UpdateVideo = () => {
           >
             {playlists?.playlists?.map((playlist: any) => (
               <Option key={playlist._id} value={playlist._id}>
-                {" "}
                 {playlist.title}
               </Option>
             ))}
@@ -255,21 +228,23 @@ const UpdateVideo = () => {
         </Form.Item>
 
         <Form.Item label="Tags" name="tags">
-          <Select mode="tags" placeholder="Add tags">
-            {}
-          </Select>
+          <Select mode="tags" placeholder="Add tags" />
         </Form.Item>
 
-        <Form.Item label="Ngày công khai" name="publishedDate">
+        <Form.Item
+          label="Ngày công khai"
+          name="publishedDate"
+          rules={[{ required: true, message: "Vui lòng chọn ngày công khai!" }]}
+        >
           <DatePicker
-            defaultValue={moment()}
             showTime={{ format: "HH:mm" }}
-            format="YYYY-MM-DD  HH:mm"
+            format="YYYY-MM-DD HH:mm"
+            defaultValue={moment()}
           />
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" loading={isUpdateting}>
+          <Button type="primary" htmlType="submit" loading={isUpdating}>
             Lưu
           </Button>
         </Form.Item>

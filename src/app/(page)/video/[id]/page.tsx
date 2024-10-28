@@ -140,7 +140,7 @@ const VideoDetail = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <div className="md:px-[4%] sm:px-0 pb-[20px] min-h-[200vh]">
-        <Row gutter={[24, 24]}>
+        <Row gutter={[20, 20]}>
           <Col xs={24} sm={24} md={24} lg={24} xl={17} xxl={18}>
             <div className="min-h-[200vh] overflow-hidden">
               <div className="w-full bg-black rounded-[10px] overflow-hidden">
@@ -213,17 +213,17 @@ const VideoDetail = () => {
                       <Link
                         href={`/channel/${video?.video?.writer?._id}/playlist`}
                       >
-                        <span className="text-line-camp-1 text-[#333] font-semibold leading-[20px]">
+                        <span className="font-roboto text-line-camp-1 text-[#333] text-[15px] font-semibold leading-[20px]">
                           {video?.video?.writer?.name}
                         </span>
                       </Link>
-                      <span className="text-line-camp-1 text-[#606060] leading-[20px]">
+                      <span className="font-roboto text-line-camp-1 text-[#606060] leading-[20px]">
                         16 người đăng ký
                       </span>
                     </div>
                   </div>
                   <div>
-                    <button className="bg-[#333] rounded-[50px] min-w-[90px] text-[#fff] h-[36px]">
+                    <button className="bg-[#333] rounded-[50px] min-w-[90px] text-[#fff] h-[36px] font-roboto">
                       Đăng ký
                     </button>
                   </div>
@@ -232,11 +232,11 @@ const VideoDetail = () => {
               </div>
               <div className="bg-[#f2f2f2] rounded-[5px] mt-[20px] mb-[24px] p-[10px]">
                 <div className="flex gap-[5px] flex-wrap mb-2 text-[#606060] font-semibold">
-                  <span className="text-[14px]">
+                  <span className="text-[14px] font-roboto ">
                     {video?.video?.totalView} lượt xem
                   </span>
                   <span className="text-[14px]">•</span>
-                  <span className="text-[14px]">
+                  <span className="text-[14px] font-roboto">
                     {calculateCreatedTime(video?.video?.createdAt)}
                   </span>
                   <div className="text-[#065FD4] ml-2 gap-1 flex">
@@ -247,14 +247,14 @@ const VideoDetail = () => {
                     ))}
                   </div>
                 </div>
-                <div>
+                <div className="font-roboto">
                   {renderHTML(
                     isExpanded
                       ? video?.video?.description
                       : video?.video?.description.slice(0, 300) + "..."
                   )}{" "}
                   <button
-                    className="block font-semibold mt-3"
+                    className="block font-semibold mt-3 font-roboto"
                     onClick={toggleDescription}
                   >
                     {isExpanded ? "Ẩn bớt" : "Xem thêm..."}{" "}
@@ -264,7 +264,7 @@ const VideoDetail = () => {
               {video?.video?.allowComments === true ? (
                 <Comments videoId={id} video={video} />
               ) : (
-                <p className="font-[500] text-center">
+                <p className="font-[500] font-roboto  text-center">
                   Nhà sáng tạo đã tắt bình luận
                 </p>
               )}
@@ -274,17 +274,17 @@ const VideoDetail = () => {
             {fromPlaylist && (
               <div className="min-h-[100px] max-h-[500px] overflow-hidden overflow-y-auto w-full border-[1px]  rounded-[10px] p-[15px] mb-4">
                 <div className="header">
-                  <span className="text-[18px]  font-[600] ">
+                  <span className="text-[18px]  font-[700] font-roboto">
                     {playlists?.playlist?.title}
                   </span>
 
                   <div className="flex  gap-[15px] mt-3">
-                    <span className="border-[1px] rounded-[10px] px-2">
+                    <span className="border-[1px] rounded-[10px] px-2 font-roboto">
                       {playlists?.playlist?.isPublic === true
                         ? "Công khai"
                         : "Riêng tư"}
                     </span>
-                    <span className="font-[500]">
+                    <span className="font-roboto font-semibold">
                       {playlists?.playlist?.writer?.name}
                     </span>
                   </div>
@@ -321,7 +321,7 @@ const VideoDetail = () => {
                               {item?.title}
                             </h3>
                           </Link>
-                          <span className="text-[12px] text-[#3b3b3b] font-[400]">
+                          <span className="text-[12px] text-[#3b3b3b] font-[400] font-roboto font-semibold">
                             {item?.writer?.name}
                           </span>
                         </div>

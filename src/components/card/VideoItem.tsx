@@ -52,19 +52,24 @@ const VideoItem: React.FC<any> = ({ video }) => {
       <div className="flex-1 flex">
         <div className="flex-1">
           <Link href={`/video/${video?._id}`}>
-            <h3 className="font-roboto text-[14px] mb-[7px] text-[#0f0f0f] font-[600] cursor-pointer text-line-camp-2 leading-[21px]">
+            <h3 className="font-roboto text-[15px] mb-[7px] text-[#0f0f0f] font-[600] cursor-pointer text-line-camp-2 leading-[21px]">
               {video?.title}
             </h3>
           </Link>
-          <Link href={`/channel/${video?.writer?._id}/playlist`}>
-            <span className="text-[#606060] text-[13px] cursor-pointer leading-[21px] flex items-center gap-[3px] ">
+          <Link
+            href={`/channel/${video?.writer?._id}/playlist`}
+            className="font-roboto "
+          >
+            <span className="text-[#606060] font-[700] text-[13px] cursor-pointer leading-[21px] flex items-center gap-[3px] ">
               {video?.writer?.name} <CheckIcon />
             </span>
           </Link>
           <div className="flex gap-[5px] text-[#606060] font-medium">
-            <span className="text-[12px]">{video?.totalView} lượt xem</span>
-            <span className="text-[12px]">•</span>
-            <span className="text-[12px]">
+            <span className="text-[12px] font-roboto font-semibold">
+              {video?.totalView} lượt xem
+            </span>
+            <span className="text-[12px] font-roboto">•</span>
+            <span className="text-[12px] font-roboto font-semibold">
               {calculateCreatedTime(video?.createdAt)}
             </span>
           </div>

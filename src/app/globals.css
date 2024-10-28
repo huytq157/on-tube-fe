@@ -21,6 +21,7 @@ p {
 .ant-menu-title-content {
   font-family: "Roboto Condensed", sans-serif !important;
   font-weight: 700 !important;
+  letter-spacing: -0.4px !important;
 }
 
 .text-line-camp-2 {

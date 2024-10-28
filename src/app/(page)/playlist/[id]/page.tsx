@@ -47,10 +47,10 @@ const PlayListDetail = () => {
                   className="w-[100%] h-[100%] object-cover"
                 />
               </div>
-              <h1 className="text-[18px] text-[#fff] font-[700] py-[10px]">
+              <h1 className="text-[18px] text-[#fff] font-[700] py-[10px] font-roboto">
                 {playlists?.playlist?.title}
               </h1>
-              <div className="flex gap-[15px]">
+              <div className="flex gap-[15px] font-roboto">
                 <span>{playlists?.playlist?.videos?.length} video</span>
                 <span>
                   Cập nhật{" "}
@@ -60,12 +60,12 @@ const PlayListDetail = () => {
 
               <button
                 onClick={handlePlayAll}
-                className="bg-[#fff] my-[15px] text-[14px] rounded-[50px] px-[20px] text-[#000] h-[36px]"
+                className="bg-[#fff] my-[15px] text-[14px] rounded-[50px] px-[20px] text-[#000] h-[36px] font-roboto font-semibold"
               >
                 Phát tất cả
               </button>
 
-              <p>{renderHTML(playlists?.playlist?.description)}</p>
+              {/* <p>{renderHTML(playlists?.playlist?.description)}</p> */}
             </div>
           </Col>
 

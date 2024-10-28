@@ -31,10 +31,6 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
       const estimatedTotalTime = timeElapsed / (uploadProgress / 100);
       setRemainingTime(Math.max(0, estimatedTotalTime - timeElapsed));
     }
-
-    // if (uploadProgress === 100 && videoUrl) {
-    //   message.success("Video đã được tải lên thành công!");
-    // }
   }, [uploading, uploadProgress, uploadStartTime, videoUrl]);
 
   const handleBeforeUpload = (file: File) => {

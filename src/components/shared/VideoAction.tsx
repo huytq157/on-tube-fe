@@ -43,10 +43,10 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
         </div>
       </div>
       <button className="bg-[#f2f2f2]  flex items-center gap-[8px] px-[10px] rounded-[50px]">
-        <LikeIcon /> <span className="font-semibold">Chia sẻ</span>
+        <LikeIcon /> <span className="font-semibold font-roboto">Chia sẻ</span>
       </button>
       <button
-        className="bg-[#f2f2f2] font-semibold flex items-center gap-[10px] px-[10px] rounded-[50px]"
+        className="bg-[#f2f2f2] font-semibold flex items-center gap-[10px] px-[10px] rounded-[50px] font-roboto"
         onClick={handleSaveClick}
       >
         <SaveIcon /> Lưu

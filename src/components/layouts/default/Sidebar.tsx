@@ -132,7 +132,7 @@ const Sidebar = ({
             <Divider />
             {subcribers?.data?.length > 0 && (
               <div>
-                <h3 className="font-[600] mb-3">Kênh đăng ký</h3>
+                <h3 className="font-semibold font-roboto mb-3">Kênh đăng ký</h3>
                 {subcribers?.data?.map((sub: any) => (
                   <div
                     key={sub?._id}
@@ -141,13 +141,15 @@ const Sidebar = ({
                     <div className="w-[24px] h-[24px] rounded-[50%] overflow-hidden cursor-pointer">
                       <Image
                         src={sub?.avatar}
-                        width={24}
-                        height={24}
+                        width={28}
+                        height={28}
                         alt=""
                         className="w-[100%] h-[100%]"
                       />
                     </div>
-                    <span className="text-line-camp-1 flex-1">{sub?.name}</span>
+                    <span className="text-line-camp-1 flex-1 font-semibold font-roboto">
+                      {sub?.name}
+                    </span>
                   </div>
                 ))}
               </div>

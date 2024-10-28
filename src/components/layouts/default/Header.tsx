@@ -97,6 +97,7 @@ const Header = ({
     error: notificationError,
   } = useGetNotificationQuery(undefined, {
     skip: !token,
+    pollingInterval: 2000,
   });
 
   const handleLogout = () => {

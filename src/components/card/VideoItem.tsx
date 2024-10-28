@@ -52,7 +52,7 @@ const VideoItem: React.FC<any> = ({ video }) => {
       <div className="flex-1 flex">
         <div className="flex-1">
           <Link href={`/video/${video?._id}`}>
-            <h3 className=" text-[14px] mb-[7px] text-[#0f0f0f] font-[600] cursor-pointer text-line-camp-2 leading-[21px]">
+            <h3 className="font-roboto text-[14px] mb-[7px] text-[#0f0f0f] font-[600] cursor-pointer text-line-camp-2 leading-[21px]">
               {video?.title}
             </h3>
           </Link>

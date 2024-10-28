@@ -2,12 +2,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import NextTopLoader from "nextjs-toploader";
-import { Suspense } from "react";
 import { ConfigProvider } from "antd";
 import RegistyProvider from "@/components/utils/RegistyProvider";
 import ReduxProviderClient from "@/components/utils/ReduxProviderClient";
-import OpenSans from "./assets/fonts";
-import Loading from "./loading";
+import Roboto from "./assets/fonts";
 
 export const metadata: Metadata = {
   title: "H-tube",
@@ -21,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={OpenSans.className}>
+      <body className={Roboto.className}>
         <NextTopLoader
           color="#EE0033"
           height={2}

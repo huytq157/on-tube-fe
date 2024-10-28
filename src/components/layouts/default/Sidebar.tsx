@@ -242,7 +242,6 @@ const StyledMenu = styled((props: StyledMenuProps) => <Menu {...props} />)<{
   .ant-menu-title-content {
     margin-left: 15px;
     font-size: 14px;
-    font-weight: 500;
     display: ${({ $collapsed }) => ($collapsed ? "none" : "inline")};
   }
 

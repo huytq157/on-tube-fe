@@ -189,7 +189,7 @@ const VideoDetail = () => {
                   </div>
                 )}
               </div>
-              <h1 className="sm:text-[18px] md:text-[22px] leading-[32px] font-semibold mt-[10px]">
+              <h1 className="font-roboto sm:text-[18px] md:text-[22px] leading-[32px] font-semibold mt-[10px]">
                 {video?.video?.title}
               </h1>
               <div className="md:mt-[25px] sm:mt-[15px] flex justify-between flex-wrap gap-[15px]">

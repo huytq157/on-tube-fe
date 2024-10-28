@@ -7,13 +7,20 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
+  font-family: "Roboto Condensed", sans-serif;
   letter-spacing: 0.2px;
   font-size: 14px;
 }
 
 p {
   font-size: 14px;
+}
+
+.ant-menu-title-content {
+  font-family: "Roboto Condensed", sans-serif !important;
+  font-weight: 700 !important;
 }
 
 .text-line-camp-2 {

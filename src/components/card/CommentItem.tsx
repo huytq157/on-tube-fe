@@ -246,7 +246,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
                 ) : (
                   <p>
                     <Link href="/">
-                      <span className="font-[500] mr-2">{parentName}:</span>
+                      <span className="font-[400] mr-2">{parentName}:</span>
                     </Link>
                     {reply.comment}
                   </p>

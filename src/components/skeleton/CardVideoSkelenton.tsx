@@ -7,7 +7,7 @@ const CardVideoSkeleton = () => {
       <div className="rounded-[10px] overflow-hidden bg-[#eee] w-full cursor-pointer">
         <Skeleton.Image
           active
-          className="!w-[100%] !h-[250px] object-cover"
+          className="!w-[100%] !h-[240px] object-cover"
           style={{ borderRadius: "10px" }}
         />
       </div>

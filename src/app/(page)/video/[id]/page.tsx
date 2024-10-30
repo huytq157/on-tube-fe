@@ -39,7 +39,7 @@ const VideoDetail = () => {
   const { data: user } = useGetMeQuery(undefined, {
     skip: !token,
   });
-  const { data: video } = useGetVideoByIdQuery(id);
+  const { data: video, isLoading: videoLoading } = useGetVideoByIdQuery(id);
   const { data: vieoRecommend, isLoading } = useGetVideoRecommendQuery(id);
   const { data: playlists } = useGetPlaylistDetailQuery(playlistId, {
     skip: !fromPlaylist || !playlistId,
@@ -52,6 +52,18 @@ const VideoDetail = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const hasViewedRef = useRef(false);
+
+  const [isDelayedLoading, setIsDelayedLoading] = useState(true); // State to control delay
+
+  // Simulate delay of 1 to 4 seconds
+  useEffect(() => {
+    const delay = Math.floor(Math.random() * 4000) + 1000; // Random delay between 1000 to 4000 ms
+    const timer = setTimeout(() => {
+      setIsDelayedLoading(false);
+    }, delay);
+
+    return () => clearTimeout(timer); // Cleanup the timer
+  }, []);
 
   const toggleDescription = () => {
     setIsExpanded((prev) => !prev);
@@ -144,11 +156,19 @@ const VideoDetail = () => {
           <Col xs={24} sm={24} md={24} lg={24} xl={17} xxl={18}>
             <div className="min-h-[200vh] overflow-hidden">
               <div className="w-full bg-black rounded-[10px] overflow-hidden">
-                {video?.video?.videoUrl ? (
+                {videoLoading ? (
+                  <div className="w-full bg-slate-200 md:h-[550px] sm:h-[220px] rounded-[10px] overflow-hidden flex items-center justify-center">
+                    <Skeleton.Input
+                      active
+                      style={{ width: "100%", height: "100%" }}
+                      className="rounded-[10px]"
+                    />
+                  </div>
+                ) : video?.video?.videoUrl ? (
                   <div className="relative pb-[56.25%] h-0 videos">
                     <video
                       ref={videoRef}
-                      className="absolute top-0 left-0 w-full h-full "
+                      className="absolute top-0 left-0 w-full h-full"
                       controls
                       preload="metadata"
                       autoPlay={true}
@@ -181,11 +201,9 @@ const VideoDetail = () => {
                   </div>
                 ) : (
                   <div className="w-full bg-slate-200 md:h-[550px] sm:h-[220px] rounded-[10px] overflow-hidden">
-                    <Skeleton.Input
-                      active
-                      style={{ width: "100%", height: "100%" }}
-                      className="rounded-[10px]"
-                    />
+                    <span className="text-center text-gray-600">
+                      Không có video để hiển thị
+                    </span>
                   </div>
                 )}
               </div>
@@ -196,18 +214,24 @@ const VideoDetail = () => {
                 <div className=" flex items-center gap-[20px]">
                   <div className="flex items-center gap-[15px] md:px-[10px] cursor-pointer rounded-[8px]">
                     <div className="w-[40px] h-[40px] rounded-[50%] overflow-hidden cursor-pointer">
-                      <Link
-                        href={`/channel/${video?.video?.writer?._id}/playlist`}
-                      >
-                        <Image
-                          src={video?.video?.writer?.avatar || ""}
-                          width={40}
-                          height={40}
-                          alt=""
-                          className="w-[100%] h-[100%]"
-                          loading="lazy"
-                        />
-                      </Link>
+                      {videoLoading ? (
+                        <div className="flex items-center">
+                          <Skeleton.Avatar active size={40} className="mr-2" />
+                        </div>
+                      ) : (
+                        <Link
+                          href={`/channel/${video?.video?.writer?._id}/playlist`}
+                        >
+                          <Image
+                            src={video?.video?.writer?.avatar || ""}
+                            width={40}
+                            height={40}
+                            alt=""
+                            className="w-[100%] h-[100%]"
+                            loading="lazy"
+                          />
+                        </Link>
+                      )}
                     </div>
                     <div>
                       <Link
@@ -261,10 +285,14 @@ const VideoDetail = () => {
                   </button>
                 </div>
               </div>
-              {video?.video?.allowComments === true ? (
+              {videoLoading ? (
+                <div className="flex justify-center items-center py-4">
+                  <Skeleton active paragraph={{ rows: 2 }} title={false} />
+                </div>
+              ) : video?.video?.allowComments === true ? (
                 <Comments videoId={id} video={video} />
               ) : (
-                <p className="font-[500] font-roboto  text-center">
+                <p className="font-[500] font-roboto text-center">
                   Nhà sáng tạo đã tắt bình luận
                 </p>
               )}

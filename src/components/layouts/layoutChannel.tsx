@@ -7,6 +7,7 @@ import { useGetChannelInfoQuery } from "@/redux/api/channelApi";
 import { useSelector } from "react-redux";
 import { useGetMeQuery } from "@/redux/api/authApi";
 import { selectCurrentToken } from "@/redux/features/authSlice";
+import { Skeleton } from "antd";
 
 const LayoutChannel = ({ children }: Props) => {
   const params = useParams();
@@ -18,32 +19,47 @@ const LayoutChannel = ({ children }: Props) => {
     skip: !token,
   });
 
-  const { data: channel } = useGetChannelInfoQuery(id);
+  const { data: channel, isLoading } = useGetChannelInfoQuery(id);
 
   const isOwner = user?.user?._id === channel?.channel?._id;
 
   return (
     <div>
       <div className="w-[100%] md:h-[180px] sm:h-[130px] rounded-[8px] overflow-hidden mb-[10px] bg-slate-50">
-        <Image
-          src={channel?.channel?.background}
-          width={1070}
-          height={170}
-          alt={channel?.channel?.name}
-          className="w-[100%] h-[100%] object-fill rounded-[12px]"
-          loading="lazy"
-        />
-      </div>
-      <div className="flex mt-[15px] sm:flex-col sm:text-center md:flex-row md:text-start items-center gap-[15px]">
-        <div className="md:w-[160px] md:h-[160px] sm:w-[100px] sm:h-[100px] rounded-[50%] overflow-hidden">
+        {isLoading ? (
+          <Skeleton.Image
+            active
+            className="!w-[100%] !h-[100%] object-fill rounded-[12px] bg-[#eee]"
+          />
+        ) : (
           <Image
-            src={channel?.channel?.avatar}
-            width={160}
-            height={160}
+            src={channel?.channel?.background}
+            width={1070}
+            height={170}
             alt={channel?.channel?.name}
             className="w-[100%] h-[100%] object-fill rounded-[12px]"
             loading="lazy"
           />
+        )}
+      </div>
+      <div className="flex mt-[15px] sm:flex-col sm:text-center md:flex-row md:text-start items-center gap-[15px]">
+        <div className="md:w-[160px] md:h-[160px] sm:w-[100px] sm:h-[100px] rounded-[50%] overflow-hidden">
+          {isLoading ? (
+            <Skeleton.Avatar
+              active
+              size={160}
+              className="w-[100%] h-[100%] rounded-[12px]"
+            />
+          ) : (
+            <Image
+              src={channel?.channel?.avatar}
+              width={160}
+              height={160}
+              alt={channel?.channel?.name}
+              className="w-[100%] h-[100%] object-fill rounded-[12px]"
+              loading="lazy"
+            />
+          )}
         </div>
         <div>
           <h1 className="font-bold text-[30px] leading-[32px]">

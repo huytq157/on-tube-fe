@@ -1,6 +1,7 @@
 "use client";
 
 import LayoutStudio from "@/components/layouts/studio/LayoutStudio";
+import ImageUpload from "@/components/shared/ImageUpload";
 import {
   useGetChannelInfoQuery,
   useUpdateChannelMutation,
@@ -33,7 +34,7 @@ const UpdateVideo = () => {
     }
   }, [channel, form]);
 
-  const handleUploadAvatar = async ({ file }: any) => {
+  const handleUploadAvatar = async (file: File) => {
     const formData = new FormData();
     formData.append("images", file);
     try {
@@ -44,7 +45,8 @@ const UpdateVideo = () => {
       message.error("Lỗi khi upload ảnh.");
     }
   };
-  const handleUploadBackground = async ({ file }: any) => {
+
+  const handleUploadBackground = async (file: File) => {
     const formData = new FormData();
     formData.append("images", file);
     try {
@@ -75,38 +77,31 @@ const UpdateVideo = () => {
     }
   };
 
+  const handleDeleteAvatar = () => {
+    setAvatar("");
+  };
+
+  const handleDeleteBg = () => {
+    setBackground("");
+  };
+
   return (
     <div>
       <LayoutStudio>
         <Form form={form} onFinish={onFinish} layout="vertical">
           <Form.Item label="Ảnh video">
-            <Upload
-              showUploadList={false}
-              customRequest={handleUploadAvatar}
-              accept="image/*"
-            >
-              <Button>Upload</Button>
-            </Upload>
-            {avatar && (
-              <Image src={avatar} width={200} height={200} alt="Thumbnail" />
-            )}
+            <ImageUpload
+              onUpload={handleUploadAvatar}
+              thumbnailUrl={avatar}
+              onDelete={handleDeleteAvatar}
+            />
           </Form.Item>
           <Form.Item label="Ảnh background">
-            <Upload
-              showUploadList={false}
-              customRequest={handleUploadBackground}
-              accept="image/*"
-            >
-              <Button>Upload</Button>
-            </Upload>
-            {background && (
-              <Image
-                src={background}
-                width={1000}
-                height={200}
-                alt="Thumbnail"
-              />
-            )}
+            <ImageUpload
+              onUpload={handleUploadBackground}
+              thumbnailUrl={background}
+              onDelete={handleDeleteBg}
+            />
           </Form.Item>
 
           <Form.Item

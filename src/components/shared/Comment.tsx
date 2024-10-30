@@ -1,6 +1,6 @@
 "use client";
 
-import { Dropdown, MenuProps } from "antd";
+import { Dropdown, MenuProps, Skeleton } from "antd";
 import CommentItem from "../card/CommentItem";
 import SortIcon from "@/components/icons/Sort";
 import { ChangeEvent, useContext, useState } from "react";
@@ -172,7 +172,11 @@ const Comments: React.FC<CommentsProps> = ({ videoId, video }) => {
       </div>
       <div className="comment-list">
         {isLoading ? (
-          <p>Loading comments...</p>
+          <>
+            <Skeleton active paragraph={{ rows: 3 }} />
+            <Skeleton active paragraph={{ rows: 3 }} />
+            <Skeleton active paragraph={{ rows: 3 }} />
+          </>
         ) : error ? (
           <p>Error loading comments.</p>
         ) : (

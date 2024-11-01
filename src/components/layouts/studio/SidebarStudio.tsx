@@ -2,7 +2,7 @@
 
 import MenuIcon from "@/components/icons/Menu";
 import TooltipButton from "@/components/shared/TooltipButton";
-import { Divider, Drawer, Menu, MenuProps, message } from "antd";
+import { Divider, Drawer, Menu, MenuProps, message, Tooltip } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -97,16 +97,28 @@ const SidebarStudio = ({
                 Icon={<MenuIcon />}
                 onClick={() => setDrawerVisible(false)}
               />
-              <Link href="/studio">
-                <Image
-                  src={Logo_studio}
-                  width={95}
-                  height={25}
-                  alt="Picture of the author"
-                />
-              </Link>
+
+              <Tooltip placement="top" title="Xem kênh trên on tube">
+                <Link href="/studio">
+                  <Image
+                    src={Logo_studio}
+                    width={95}
+                    height={25}
+                    alt="Picture of the author"
+                  />
+                </Link>
+              </Tooltip>
             </div>
             <Divider />
+            <Link href="/">
+              <Image
+                src={user?.user?.avatar}
+                width={collapsed ? 32 : 100}
+                height={collapsed ? 32 : 100}
+                alt=""
+                className="w-[80px] h-[80px] object-cover rounded-full mx-auto "
+              />
+            </Link>
             <StyledMenu
               theme="light"
               defaultSelectedKeys={["/"]}
@@ -127,15 +139,21 @@ const SidebarStudio = ({
                 collapsed ? "w-[32px] h-[32px]" : "w-[100px] h-[100px]"
               } rounded-[50%] mb-[8px] overflow-hidden cursor-pointer mx-auto`}
             >
-              <Link href="/">
-                <Image
-                  src={user?.user?.avatar}
-                  width={collapsed ? 32 : 100}
-                  height={collapsed ? 32 : 100}
-                  alt=""
-                  className="w-[100%] h-[100%] object-cover"
-                />
-              </Link>
+              <Tooltip
+                placement="bottom"
+                color="red"
+                title="Xem kênh trên on tube"
+              >
+                <Link href="/">
+                  <Image
+                    src={user?.user?.avatar}
+                    width={collapsed ? 32 : 100}
+                    height={collapsed ? 32 : 100}
+                    alt=""
+                    className="w-[100%] h-[100%] object-cover"
+                  />
+                </Link>
+              </Tooltip>
             </div>
             {!collapsed && <span>Trần Quang Huy</span>}
           </div>

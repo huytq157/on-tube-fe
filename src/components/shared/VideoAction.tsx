@@ -29,9 +29,9 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
   };
 
   return (
-    <div className="flex gap-[10px]">
+    <div className="flex gap-[10px] overflow-y-auto">
       <div className="bg-[#f2f2f2] rounded-[50px]">
-        <div className="flex flex-wrap items-center h-[100%] py-[5px] px-[10px] ">
+        <div className="flex flex-nowrap items-center h-[100%] py-[5px] px-[10px] ">
           <button className="flex items-center gap-[5px] h-[100%]">
             <LikeIcon /> <strong>0</strong>
           </button>
@@ -42,14 +42,16 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
           </button>
         </div>
       </div>
-      <button className="bg-[#f2f2f2]  flex items-center gap-[8px] px-[10px] rounded-[50px]">
-        <LikeIcon /> <span className="font-semibold font-roboto">Chia sẻ</span>
+      <button className="bg-[#f2f2f2]  flex flex-nowrap items-center gap-[8px] px-[10px] rounded-[50px]">
+        <LikeIcon />{" "}
+        <span className="font-semibold font-roboto text-nowrap">Chia sẻ</span>
       </button>
       <button
-        className="bg-[#f2f2f2] font-semibold flex items-center gap-[10px] px-[10px] rounded-[50px] font-roboto"
+        className="bg-[#f2f2f2] font-semibold flex flex-nowrap items-center gap-[10px] px-[10px] rounded-[50px] font-roboto"
         onClick={handleSaveClick}
       >
-        <SaveIcon /> Lưu
+        <SaveIcon />{" "}
+        <span className="font-semibold font-roboto text-nowrap">Lưu</span>
       </button>
 
       <ModalSave

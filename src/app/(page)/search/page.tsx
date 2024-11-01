@@ -26,7 +26,15 @@ const PageResult = () => {
 
   return (
     <LayoutDefault>
-      <Tabs defaultActiveKey="1">
+      <Tabs
+        defaultActiveKey="1"
+        tabBarStyle={{
+          color: "#333",
+          fontSize: "16px",
+          fontWeight: "bold",
+          fontFamily: "'Roboto Condensed', sans-serif",
+        }}
+      >
         <Tabs.TabPane tab="Videos" key="1">
           <Row gutter={[18, 48]}>
             {isLoadingVideos ? (

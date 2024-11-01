@@ -143,6 +143,13 @@ const Header = ({
                   ) : (
                     <div className="w-[4px] h-[4px] mt-1 bg-blue-700 rounded-[50%]"></div>
                   )}
+                  <Image
+                    src={notification?.from_user?.avatar}
+                    width={30}
+                    height={30}
+                    alt=""
+                    className="w-[30px] h-[30px] rounded-full"
+                  />
                   <span className="font-[500] ">
                     {notification?.from_user?.name}
                   </span>{" "}
@@ -289,6 +296,13 @@ const Header = ({
                               ) : (
                                 <div className="w-[4px] h-[4px] mt-1 bg-blue-700 rounded-[50%]"></div>
                               )}
+                              <Image
+                                src={notification?.from_user?.avatar}
+                                width={30}
+                                height={30}
+                                alt=""
+                                className="w-[30px] h-[30px] rounded-full"
+                              />
                               <span className="font-[500] ">
                                 {notification?.from_user?.name}
                               </span>{" "}

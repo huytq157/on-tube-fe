@@ -194,10 +194,12 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
             </div>
             <div className="flex-1">
               <div className="flex gap-[7px]">
-                <span className="text-[#000] bg-[#ccc] px-[5px] rounded-[50px] font-semibold cursor-pointer flex items-center gap-[3px]">
+                <span className="text-[#000] bg-[#eee] text-nowrap h-[20px] px-[5px] rounded-[50px] font-semibold cursor-pointer flex items-center gap-[3px]">
                   {reply.user.name}
                 </span>
-                <span>{calculateCreatedTime(reply.createdAt)}</span>
+                <span className="text-nowrap">
+                  {calculateCreatedTime(reply.createdAt)}
+                </span>
               </div>
               <div className="py-[5px]">
                 {isEditing && editingCommentId === reply._id ? (
@@ -371,15 +373,18 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
           width={40}
           height={40}
           alt=""
-          className="w-[100%] h-[100%]"
+          className="w-[40px] h-[40px]"
         />
       </div>
+
       <div className="flex-1 mb-3">
         <div className="flex gap-[7px]">
-          <span className="text-[#000] bg-[#ccc] px-[5px] rounded-[50px] font-semibold cursor-pointer flex items-center gap-[3px]">
+          <span className="text-[#000] bg-[#eee] text-nowrap h-[20px] px-[5px] rounded-[50px] font-semibold cursor-pointer flex items-center gap-[3px]">
             {comment.user.name}
           </span>
-          <span>{calculateCreatedTime(comment.createdAt)}</span>
+          <span className="text-nowrap">
+            {calculateCreatedTime(comment.createdAt)}
+          </span>
         </div>
         <div className="py-[5px]">
           {isEditing && editingCommentId === comment._id ? (
@@ -431,7 +436,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
           <TooltipButton title="Thích" Icon={<LikeIcon />} />
           <TooltipButton title="Không thích" Icon={<DisLikeIcon />} />
           <button
-            className="font-semibold ml-4"
+            className="font-semibold ml-3"
             onClick={() => setReplyingToId(comment._id)}
           >
             Phản hồi

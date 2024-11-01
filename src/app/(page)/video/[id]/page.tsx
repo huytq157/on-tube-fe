@@ -53,18 +53,6 @@ const VideoDetail = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const hasViewedRef = useRef(false);
 
-  const [isDelayedLoading, setIsDelayedLoading] = useState(true); // State to control delay
-
-  // Simulate delay of 1 to 4 seconds
-  useEffect(() => {
-    const delay = Math.floor(Math.random() * 4000) + 1000; // Random delay between 1000 to 4000 ms
-    const timer = setTimeout(() => {
-      setIsDelayedLoading(false);
-    }, delay);
-
-    return () => clearTimeout(timer); // Cleanup the timer
-  }, []);
-
   const toggleDescription = () => {
     setIsExpanded((prev) => !prev);
   };
@@ -151,7 +139,7 @@ const VideoDetail = () => {
         <title>{video?.video?.title || "on-tube"}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="md:px-[4%] sm:px-0 pb-[20px] min-h-[200vh]">
+      <div className="md:px-[3.3%] sm:px-0 pb-[20px] min-h-[200vh]">
         <Row gutter={[20, 20]}>
           <Col xs={24} sm={24} md={24} lg={24} xl={17} xxl={18}>
             <div className="min-h-[200vh] overflow-hidden">
@@ -207,7 +195,7 @@ const VideoDetail = () => {
                   </div>
                 )}
               </div>
-              <h1 className="font-roboto sm:text-[18px] md:text-[22px] leading-[32px] font-semibold mt-[10px]">
+              <h1 className="font-roboto sm:text-[18px] text-line-camp-2  md:text-[22px] leading-[32px] font-semibold mt-[10px]">
                 {video?.video?.title}
               </h1>
               <div className="md:mt-[25px] sm:mt-[15px] flex justify-between flex-wrap gap-[15px]">
@@ -272,11 +260,15 @@ const VideoDetail = () => {
                   </div>
                 </div>
                 <div className="font-roboto">
-                  {renderHTML(
-                    isExpanded
-                      ? video?.video?.description
-                      : video?.video?.description.slice(0, 300) + "..."
-                  )}{" "}
+                  {videoLoading ? (
+                    <Skeleton active paragraph={{ rows: 2 }} />
+                  ) : (
+                    renderHTML(
+                      isExpanded
+                        ? video?.video?.description
+                        : video?.video?.description.slice(0, 300) + "..."
+                    )
+                  )}
                   <button
                     className="block font-semibold mt-3 font-roboto"
                     onClick={toggleDescription}

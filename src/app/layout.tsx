@@ -6,6 +6,7 @@ import { ConfigProvider } from "antd";
 import RegistyProvider from "@/components/utils/RegistyProvider";
 import ReduxProviderClient from "@/components/utils/ReduxProviderClient";
 import Roboto from "./assets/fonts";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "H-tube",
@@ -31,7 +32,9 @@ export default function RootLayout({
         <ReduxProviderClient>
           <AntdRegistry>
             <ConfigProvider>
-              <RegistyProvider>{children}</RegistyProvider>
+              <RegistyProvider>
+                <Suspense>{children}</Suspense>
+              </RegistyProvider>
             </ConfigProvider>
           </AntdRegistry>
         </ReduxProviderClient>

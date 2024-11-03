@@ -34,7 +34,7 @@ const Login = () => {
 
     try {
       const userData = await login(formValues).unwrap();
-      dispatch(setCredentials(userData.accessToken));
+      dispatch(setCredentials(userData.token));
       message.success("Đăng nhập thành công");
       router.push("/");
     } catch (error) {

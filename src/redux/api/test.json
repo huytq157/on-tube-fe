@@ -1,0 +1,13 @@
+{
+  "error": {
+    "status": 403,
+    "data": {
+      "success": false,
+      "message": "Token is not valid!"
+    }
+  },
+  "meta": {
+    "request": {},
+    "response": {}
+  }
+}

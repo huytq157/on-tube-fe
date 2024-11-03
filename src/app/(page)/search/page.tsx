@@ -9,10 +9,16 @@ import { Col, Row, Tabs } from "antd";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const PageResult = () => {
   const searchParams = useSearchParams();
-  const searchTerm = searchParams.get("q");
+  const searchTermFromParams = searchParams.get("q") || "";
+  const [searchTerm, setSearchTerm] = useState(searchTermFromParams);
+
+  useEffect(() => {
+    setSearchTerm(searchTermFromParams);
+  }, [searchTermFromParams]);
 
   const { data: videoResults, isLoading: isLoadingVideos } =
     useSearchVideoQuery(searchTerm || "", {

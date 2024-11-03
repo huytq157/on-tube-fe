@@ -341,7 +341,7 @@ const VideoDetail = () => {
                               {item?.title}
                             </h3>
                           </Link>
-                          <span className="text-[12px] text-[#3b3b3b] font-[400] font-roboto font-semibold">
+                          <span className="text-[12px] text-[#3b3b3b] font-roboto font-semibold">
                             {item?.writer?.name}
                           </span>
                         </div>

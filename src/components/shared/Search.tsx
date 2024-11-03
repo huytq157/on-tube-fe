@@ -95,6 +95,11 @@ const Search: React.FC<SearchProps> = ({ showSearch, setShowSearch }) => {
             placeholder="Tìm kiếm"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearchSubmit(e);
+              }
+            }}
             className="w-full flex-1 h-[100%] border-0 rounded-md pl-[20px] text-[16px] focus:outline-none"
           />
           {searchTerm && (

@@ -142,7 +142,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
   return (
     <div>
       <div
-        className=" rounded-[10px] min-h-[100px]  w-full cursor-pointer"
+        className="rounded-[10px] min-h-[100px] w-full cursor-pointer"
         {...(!isYouTubeUrl(item?.videoUrl) && {
           onMouseEnter: handleMouseEnter,
           onMouseLeave: handleMouseLeave,
@@ -160,7 +160,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
               }`}
               role="img"
               aria-labelledby="thumbnail-title"
-              priority={true}
+              loading="lazy"
             />
           )}
         </Link>

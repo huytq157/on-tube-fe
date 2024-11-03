@@ -21,9 +21,6 @@ const authSlice = createSlice({
       state.token = action.payload;
       localStorage.setItem("authToken", action.payload);
 
-      const expirationTime = new Date().getTime() + 30 * 24 * 60 * 60 * 1000;
-      localStorage.setItem("expirationTime", expirationTime.toString());
-
       if (!socket) {
         socket = io("http://localhost:5000/", {
           auth: {
@@ -40,7 +37,6 @@ const authSlice = createSlice({
     logOut: (state: AuthState) => {
       state.token = null;
       localStorage.removeItem("authToken");
-      localStorage.removeItem("expirationTime");
 
       if (socket) {
         socket.disconnect();

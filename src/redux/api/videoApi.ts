@@ -99,6 +99,27 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: (result, error, id) => [{ type: "Video", id }],
     }),
+
+    likeVideo: builder.mutation({
+      query: (data) => ({
+        url: "vote/like",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    dislikeVideo: builder.mutation({
+      query: (data) => ({
+        url: "vote/dislike",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    checkIsLiked: builder.query({
+      query: (videoId) => ({
+        url: `vote/check-like/${videoId}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -114,4 +135,7 @@ export const {
   useDeleteVideoMutation,
   useGetVideoTrendingQuery,
   useGetVideoHistoryQuery,
+  useLikeVideoMutation,
+  useDislikeVideoMutation,
+  useCheckIsLikedQuery,
 } = VideoApiSlice;

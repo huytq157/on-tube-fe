@@ -164,7 +164,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
             />
           )}
         </Link>
-        <div className=" relative sm:hidden md:block">
+        <div className="relative sm:hidden md:block">
           <Link href={`/video/${item?._id}`}>
             <video
               ref={videoRef}

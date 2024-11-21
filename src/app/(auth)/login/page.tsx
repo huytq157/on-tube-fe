@@ -36,7 +36,7 @@ const Login = () => {
       const userData = await login(formValues).unwrap();
       dispatch(setCredentials(userData.token));
       message.success("Đăng nhập thành công");
-      router.push("/");
+      router.back();
     } catch (error) {
       message.error("Đăng nhập thất bại");
     }

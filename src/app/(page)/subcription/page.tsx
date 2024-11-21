@@ -32,7 +32,7 @@ const Subscription = () => {
   return (
     <LayoutDefault>
       <div className="px-[10px] pt-[10px]">
-        {user ? (
+        {token ? (
           <React.Fragment>
             <div className="flex items-center justify-end gap-[15px] mb-[20px]">
               <button
@@ -53,7 +53,7 @@ const Subscription = () => {
 
             <div>
               <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 4xl:grid-cols-6 gap-x-4 gap-y-12">
-                {isLoading ? (
+                {isLoading && token ? (
                   Array.from({ length: 12 }).map((_, index) => (
                     <div key={index}>
                       <CardVideoSkeleton />

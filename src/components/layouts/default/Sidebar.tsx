@@ -75,7 +75,6 @@ const Sidebar = ({
     ...(user
       ? [
           getItem("Danh sách phát", "/playlist", <ListIcon />),
-          // getItem("Xem sau", "/later", <LaterIcon />),
           getItem("Video đã thích", "/favourite", <LikeIcon />),
           getItem(
             "Video của bạn",
@@ -130,7 +129,7 @@ const Sidebar = ({
               onClick={onMenuClick}
             />
             <Divider />
-            {subcribers?.data?.length > 0 && (
+            {token && (
               <div>
                 <h3 className="font-semibold font-roboto mb-3">Kênh đăng ký</h3>
                 {subcribers?.data?.map((sub: any) => (
@@ -168,7 +167,7 @@ const Sidebar = ({
             onOpenChange={onOpenChange}
             onClick={onMenuClick}
           />
-          {!collapsed && subcribers?.data?.length > 0 && (
+          {!collapsed && token && (
             <div className="px-[8px]">
               <Divider />
               <h3 className="font-[600] mb-3">Kênh đăng ký</h3>

@@ -240,7 +240,7 @@ const VideoDetail = () => {
                     </button>
                   </div>
                 </div>
-                <VideoAction videoId={id} />
+                <VideoAction videoId={id} video={video} />
               </div>
               <div className="bg-[#f2f2f2] rounded-[5px] mt-[20px] mb-[24px] p-[10px]">
                 <div className="flex gap-[5px] flex-wrap mb-2 text-[#606060] font-semibold">

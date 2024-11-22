@@ -120,6 +120,19 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    checkIsDisLiked: builder.query({
+      query: (videoId) => ({
+        url: `vote/check-dislike/${videoId}`,
+        method: "GET",
+      }),
+    }),
+
+    getlikeVideo: builder.query({
+      query: () => ({
+        url: "vote/video-like",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -138,4 +151,6 @@ export const {
   useLikeVideoMutation,
   useDislikeVideoMutation,
   useCheckIsLikedQuery,
+  useCheckIsDisLikedQuery,
+  useGetlikeVideoQuery,
 } = VideoApiSlice;

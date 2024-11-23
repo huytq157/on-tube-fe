@@ -24,6 +24,7 @@ interface ModalProps {
 }
 
 const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const token = useSelector(selectCurrentToken);
   const { data: video, refetch } = useGetVideoByIdQuery(videoId, {
     refetchOnMountOrArgChange: true,
@@ -37,6 +38,14 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
 
   const [likeVideo] = useLikeVideoMutation();
   const [dislikeVideo] = useDislikeVideoMutation();
+
+  const handleSaveClick = () => {
+    if (!user) {
+      message.warning("Bạn phải đăng nhập để lưu video!");
+      return;
+    }
+    setIsModalOpen(true);
+  };
 
   const handleLikeClick = async () => {
     if (!user) {
@@ -101,6 +110,24 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
           </button>
         </div>
       </div>
+
+      <button className="bg-[#f2f2f2]  flex flex-nowrap items-center gap-[8px] px-[10px] rounded-[50px]">
+        <LikeIcon />{" "}
+        <span className="font-semibold font-roboto text-nowrap">Chia sẻ</span>
+      </button>
+      <button
+        className="bg-[#f2f2f2] font-semibold flex flex-nowrap items-center gap-[10px] px-[10px] rounded-[50px] font-roboto"
+        onClick={handleSaveClick}
+      >
+        <SaveIcon />{" "}
+        <span className="font-semibold font-roboto text-nowrap">Lưu</span>
+      </button>
+
+      <ModalSave
+        open={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        videoId={videoId}
+      />
     </div>
   );
 };

@@ -132,6 +132,8 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
         url: "vote/video-like",
         method: "GET",
       }),
+      keepUnusedDataFor: 5,
+      providesTags: ["Video"],
     }),
   }),
 });

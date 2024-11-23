@@ -39,7 +39,15 @@ const VideoDetail = () => {
   const { data: user } = useGetMeQuery(undefined, {
     skip: !token,
   });
-  const { data: video, isLoading: videoLoading } = useGetVideoByIdQuery(id);
+  const {
+    data: video,
+    isLoading: videoLoading,
+    refetch,
+  } = useGetVideoByIdQuery(id, {
+    refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true,
+  });
+
   const { data: vieoRecommend, isLoading } = useGetVideoRecommendQuery(id);
   const { data: playlists } = useGetPlaylistDetailQuery(playlistId, {
     skip: !fromPlaylist || !playlistId,
@@ -52,6 +60,13 @@ const VideoDetail = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const hasViewedRef = useRef(false);
+
+  const [currentVideo, setCurrentVideo] = useState(video);
+  useEffect(() => {
+    if (video) {
+      setCurrentVideo(video);
+    }
+  }, [video]);
 
   const toggleDescription = () => {
     setIsExpanded((prev) => !prev);
@@ -240,7 +255,7 @@ const VideoDetail = () => {
                     </button>
                   </div>
                 </div>
-                <VideoAction videoId={id} video={video} />
+                <VideoAction videoId={id} />
               </div>
               <div className="bg-[#f2f2f2] rounded-[5px] mt-[20px] mb-[24px] p-[10px]">
                 <div className="flex gap-[5px] flex-wrap mb-2 text-[#606060] font-semibold">

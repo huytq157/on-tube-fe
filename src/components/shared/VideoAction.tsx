@@ -3,7 +3,7 @@
 import LikeIcon from "@/components/icons/Like";
 import DisLikeIcon from "@/components/icons/DisLike";
 import SaveIcon from "@/components/icons/Save";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModalSave from "./ModalSave";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "@/redux/features/authSlice";
@@ -13,6 +13,7 @@ import {
   useCheckIsDisLikedQuery,
   useCheckIsLikedQuery,
   useDislikeVideoMutation,
+  useGetVideoByIdQuery,
   useLikeVideoMutation,
 } from "@/redux/api/videoApi";
 import IsLikeIcon from "../icons/isLike";
@@ -20,20 +21,15 @@ import IsDisLikeIcon from "../icons/isDisLike";
 
 interface ModalProps {
   videoId: string | any;
-  video: any;
 }
 
-const VideoAction: React.FC<ModalProps> = ({ videoId, video }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
   const token = useSelector(selectCurrentToken);
-  const [likeCount, setLikeCount] = useState(video?.video?.likeCount || 0);
-  const [dislikeCount, setDislikeCount] = useState(
-    video?.video?.dislikeCount || 0
-  );
-  const { data: user } = useGetMeQuery(undefined, {
-    skip: !token,
+  const { data: video, refetch } = useGetVideoByIdQuery(videoId, {
+    refetchOnMountOrArgChange: true,
   });
 
+  const { data: user } = useGetMeQuery(undefined, { skip: !token });
   const { data: checkedLike, refetch: refetchLike } =
     useCheckIsLikedQuery(videoId);
   const { data: checkedDisLike, refetch: refetchDisLike } =
@@ -42,33 +38,22 @@ const VideoAction: React.FC<ModalProps> = ({ videoId, video }) => {
   const [likeVideo] = useLikeVideoMutation();
   const [dislikeVideo] = useDislikeVideoMutation();
 
-  const handleSaveClick = () => {
-    if (!user) {
-      message.warning("Bạn phải đăng nhập để lưu video!");
-      return;
-    }
-    setIsModalOpen(true);
-  };
-
   const handleLikeClick = async () => {
     if (!user) {
       message.warning("Bạn phải đăng nhập để thích video!");
       return;
     }
     try {
-      if (checkedLike?.isLiked === false || checkedLike === undefined) {
+      if (!checkedLike?.isLiked) {
         await likeVideo({ videoId }).unwrap();
-        setLikeCount(likeCount + 1);
-
-        if (checkedDisLike?.isDisliked === true) {
-          setDislikeCount(dislikeCount - 1);
+        if (checkedDisLike?.isDisliked) {
+          await refetchDisLike();
         }
       } else {
         await likeVideo({ videoId }).unwrap();
-        setLikeCount(likeCount - 1);
       }
-      await refetchLike();
-      await refetchDisLike();
+      refetchLike();
+      refetch();
     } catch (error) {
       message.error("Lỗi");
     }
@@ -76,26 +61,20 @@ const VideoAction: React.FC<ModalProps> = ({ videoId, video }) => {
 
   const handleDislikeClick = async () => {
     if (!user) {
-      message.warning("Lỗi");
+      message.warning("Bạn phải đăng nhập để không thích video!");
       return;
     }
     try {
-      if (
-        checkedDisLike?.isDisliked === false ||
-        checkedDisLike === undefined
-      ) {
+      if (!checkedDisLike?.isDisliked) {
         await dislikeVideo({ videoId }).unwrap();
-        setDislikeCount(dislikeCount + 1);
-
-        if (checkedLike?.isLiked === true) {
-          setLikeCount(likeCount - 1);
+        if (checkedLike?.isLiked) {
+          await refetchLike();
         }
       } else {
         await dislikeVideo({ videoId }).unwrap();
-        setDislikeCount(dislikeCount - 1);
       }
-      await refetchDisLike();
-      await refetchLike();
+      refetchDisLike();
+      refetch();
     } catch (error) {
       message.error("Lỗi");
     }
@@ -109,40 +88,19 @@ const VideoAction: React.FC<ModalProps> = ({ videoId, video }) => {
             className="flex items-center gap-[5px] h-[100%]"
             onClick={handleLikeClick}
           >
-            {checkedLike?.isLiked === true ? <IsLikeIcon /> : <LikeIcon />}
-            <strong>{likeCount}</strong>
+            {checkedLike?.isLiked ? <IsLikeIcon /> : <LikeIcon />}
+            <strong>{video?.video?.likeCount ?? 0}</strong>
           </button>
           <div className="w-[20px] border-[1px] rotate-[-90deg] mx-[10px] border-[#B2B2B2]"></div>
           <button
             className="flex items-center gap-[5px]"
             onClick={handleDislikeClick}
           >
-            {checkedDisLike?.isDisliked === true ? (
-              <IsDisLikeIcon />
-            ) : (
-              <DisLikeIcon />
-            )}
-            <strong>{dislikeCount}</strong>
+            {checkedDisLike?.isDisliked ? <IsDisLikeIcon /> : <DisLikeIcon />}
+            <strong>{video?.video?.dislikeCount ?? 0}</strong>
           </button>
         </div>
       </div>
-      <button className="bg-[#f2f2f2]  flex flex-nowrap items-center gap-[8px] px-[10px] rounded-[50px]">
-        <LikeIcon />{" "}
-        <span className="font-semibold font-roboto text-nowrap">Chia sẻ</span>
-      </button>
-      <button
-        className="bg-[#f2f2f2] font-semibold flex flex-nowrap items-center gap-[10px] px-[10px] rounded-[50px] font-roboto"
-        onClick={handleSaveClick}
-      >
-        <SaveIcon />{" "}
-        <span className="font-semibold font-roboto text-nowrap">Lưu</span>
-      </button>
-
-      <ModalSave
-        open={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        videoId={videoId}
-      />
     </div>
   );
 };

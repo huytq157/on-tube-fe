@@ -22,6 +22,7 @@ import { selectCurrentToken } from "@/redux/features/authSlice";
 import { useGetMeQuery } from "@/redux/api/authApi";
 import { useGetPlaylistDetailQuery } from "@/redux/api/playListApi";
 import VideoItemSkeleton from "@/components/skeleton/VideoItemSkeleton";
+import VideoInfoWriter from "@/components/shared/VideoInfoWriter";
 
 const renderHTML = (htmlString: string) => {
   return <div dangerouslySetInnerHTML={{ __html: htmlString }} />;
@@ -60,13 +61,6 @@ const VideoDetail = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const hasViewedRef = useRef(false);
-
-  const [currentVideo, setCurrentVideo] = useState(video);
-  useEffect(() => {
-    if (video) {
-      setCurrentVideo(video);
-    }
-  }, [video]);
 
   const toggleDescription = () => {
     setIsExpanded((prev) => !prev);
@@ -214,47 +208,7 @@ const VideoDetail = () => {
                 {video?.video?.title}
               </h1>
               <div className="md:mt-[25px] sm:mt-[15px] flex justify-between flex-wrap gap-[15px]">
-                <div className=" flex items-center gap-[20px]">
-                  <div className="flex items-center gap-[15px] md:px-[10px] cursor-pointer rounded-[8px]">
-                    <div className="w-[40px] h-[40px] rounded-[50%] overflow-hidden cursor-pointer">
-                      {videoLoading ? (
-                        <div className="flex items-center">
-                          <Skeleton.Avatar active size={40} className="mr-2" />
-                        </div>
-                      ) : (
-                        <Link
-                          href={`/channel/${video?.video?.writer?._id}/playlist`}
-                        >
-                          <Image
-                            src={video?.video?.writer?.avatar || ""}
-                            width={40}
-                            height={40}
-                            alt=""
-                            className="w-[100%] h-[100%]"
-                            loading="lazy"
-                          />
-                        </Link>
-                      )}
-                    </div>
-                    <div>
-                      <Link
-                        href={`/channel/${video?.video?.writer?._id}/playlist`}
-                      >
-                        <span className="font-roboto text-line-camp-1 text-[#333] text-[15px] font-semibold leading-[20px]">
-                          {video?.video?.writer?.name}
-                        </span>
-                      </Link>
-                      <span className="font-roboto text-line-camp-1 text-[#606060] leading-[20px]">
-                        16 người đăng ký
-                      </span>
-                    </div>
-                  </div>
-                  <div>
-                    <button className="bg-[#333] rounded-[50px] min-w-[90px] text-[#fff] h-[36px] font-roboto">
-                      Đăng ký
-                    </button>
-                  </div>
-                </div>
+                <VideoInfoWriter video={video} videoLoading={videoLoading} />
                 <VideoAction videoId={id} />
               </div>
               <div className="bg-[#f2f2f2] rounded-[5px] mt-[20px] mb-[24px] p-[10px]">

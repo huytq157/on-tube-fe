@@ -7,8 +7,7 @@ import { useSearchVideoQuery } from "@/redux/api/videoApi";
 import { useSearchChannelQuery } from "@/redux/api/channelApi";
 import { Col, Row, Tabs } from "antd";
 import { useSearchParams } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
+import ChannelItem from "@/components/card/ChannelItem";
 
 const PageResult = () => {
   const searchParams = useSearchParams();
@@ -68,35 +67,7 @@ const PageResult = () => {
               ))
             ) : channelResults && channelResults.results?.length > 0 ? (
               channelResults.results.map((item: any) => (
-                <Col key={item._id} xs={24} sm={24} lg={24} xl={24} xxl={24}>
-                  <div className="flex gap-[20px] my-3 items-center">
-                    <div className="w-[100px]  h-[100px] bg-black rounded-[50%] overflow-hidden">
-                      <Link href={`/channel/${item?._id}/playlist`}>
-                        <Image
-                          src={item?.avatar}
-                          width={300}
-                          height={100}
-                          alt={item.title}
-                          priority
-                          className="w-full h-full object-cover"
-                        />
-                      </Link>
-                    </div>
-                    <div>
-                      <Link href={`/channel/${item?._id}/playlist`}>
-                        <h1 className="font-[600] text-[#000] text-[20px]">
-                          {item.name}
-                        </h1>
-                      </Link>
-                      <p>{item.email}</p>
-                      <p>{item?.description}</p>
-                    </div>
-
-                    <button className="bg-[#333] rounded-[50px] min-w-[90px] text-[#fff] h-[36px]">
-                      Đăng ký
-                    </button>
-                  </div>
-                </Col>
+                <ChannelItem sub={item} key={item?._id} />
               ))
             ) : (
               <p>

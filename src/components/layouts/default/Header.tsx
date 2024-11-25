@@ -9,10 +9,19 @@ import MenuIcon from "@/components/icons/Menu";
 import LogoIcon from "@/components/icons/Logo";
 import CamIcon from "@/components/icons/Cam";
 import NotificationIcon from "@/components/icons/Notification";
-import { Divider, Menu, MenuProps, message, Popover, Space, Spin } from "antd";
+import {
+  Badge,
+  Divider,
+  Menu,
+  MenuProps,
+  message,
+  Popover,
+  Space,
+  Spin,
+} from "antd";
 import styled from "styled-components";
 import LogoutIcon from "@/components/icons/Logout";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import BackIcon from "@/components/icons/Back";
 import { useGetMeQuery } from "@/redux/api/authApi";
 import { useDispatch, useSelector } from "react-redux";
@@ -99,6 +108,12 @@ const Header = ({
     skip: !token,
     // pollingInterval: 2000,
   });
+
+  const countNotification = useMemo(() => {
+    return notifications?.data?.filter(
+      (notification: any) => !notification.read
+    )?.length;
+  }, [notifications?.data?.length]);
 
   const handleLogout = () => {
     dispatch(logOut());
@@ -255,15 +270,22 @@ const Header = ({
                 trigger="click"
                 placement="topRight"
               >
-                <TooltipButton Icon={<NotificationIcon />} title="Thông báo" />
+                <Badge count={countNotification}>
+                  <TooltipButton
+                    Icon={<NotificationIcon />}
+                    title="Thông báo"
+                  />
+                </Badge>
               </Popover>
             </div>
             <div className="md:hidden sm:block">
-              <TooltipButton
-                title=""
-                Icon={<NotificationIcon />}
-                onClick={() => setShowNotify(true)}
-              />
+              <Badge count={countNotification}>
+                <TooltipButton
+                  title=""
+                  Icon={<NotificationIcon />}
+                  onClick={() => setShowNotify(true)}
+                />
+              </Badge>
               {showNotify && (
                 <div className="absolute top-0 left-0 bg-[#fff] w-full h-[100vh] bottom-0">
                   <TooltipButton

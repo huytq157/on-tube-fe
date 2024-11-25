@@ -135,6 +135,12 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
       providesTags: ["Video"],
     }),
+    getChannelVideoCount: builder.query({
+      query: (channelId) => ({
+        url: `video/${channelId}/video-count`,
+      }),
+      providesTags: ["Video"],
+    }),
   }),
 });
 
@@ -155,4 +161,5 @@ export const {
   useCheckIsLikedQuery,
   useCheckIsDisLikedQuery,
   useGetlikeVideoQuery,
+  useGetChannelVideoCountQuery,
 } = VideoApiSlice;

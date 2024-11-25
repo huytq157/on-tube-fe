@@ -119,13 +119,13 @@ const Content = () => {
     },
     {
       title: "Lượt thích",
-      dataIndex: "likesCount",
-      key: "likesCount",
+      dataIndex: "likeCount",
+      key: "likeCount",
     },
     {
       title: "Lượt không thích",
-      dataIndex: "dislikesCount",
-      key: "dislikesCount",
+      dataIndex: "dislikeCount",
+      key: "dislikeCount",
     },
     {
       title: " Cho phép bình luận",

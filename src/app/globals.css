@@ -220,3 +220,8 @@ p {
 .sidebar-custom-scrollbar::-webkit-scrollbar-thumb {
   transition: background-color 0.3s;
 }
+
+.ant-badge-count {
+  top: 7px !important;
+  right: 10px !important;
+}

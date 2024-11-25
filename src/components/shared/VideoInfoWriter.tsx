@@ -8,11 +8,15 @@ import {
   useUnSubCriptionMutation,
 } from "@/redux/api/subcription";
 import { selectCurrentToken } from "@/redux/features/authSlice";
+import {
+  setSubscribersCount,
+  setSubscriptionStatus,
+} from "@/redux/features/subcriptionSlice";
 import { message, Skeleton } from "antd";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 interface ModalProps {
   video: any;
@@ -24,6 +28,7 @@ const VideoInfoWriter: React.FC<ModalProps> = ({ video, videoLoading }) => {
   const { data: user } = useGetMeQuery(undefined, {
     skip: !token,
   });
+  const dispatch = useDispatch();
 
   const channelId = video?.video?.writer?._id;
   const [subscribe] = useSubCriptionMutation();
@@ -39,6 +44,22 @@ const VideoInfoWriter: React.FC<ModalProps> = ({ video, videoLoading }) => {
     { skip: !channelId }
   );
 
+  useEffect(() => {
+    if (subscriptionStatus) {
+      dispatch(
+        setSubscriptionStatus({
+          channelId,
+          subscribed: subscriptionStatus.subscribed,
+        })
+      );
+    }
+    if (subscribersCount) {
+      dispatch(
+        setSubscribersCount({ channelId, count: subscribersCount.count })
+      );
+    }
+  }, [subscriptionStatus, subscribersCount, dispatch, channelId]);
+
   const handleSubCription = async () => {
     if (!user) {
       message.warning("Bạn phải đăng nhập để đăng ký!");
@@ -51,9 +72,11 @@ const VideoInfoWriter: React.FC<ModalProps> = ({ video, videoLoading }) => {
 
       if (subscriptionStatus?.subscribed) {
         await unsubscribe({ channelId }).unwrap();
+        dispatch(setSubscriptionStatus({ channelId, subscribed: false }));
         message.success("Đã hủy đăng ký kênh!");
       } else {
         await subscribe({ channelId }).unwrap();
+        dispatch(setSubscriptionStatus({ channelId, subscribed: true }));
         message.success("Đã đăng ký kênh!");
       }
     } catch (error) {
@@ -63,6 +86,13 @@ const VideoInfoWriter: React.FC<ModalProps> = ({ video, videoLoading }) => {
       setIsProcessing(false);
     }
   };
+
+  const currentSubscriptionStatus = useSelector(
+    (state: any) => state.subscription.subscriptionStatus[channelId]
+  );
+  const currentSubscribersCount = useSelector(
+    (state: any) => state.subscription.subscribersCount[channelId]
+  );
 
   return (
     <div className=" flex items-center gap-[20px]">
@@ -92,7 +122,7 @@ const VideoInfoWriter: React.FC<ModalProps> = ({ video, videoLoading }) => {
             </span>
           </Link>
           <span className="font-roboto text-line-camp-1 text-[#606060] leading-[20px]">
-            {subscribersCount?.count} người đăng ký
+            {currentSubscribersCount} người đăng ký
           </span>
         </div>
       </div>
@@ -103,7 +133,7 @@ const VideoInfoWriter: React.FC<ModalProps> = ({ video, videoLoading }) => {
             onClick={handleSubCription}
             disabled={isCheckingSubscription || isProcessing}
           >
-            {subscriptionStatus?.subscribed === true ? "Đã đăng ký" : "Đăng ký"}
+            {currentSubscriptionStatus ? "Đã đăng ký" : "Đăng ký"}
           </button>
         )}
       </div>

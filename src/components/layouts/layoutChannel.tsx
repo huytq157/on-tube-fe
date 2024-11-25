@@ -4,28 +4,104 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useGetChannelInfoQuery } from "@/redux/api/channelApi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useGetMeQuery } from "@/redux/api/authApi";
 import { selectCurrentToken } from "@/redux/features/authSlice";
-import { Skeleton } from "antd";
+import { message, Skeleton } from "antd";
+import { useEffect, useState } from "react";
+import {
+  useCheckSubCriptionQuery,
+  useGetChannelSubscribersCountQuery,
+  useSubCriptionMutation,
+  useUnSubCriptionMutation,
+} from "@/redux/api/subcription";
+import {
+  setSubscribersCount,
+  setSubscriptionStatus,
+} from "@/redux/features/subcriptionSlice";
+import { useGetChannelVideoCountQuery } from "@/redux/api/videoApi";
 
 const LayoutChannel = ({ children }: Props) => {
   const params = useParams();
   const pathName = usePathname();
+  const dispatch = useDispatch();
   const { id } = params;
-
   const token = useSelector(selectCurrentToken);
   const { data: user } = useGetMeQuery(undefined, {
     skip: !token,
   });
-
   const { data: channel, isLoading } = useGetChannelInfoQuery(id);
-
   const isOwner = user?.user?._id === channel?.channel?._id;
+  const channelId = channel?.channel?._id;
+
+  const { data: videoCount } = useGetChannelVideoCountQuery(channelId);
+
+  const [subscribe] = useSubCriptionMutation();
+  const [unsubscribe] = useUnSubCriptionMutation();
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const { data: subscriptionStatus } = useCheckSubCriptionQuery(channelId, {
+    skip: !user,
+  });
+
+  const { data: subscribersCount } = useGetChannelSubscribersCountQuery(
+    channelId,
+    { skip: !channelId }
+  );
+
+  useEffect(() => {
+    if (subscriptionStatus) {
+      dispatch(
+        setSubscriptionStatus({
+          channelId,
+          subscribed: subscriptionStatus.subscribed,
+        })
+      );
+    }
+    if (subscribersCount) {
+      dispatch(
+        setSubscribersCount({ channelId, count: subscribersCount.count })
+      );
+    }
+  }, [subscriptionStatus, subscribersCount, dispatch, channelId]);
+
+  const handleSubCription = async () => {
+    if (!user) {
+      message.warning("Bạn phải đăng nhập để đăng ký!");
+      return;
+    }
+    if (!channelId) return;
+
+    try {
+      setIsProcessing(true);
+
+      if (subscriptionStatus?.subscribed) {
+        await unsubscribe({ channelId }).unwrap();
+        dispatch(setSubscriptionStatus({ channelId, subscribed: false }));
+        message.success("Đã hủy đăng ký kênh!");
+      } else {
+        await subscribe({ channelId }).unwrap();
+        dispatch(setSubscriptionStatus({ channelId, subscribed: true }));
+        message.success("Đã đăng ký kênh!");
+      }
+    } catch (error) {
+      console.error(error);
+      message.error("Có lỗi xảy ra, vui lòng thử lại!");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const currentSubscriptionStatus = useSelector(
+    (state: any) => state.subscription.subscriptionStatus[channelId]
+  );
+  const currentSubscribersCount = useSelector(
+    (state: any) => state.subscription.subscribersCount[channelId]
+  );
 
   return (
     <div>
-      <div className="w-[100%] md:h-[180px] sm:h-[130px] rounded-[8px] overflow-hidden mb-[10px] bg-slate-50">
+      <div className="w-[100%] md:h-[200px] sm:h-[130px] rounded-[8px] overflow-hidden mb-[10px] bg-slate-50">
         {isLoading ? (
           <Skeleton.Image
             active
@@ -65,15 +141,22 @@ const LayoutChannel = ({ children }: Props) => {
           <h1 className="font-bold text-[30px] leading-[32px]">
             {channel?.channel?.name}
           </h1>
-          <div className="flex sm:flex-col md:flex-row gap-[15px] my-[5px] text-[#606060] font-medium">
+          <div className="flex sm:flex-col md:flex-row gap-[10px] my-[5px] text-[#606060] font-medium">
             <span className="text-[#333]">{channel?.channel?.email}</span>
-            <span>22 người đăng ký</span>
+            <strong>.</strong>
+            <span>{currentSubscribersCount} người đăng ký</span>
+            <strong>.</strong>
+            <span>{videoCount?.videoCount} video</span>
           </div>
           <p>{channel?.channel?.description}</p>
           <div className="flex sm:justify-center md:justify-start gap-[10px]">
             {!isOwner ? (
-              <button className="bg-[#333] mt-[10px] rounded-[50px] min-w-[90px] text-[#fff] h-[36px]">
-                Đăng ký
+              <button
+                className="bg-[#333] mt-[10px] rounded-[50px] min-w-[90px] text-[#fff] h-[36px]"
+                onClick={handleSubCription}
+                disabled={isProcessing}
+              >
+                {currentSubscriptionStatus ? "Đã đăng ký" : "Đăng ký"}
               </button>
             ) : (
               <div className="flex gap-3">

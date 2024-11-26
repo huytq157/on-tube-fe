@@ -20,6 +20,7 @@ import {
   setSubscriptionStatus,
 } from "@/redux/features/subcriptionSlice";
 import { useGetChannelVideoCountQuery } from "@/redux/api/videoApi";
+import { useCreateNotificationMutation } from "@/redux/api/notificationApi";
 
 const LayoutChannel = ({ children }: Props) => {
   const params = useParams();
@@ -39,6 +40,7 @@ const LayoutChannel = ({ children }: Props) => {
   const [subscribe] = useSubCriptionMutation();
   const [unsubscribe] = useUnSubCriptionMutation();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [createNotification] = useCreateNotificationMutation();
 
   const { data: subscriptionStatus } = useCheckSubCriptionQuery(channelId, {
     skip: !user,
@@ -78,10 +80,20 @@ const LayoutChannel = ({ children }: Props) => {
       if (subscriptionStatus?.subscribed) {
         await unsubscribe({ channelId }).unwrap();
         dispatch(setSubscriptionStatus({ channelId, subscribed: false }));
+
         message.success("Đã hủy đăng ký kênh!");
       } else {
         await subscribe({ channelId }).unwrap();
         dispatch(setSubscriptionStatus({ channelId, subscribed: true }));
+
+        await createNotification({
+          comment: null,
+          video: null,
+          message: "đã đăng ký kênh của bạn",
+          url: "/",
+          user: [channelId],
+        }).unwrap();
+
         message.success("Đã đăng ký kênh!");
       }
     } catch (error) {
@@ -212,3 +224,22 @@ type Props = {
 };
 
 export default LayoutChannel;
+
+// {
+//     "video": "672263a54f9941b0e43d762e",
+//     "message": "đã bình luận video của bạn",
+//     "url": "/video/672263a54f9941b0e43d762e",
+//     "user": [
+//         "66ea9c3742092cef6b493b95"
+//     ]
+// }
+
+// {
+//     "comment": "",
+//     "video": "",
+//     "message": "đã đăng ký kênh của bạn",
+//     "url": "",
+//     "user": [
+//         "66ea9c3742092cef6b493b95"
+//     ]
+// }

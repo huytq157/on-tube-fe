@@ -23,6 +23,9 @@ const ChannelSub = () => {
     <div>
       <LayoutDefault>
         <div className="max-w-[800px] mx-auto">
+          <h1 className="font-semibold text-[22px] py-4">
+            Tất cả kênh đăng ký
+          </h1>
           {isLoading ? (
             <div className="text-center py-10">
               <Spin indicator={<LoadingOutlined spin />} size="large" />

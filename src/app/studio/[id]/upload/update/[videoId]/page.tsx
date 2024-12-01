@@ -5,7 +5,6 @@ import { Form, Input, Button, message, Switch, DatePicker, Select } from "antd";
 import LayoutStudio from "@/components/layouts/studio/LayoutStudio";
 import moment from "moment";
 import { useUploadImageMutation } from "@/redux/api/uploadApi";
-import { DeleteOutlined } from "@ant-design/icons";
 import {
   useUpdateVideoMutation,
   useGetVideoByIdQuery,
@@ -14,13 +13,11 @@ import { useGetCategoryQuery } from "@/redux/api/categoryApi";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useParams, useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
-import { selectCurrentToken } from "@/redux/features/authSlice";
-import { useGetMeQuery } from "@/redux/api/authApi";
 import { useGetPlaylistQuery } from "@/redux/api/playListApi";
 import ImageUpload from "@/components/shared/ImageUpload";
 import VideoUpload from "@/components/shared/VideoUpload";
 import axios from "axios";
+import { useUser } from "@/hook/AuthContext";
 
 const { Option } = Select;
 
@@ -39,10 +36,7 @@ const UpdateVideo = () => {
   const { data: video } = useGetVideoByIdQuery(videoId);
   const [uploadImage] = useUploadImageMutation();
   const [updateVideo, { isLoading: isUpdating }] = useUpdateVideoMutation();
-  const token = useSelector(selectCurrentToken);
-  const { data: user } = useGetMeQuery(undefined, {
-    skip: !token,
-  });
+  const { user } = useUser();
 
   useEffect(() => {
     if (video) {

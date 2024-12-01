@@ -12,10 +12,10 @@ import styled from "styled-components";
 import { Logo_studio } from "../../../../public";
 import OverviewIcon from "@/components/icons/Overview";
 import VideoIcon from "@/components/icons/Video";
-import { useDispatch, useSelector } from "react-redux";
-import { logOut, selectCurrentToken } from "@/redux/features/authSlice";
-import { useGetMeQuery } from "@/redux/api/authApi";
+import { useDispatch } from "react-redux";
+import { logOut } from "@/redux/features/authSlice";
 import ListIcon from "@/components/icons/List";
+import { useUser } from "@/hook/AuthContext";
 
 function getItem(
   label: React.ReactNode,
@@ -50,10 +50,8 @@ const SidebarStudio = ({
   const [openKeys, setOpenKeys] = useState<string[]>([]);
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const dispatch = useDispatch();
-  const token = useSelector(selectCurrentToken);
-  const { data: user } = useGetMeQuery(undefined, {
-    skip: !token,
-  });
+  const { user, isAuthenticated } = useUser();
+
   const handleLogout = () => {
     dispatch(logOut());
     message.success("Đăng xuất thành công");

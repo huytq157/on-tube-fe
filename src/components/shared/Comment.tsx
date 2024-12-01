@@ -3,10 +3,7 @@
 import { Dropdown, MenuProps, Skeleton } from "antd";
 import CommentItem from "../card/CommentItem";
 import SortIcon from "@/components/icons/Sort";
-import { ChangeEvent, useContext, useState } from "react";
-import { useSelector } from "react-redux";
-import { selectCurrentToken } from "@/redux/features/authSlice";
-import { useGetMeQuery } from "@/redux/api/authApi";
+import { ChangeEvent, useState } from "react";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import Image from "next/image";
 import SmellIcon from "../icons/Smell";
@@ -16,6 +13,7 @@ import {
   useGetCommentsQuery,
 } from "@/redux/api/commentApi";
 import { useCreateNotificationMutation } from "@/redux/api/notificationApi";
+import { useUser } from "@/hook/AuthContext";
 
 interface CommentsProps {
   videoId: string | any;
@@ -37,9 +35,7 @@ const Comments: React.FC<CommentsProps> = ({ videoId, video }) => {
   const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
-
-  const token = useSelector(selectCurrentToken);
-  const { data: user } = useGetMeQuery(undefined, { skip: !token });
+  const { user, isAuthenticated } = useUser();
   const { data: comments, error, isLoading } = useGetCommentsQuery({ videoId });
 
   const [addComment] = useAddCommentMutation();
@@ -72,10 +68,8 @@ const Comments: React.FC<CommentsProps> = ({ videoId, video }) => {
           video: videoId,
           message: "đã bình luận video của bạn",
           url: `/video/${videoId}`,
-          user: [video?.video?.writer?._id], // người nhận thông báo
+          user: [video?.video?.writer?._id],
         }).unwrap();
-
-        setInputValue("");
       } catch (error) {
         console.error("Lỗi khi thêm bình luận:", error);
       }
@@ -96,7 +90,7 @@ const Comments: React.FC<CommentsProps> = ({ videoId, video }) => {
       </div>
 
       <div>
-        {user?.user ? (
+        {isAuthenticated ? (
           <div className="flex justify-start mb-[30px]">
             <div className="w-[40px] h-[40px] mr-[12px] rounded-[50%] overflow-hidden cursor-pointer">
               <Image
@@ -112,7 +106,7 @@ const Comments: React.FC<CommentsProps> = ({ videoId, video }) => {
                 <input
                   placeholder="Viết bình luận ..."
                   className="w-[100%] outline-none border-b-[1px] border-[#504e4e] pb-1"
-                  onFocus={() => setIsInputFocused(true)}
+                  onClick={() => setIsInputFocused(true)}
                   value={inputValue}
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
                     setInputValue(e.target.value)

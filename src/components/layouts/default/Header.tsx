@@ -9,23 +9,12 @@ import MenuIcon from "@/components/icons/Menu";
 import LogoIcon from "@/components/icons/Logo";
 import CamIcon from "@/components/icons/Cam";
 import NotificationIcon from "@/components/icons/Notification";
-import {
-  Badge,
-  Divider,
-  Menu,
-  MenuProps,
-  message,
-  Popover,
-  Space,
-  Spin,
-} from "antd";
+import { Badge, Divider, Menu, MenuProps, Popover, Space, Spin } from "antd";
 import styled from "styled-components";
 import LogoutIcon from "@/components/icons/Logout";
 import React, { useMemo, useState } from "react";
 import BackIcon from "@/components/icons/Back";
-import { useGetMeQuery } from "@/redux/api/authApi";
-import { useDispatch, useSelector } from "react-redux";
-import { logOut, selectCurrentToken } from "@/redux/features/authSlice";
+import { useLogoutMutation } from "@/redux/api/authApi";
 import Search from "@/components/shared/Search";
 import SearchIcon from "@/components/icons/Search";
 import {
@@ -34,6 +23,8 @@ import {
 } from "@/redux/api/notificationApi";
 import { calculateCreatedTime } from "@/components/utils/formatDate";
 import { LoadingOutlined } from "@ant-design/icons";
+import { useUser } from "@/hook/AuthContext";
+
 declare global {
   interface Window {
     SpeechRecognition: any;
@@ -80,17 +71,12 @@ const Header = ({
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const [showNotify, setShowNotify] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+  const [updateSeenNotification] = useUpdateSeenNotificationMutation();
 
   const pathname = usePathname();
   const router = useRouter();
-  const dispatch = useDispatch();
-
-  const token = useSelector(selectCurrentToken);
-  const { data: user } = useGetMeQuery(undefined, {
-    skip: !token,
-  });
-
-  const [updateSeenNotification] = useUpdateSeenNotificationMutation();
+  const [logout] = useLogoutMutation();
+  const { user, isAuthenticated, logOut } = useUser();
 
   const handleNotificationClick = async (notification: any) => {
     if (!notification.read) {
@@ -105,8 +91,7 @@ const Header = ({
     isLoading: isNotificationLoading,
     error: notificationError,
   } = useGetNotificationQuery(undefined, {
-    skip: !token,
-    // pollingInterval: 2000,
+    skip: !isAuthenticated,
   });
 
   const countNotification = useMemo(() => {
@@ -115,9 +100,13 @@ const Header = ({
     )?.length;
   }, [notifications?.data?.length]);
 
-  const handleLogout = () => {
-    dispatch(logOut());
-    message.success("Đăng xuất thành công");
+  const handleLogout = async () => {
+    try {
+      await logout(undefined).unwrap();
+      logOut();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   const onMenuClick = (item: any) => {
@@ -347,7 +336,7 @@ const Header = ({
         )}
         <div className="w-[34px] h-[34px] rounded-[50%] overflow-hidden cursor-pointer">
           <Popover
-            content={user ? contentChannel : contentAuth}
+            content={isAuthenticated ? contentChannel : contentAuth}
             trigger="click"
             placement="topRight"
           >

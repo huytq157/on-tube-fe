@@ -24,6 +24,7 @@ export const CommentApiSlice = apiSlice.injectEndpoints({
         url: "comments/create",
         method: "POST",
         body: newComment,
+        credentials: "include",
       }),
       invalidatesTags: ["Comment"],
     }),
@@ -33,6 +34,7 @@ export const CommentApiSlice = apiSlice.injectEndpoints({
         url: `comments/${commentId}`,
         method: "PUT",
         body: comment,
+        credentials: "include",
       }),
       invalidatesTags: (result, error, { playlistId }) => [
         { type: "Comment", id: playlistId },
@@ -43,6 +45,7 @@ export const CommentApiSlice = apiSlice.injectEndpoints({
       query: (commentId) => ({
         url: `comments/${commentId}`,
         method: "DELETE",
+        credentials: "include",
       }),
       invalidatesTags: ["Comment"],
     }),
@@ -52,6 +55,7 @@ export const CommentApiSlice = apiSlice.injectEndpoints({
         url: "comments/reply",
         method: "POST",
         body: newReply,
+        credentials: "include",
       }),
       invalidatesTags: ["Comment"],
     }),

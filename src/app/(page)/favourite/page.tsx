@@ -18,8 +18,6 @@ const Favourite = () => {
     isFetching,
   } = useGetlikeVideoQuery("");
 
-  console.log("data: ", favouries);
-
   return (
     <LayoutDefault>
       <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 4xl:grid-cols-6 gap-x-4 gap-y-12">

@@ -7,6 +7,7 @@ export const SubcriptionApiSlice = apiSlice.injectEndpoints({
         url: "subcription/sub",
         method: "POST",
         body: data,
+        credentials: "include",
       }),
       invalidatesTags: ["Subcription"],
     }),
@@ -15,6 +16,7 @@ export const SubcriptionApiSlice = apiSlice.injectEndpoints({
         url: "subcription/un-sub",
         method: "POST",
         body: data,
+        credentials: "include",
       }),
       invalidatesTags: ["Subcription"],
     }),
@@ -22,6 +24,7 @@ export const SubcriptionApiSlice = apiSlice.injectEndpoints({
       query: ({}) => ({
         url: "subcription/video-sub",
         params: {},
+        credentials: "include",
       }),
       keepUnusedDataFor: 5,
       providesTags: ["Subcription"],
@@ -30,6 +33,7 @@ export const SubcriptionApiSlice = apiSlice.injectEndpoints({
       query: ({}) => ({
         url: "subcription/subcriber",
         params: {},
+        credentials: "include",
       }),
       keepUnusedDataFor: 5,
       providesTags: ["Subcription"],
@@ -37,12 +41,14 @@ export const SubcriptionApiSlice = apiSlice.injectEndpoints({
     checkSubCription: builder.query({
       query: (channelId) => ({
         url: `subcription/check-sub/${channelId}`,
+        credentials: "include",
       }),
       providesTags: ["Subcription"],
     }),
     getChannelSubscribersCount: builder.query({
       query: (channelId) => ({
         url: `subcription/channel/${channelId}/subcount`,
+        credentials: "include",
       }),
       providesTags: ["Subcription"],
     }),

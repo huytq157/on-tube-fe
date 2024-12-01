@@ -1,7 +1,6 @@
 import Image from "next/image";
-import { NoThumbnail, Video1 } from "../../../public";
+import { NoThumbnail } from "../../../public";
 import PlayIcon from "../icons/Play";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 interface PlayListCardProps {

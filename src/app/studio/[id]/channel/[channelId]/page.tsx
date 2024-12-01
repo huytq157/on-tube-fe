@@ -7,7 +7,7 @@ import {
   useUpdateChannelMutation,
 } from "@/redux/api/channelApi";
 import { useUploadImageMutation } from "@/redux/api/uploadApi";
-import { Button, Form, Image, Input, message, Upload } from "antd";
+import { Button, Form, Input, message } from "antd";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 

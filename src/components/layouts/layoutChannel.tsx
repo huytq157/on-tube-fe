@@ -2,11 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useGetChannelInfoQuery } from "@/redux/api/channelApi";
 import { useDispatch, useSelector } from "react-redux";
-import { useGetMeQuery } from "@/redux/api/authApi";
-import { selectCurrentToken } from "@/redux/features/authSlice";
 import { message, Skeleton } from "antd";
 import { useEffect, useState } from "react";
 import {
@@ -21,20 +19,18 @@ import {
 } from "@/redux/features/subcriptionSlice";
 import { useGetChannelVideoCountQuery } from "@/redux/api/videoApi";
 import { useCreateNotificationMutation } from "@/redux/api/notificationApi";
+import { useUser } from "@/hook/AuthContext";
 
 const LayoutChannel = ({ children }: Props) => {
   const params = useParams();
   const pathName = usePathname();
   const dispatch = useDispatch();
   const { id } = params;
-  const token = useSelector(selectCurrentToken);
-  const { data: user } = useGetMeQuery(undefined, {
-    skip: !token,
-  });
+  const { user } = useUser();
+
   const { data: channel, isLoading } = useGetChannelInfoQuery(id);
   const isOwner = user?.user?._id === channel?.channel?._id;
   const channelId = channel?.channel?._id;
-
   const { data: videoCount } = useGetChannelVideoCountQuery(channelId);
 
   const [subscribe] = useSubCriptionMutation();

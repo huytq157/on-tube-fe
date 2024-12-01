@@ -1,6 +1,6 @@
 "use client";
 
-import { Col, Modal, Row, Skeleton, Switch } from "antd";
+import { Col, Row, Skeleton, Switch } from "antd";
 import Image from "next/image";
 import LayoutDefault from "@/components/layouts/default/LayoutDefault";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -17,12 +17,10 @@ import Head from "next/head";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { calculateCreatedTime } from "@/components/utils/formatDate";
 import Link from "next/link";
-import { useSelector } from "react-redux";
-import { selectCurrentToken } from "@/redux/features/authSlice";
-import { useGetMeQuery } from "@/redux/api/authApi";
 import { useGetPlaylistDetailQuery } from "@/redux/api/playListApi";
 import VideoItemSkeleton from "@/components/skeleton/VideoItemSkeleton";
 import VideoInfoWriter from "@/components/shared/VideoInfoWriter";
+import { useUser } from "@/hook/AuthContext";
 
 const renderHTML = (htmlString: string) => {
   return <div dangerouslySetInnerHTML={{ __html: htmlString }} />;
@@ -34,12 +32,9 @@ const VideoDetail = () => {
   const searchParams = useSearchParams();
   const fromPlaylist = searchParams.get("from") === "playlist";
   const playlistId = searchParams.get("playlistId");
-
   const router = useRouter();
-  const token = useSelector(selectCurrentToken);
-  const { data: user } = useGetMeQuery(undefined, {
-    skip: !token,
-  });
+  const { user, isAuthenticated } = useUser();
+
   const {
     data: video,
     isLoading: videoLoading,
@@ -88,7 +83,7 @@ const VideoDetail = () => {
       if (totalDuration > 0 && currentTime >= totalDuration * 0.5) {
         hasViewedRef.current = true;
 
-        if (token) {
+        if (isAuthenticated) {
           descViewAuth({
             videoId: id,
             watchTime: totalDuration * 0.5,

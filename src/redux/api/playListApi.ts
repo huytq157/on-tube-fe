@@ -6,6 +6,7 @@ export const PlaylistApiSlice = apiSlice.injectEndpoints({
       query: ({ page = 1, limit = 10 }) => ({
         url: "playlist/list",
         params: { page, limit },
+        credentials: "include",
       }),
       keepUnusedDataFor: 5,
       providesTags: ["Playlist"],
@@ -30,6 +31,7 @@ export const PlaylistApiSlice = apiSlice.injectEndpoints({
         url: "playlist",
         method: "POST",
         body: newplaylist,
+        credentials: "include",
       }),
       invalidatesTags: ["Playlist"],
     }),
@@ -39,6 +41,7 @@ export const PlaylistApiSlice = apiSlice.injectEndpoints({
         url: `playlist/${playlistId}`,
         method: "PATCH",
         body: updatedData,
+        credentials: "include",
       }),
       invalidatesTags: (result, error, { playlistId }) => [
         { type: "Playlist", id: playlistId },
@@ -49,6 +52,7 @@ export const PlaylistApiSlice = apiSlice.injectEndpoints({
       query: (playlistId) => ({
         url: `playlist/${playlistId}`,
         method: "DELETE",
+        credentials: "include",
       }),
       invalidatesTags: (result, error, playlistId) => [
         { type: "Playlist", id: playlistId },
@@ -60,6 +64,7 @@ export const PlaylistApiSlice = apiSlice.injectEndpoints({
         url: "playlist/save-to-playlist",
         method: "POST",
         body: data,
+        credentials: "include",
       }),
       invalidatesTags: ["Playlist"],
     }),
@@ -68,6 +73,7 @@ export const PlaylistApiSlice = apiSlice.injectEndpoints({
         url: "playlist/remove-to-playlist",
         method: "DELETE",
         body: data,
+        credentials: "include",
       }),
       invalidatesTags: ["Playlist"],
     }),

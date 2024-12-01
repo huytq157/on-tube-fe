@@ -18,6 +18,7 @@ import {
 } from "@/redux/api/videoApi";
 import IsLikeIcon from "../icons/isLike";
 import IsDisLikeIcon from "../icons/isDisLike";
+import { useUser } from "@/hook/AuthContext";
 
 interface ModalProps {
   videoId: string | any;
@@ -25,12 +26,12 @@ interface ModalProps {
 
 const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const token = useSelector(selectCurrentToken);
   const { data: video, refetch } = useGetVideoByIdQuery(videoId, {
     refetchOnMountOrArgChange: true,
   });
 
-  const { data: user } = useGetMeQuery(undefined, { skip: !token });
+  const { user, isAuthenticated } = useUser();
+
   const { data: checkedLike, refetch: refetchLike } =
     useCheckIsLikedQuery(videoId);
   const { data: checkedDisLike, refetch: refetchDisLike } =

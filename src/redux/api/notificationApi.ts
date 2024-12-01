@@ -7,12 +7,14 @@ export const NotificationApiSlice = apiSlice.injectEndpoints({
         url: "/notification/create",
         method: "POST",
         body: notificationData,
+        credentials: "include",
       }),
     }),
 
     getNotification: builder.query({
       query: () => ({
         url: "notification/gets",
+        credentials: "include",
       }),
       keepUnusedDataFor: 5,
       providesTags: ["Notification"],
@@ -23,6 +25,7 @@ export const NotificationApiSlice = apiSlice.injectEndpoints({
         url: "notification/update-seen",
         method: "PUT",
         body: { notificationId, user_id },
+        credentials: "include",
       }),
       invalidatesTags: ["Notification"],
     }),

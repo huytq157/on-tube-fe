@@ -7,9 +7,6 @@ import DisLikeIcon from "../icons/DisLike";
 import { Dropdown, MenuProps } from "antd";
 import Option2Icon from "../icons/Option2";
 import { calculateCreatedTime } from "../utils/formatDate";
-import { useSelector } from "react-redux";
-import { selectCurrentToken } from "@/redux/features/authSlice";
-import { useGetMeQuery } from "@/redux/api/authApi";
 import React, { useState } from "react";
 import Link from "next/link";
 import {
@@ -21,6 +18,7 @@ import {
 import EmojiPicker from "emoji-picker-react";
 import SmellIcon from "../icons/Smell";
 import { useCreateNotificationMutation } from "@/redux/api/notificationApi";
+import { useUser } from "@/hook/AuthContext";
 
 interface User {
   _id: string;
@@ -48,8 +46,7 @@ interface CommentItemProps {
 }
 
 const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
-  const token = useSelector(selectCurrentToken);
-  const { data: user } = useGetMeQuery(undefined, { skip: !token });
+  const { user, isAuthenticated } = useUser();
 
   const [showReplies, setShowReplies] = useState(false);
   const [replyingToId, setReplyingToId] = useState<string | null>(null);

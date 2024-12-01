@@ -18,10 +18,8 @@ import VideoIcon from "@/components/icons/Video";
 import LikeIcon from "@/components/icons/Like";
 import TooltipButton from "@/components/shared/TooltipButton";
 import MenuIcon from "@/components/icons/Menu";
-import { useSelector } from "react-redux";
-import { selectCurrentToken } from "@/redux/features/authSlice";
-import { useGetMeQuery } from "@/redux/api/authApi";
 import { useListSubcriberQuery } from "@/redux/api/subcription";
+import { useUser } from "@/hook/AuthContext";
 
 function getItem(
   label: React.ReactNode,
@@ -54,13 +52,9 @@ const Sidebar = ({
   const router = useRouter();
   const [openKeys, setOpenKeys] = useState<string[]>([]);
   const isMobile = useMediaQuery({ maxWidth: 900 });
-  const token = useSelector(selectCurrentToken);
-  const { data: user } = useGetMeQuery(undefined, {
-    skip: !token,
-  });
-
-  const { data: subcribers, isLoading } = useListSubcriberQuery("", {
-    skip: !user || !token,
+  const { user, isAuthenticated } = useUser();
+  const { data: subcribers } = useListSubcriberQuery("", {
+    skip: !isAuthenticated,
   });
 
   const onOpenChange = (keys: string[]) => {
@@ -129,7 +123,7 @@ const Sidebar = ({
               onClick={onMenuClick}
             />
             <Divider />
-            {token && (
+            {isAuthenticated && (
               <div>
                 <h3 className="font-semibold font-roboto mb-3">Kênh đăng ký</h3>
                 {subcribers?.data?.map((sub: any) => (
@@ -167,7 +161,7 @@ const Sidebar = ({
             onOpenChange={onOpenChange}
             onClick={onMenuClick}
           />
-          {!collapsed && token && (
+          {!collapsed && isAuthenticated && (
             <div className="px-[8px]">
               <Divider />
               <h3 className="font-[600] mb-3">Kênh đăng ký</h3>

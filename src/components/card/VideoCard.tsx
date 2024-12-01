@@ -160,6 +160,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
               }`}
               role="img"
               aria-labelledby="thumbnail-title"
+              priority={false}
               loading="lazy"
             />
           )}

@@ -13,6 +13,7 @@ export const ChannelApiSlice = apiSlice.injectEndpoints({
       query: ({ id, isPublic, page = 1, limit = 10 }) => ({
         url: `channel/video/${id}`,
         params: { isPublic, page, limit },
+        credentials: "include",
       }),
       providesTags: (result, error, id) => [{ type: "Channel", id }],
     }),
@@ -21,6 +22,7 @@ export const ChannelApiSlice = apiSlice.injectEndpoints({
       query: ({ id, isPublic, page = 1, limit = 10 }) => ({
         url: `channel/playlist/${id}`,
         params: { isPublic, page, limit },
+        credentials: "include",
       }),
       providesTags: (result, error, id) => [{ type: "Channel", id }],
     }),
@@ -38,6 +40,7 @@ export const ChannelApiSlice = apiSlice.injectEndpoints({
         url: `channel/${channelId}`,
         method: "PUT",
         body: data,
+        credentials: "include",
       }),
       invalidatesTags: (result, error, { channelId }) => [
         { type: "Channel", id: channelId },

@@ -4,17 +4,13 @@ import LayoutDefault from "@/components/layouts/default/LayoutDefault";
 import PlaylistCard from "@/components/card/PlaylistCard";
 import { useGetPlaylistQuery } from "@/redux/api/playListApi";
 import CardVideoSkeleton from "@/components/skeleton/CardVideoSkelenton";
-import { useSelector } from "react-redux";
-import { selectCurrentToken } from "@/redux/features/authSlice";
-import { useGetMeQuery } from "@/redux/api/authApi";
+import { useUser } from "@/hook/AuthContext";
 
 const PlayList = () => {
-  const token = useSelector(selectCurrentToken);
-  const { data: user } = useGetMeQuery(undefined, {
-    skip: !token,
-  });
+  const { user, isAuthenticated } = useUser();
+
   const { data: playlists, isLoading } = useGetPlaylistQuery("", {
-    skip: !token || !user,
+    skip: !isAuthenticated,
   });
 
   return (

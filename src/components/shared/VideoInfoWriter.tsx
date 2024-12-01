@@ -1,5 +1,6 @@
 "use client";
 
+import { useUser } from "@/hook/AuthContext";
 import { useGetMeQuery } from "@/redux/api/authApi";
 import {
   useCheckSubCriptionQuery,
@@ -24,10 +25,7 @@ interface ModalProps {
 }
 
 const VideoInfoWriter: React.FC<ModalProps> = ({ video, videoLoading }) => {
-  const token = useSelector(selectCurrentToken);
-  const { data: user } = useGetMeQuery(undefined, {
-    skip: !token,
-  });
+  const { user, isAuthenticated } = useUser();
   const dispatch = useDispatch();
 
   const channelId = video?.video?.writer?._id;
@@ -61,7 +59,7 @@ const VideoInfoWriter: React.FC<ModalProps> = ({ video, videoLoading }) => {
   }, [subscriptionStatus, subscribersCount, dispatch, channelId]);
 
   const handleSubCription = async () => {
-    if (!user) {
+    if (!isAuthenticated) {
       message.warning("Bạn phải đăng nhập để đăng ký!");
       return;
     }

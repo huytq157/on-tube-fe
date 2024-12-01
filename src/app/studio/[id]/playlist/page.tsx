@@ -12,16 +12,13 @@ import {
   useDeletePlaylistMutation,
   useGetPlaylistQuery,
 } from "@/redux/api/playListApi";
+import { useUser } from "@/hook/AuthContext";
 
 const Playlist = () => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
-
-  const token = useSelector(selectCurrentToken);
-  const { data: user } = useGetMeQuery(undefined, {
-    skip: !token,
-  });
+  const { user } = useUser();
 
   const {
     data: playlists,
@@ -121,6 +118,7 @@ const Playlist = () => {
           router.push(`/studio/${user?.user?._id}/playlist/add-playlist`)
         }
         type="primary"
+        className="mb-4"
       >
         Thêm danh sách phát
       </Button>

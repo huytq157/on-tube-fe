@@ -2,21 +2,15 @@
 
 import ChannelItem from "@/components/card/ChannelItem";
 import LayoutDefault from "@/components/layouts/default/LayoutDefault";
-import { useGetMeQuery } from "@/redux/api/authApi";
 import { useListSubcriberQuery } from "@/redux/api/subcription";
-import { selectCurrentToken } from "@/redux/features/authSlice";
 import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
-import { useSelector } from "react-redux";
+import { useUser } from "@/hook/AuthContext";
 
 const ChannelSub = () => {
-  const token = useSelector(selectCurrentToken);
-  const { data: user } = useGetMeQuery(undefined, {
-    skip: !token,
-  });
-
+  const { isAuthenticated } = useUser();
   const { data: subcribers, isLoading } = useListSubcriberQuery("", {
-    skip: !user || !token,
+    skip: !isAuthenticated,
   });
 
   return (

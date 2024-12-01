@@ -16,10 +16,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useDeleteVideoMutation } from "@/redux/api/videoApi";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
-import { useSelector } from "react-redux";
-import { selectCurrentToken } from "@/redux/features/authSlice";
-import { useGetMeQuery } from "@/redux/api/authApi";
 import { useState } from "react";
+import { useUser } from "@/hook/AuthContext";
 
 const Content = () => {
   const params = useParams();
@@ -28,11 +26,7 @@ const Content = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [isPublic, setIsPublic] = useState<boolean | undefined>(true);
-
-  const token = useSelector(selectCurrentToken);
-  const { data: user } = useGetMeQuery(undefined, {
-    skip: !token,
-  });
+  const { user } = useUser();
 
   const {
     data: videos,

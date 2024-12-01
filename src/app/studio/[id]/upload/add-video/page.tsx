@@ -21,13 +21,11 @@ import { useAddVideoMutation } from "@/redux/api/videoApi";
 import { useGetCategoryQuery } from "@/redux/api/categoryApi";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useSelector } from "react-redux";
-import { selectCurrentToken } from "@/redux/features/authSlice";
-import { useGetMeQuery } from "@/redux/api/authApi";
 import { useRouter } from "next/navigation";
 import { useGetPlaylistQuery } from "@/redux/api/playListApi";
 import ImageUpload from "@/components/shared/ImageUpload";
 import VideoUpload from "@/components/shared/VideoUpload";
+import { useUser } from "@/hook/AuthContext";
 
 const { Option } = Select;
 
@@ -43,10 +41,7 @@ const UploadVideo = () => {
   const { data: playlists } = useGetPlaylistQuery("");
   const [uploadImage] = useUploadImageMutation();
   const [addVideo, { isLoading: isAdding }] = useAddVideoMutation();
-  const token = useSelector(selectCurrentToken);
-  const { data: user } = useGetMeQuery(undefined, {
-    skip: !token,
-  });
+  const { user } = useUser();
 
   const handleUploadThumbnail = async (file: File) => {
     const formData = new FormData();

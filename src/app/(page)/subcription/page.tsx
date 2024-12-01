@@ -6,33 +6,27 @@ import GridIcon from "@/components/icons/Grid";
 import GridDetail from "@/components/icons/GridDetail";
 import LayoutDefault from "@/components/layouts/default/LayoutDefault";
 import CardVideoSkeleton from "@/components/skeleton/CardVideoSkelenton";
-import { useGetMeQuery } from "@/redux/api/authApi";
 import { useListVideoSubcriptionQuery } from "@/redux/api/subcription";
-import { selectCurrentToken } from "@/redux/features/authSlice";
 import dayjs from "dayjs";
 import Link from "next/link";
 import React from "react";
-import { useSelector } from "react-redux";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/hook/AuthContext";
 
 dayjs.extend(isSameOrAfter);
 
 const Subscription = () => {
   const router = useRouter();
-  const token = useSelector(selectCurrentToken);
-  const { data: user } = useGetMeQuery(undefined, {
-    skip: !token,
-  });
-
+  const { user, isAuthenticated } = useUser();
   const { data: videos, isLoading } = useListVideoSubcriptionQuery("", {
-    skip: !user || !token,
+    skip: !isAuthenticated,
   });
 
   return (
     <LayoutDefault>
       <div className="px-[10px] pt-[10px]">
-        {token ? (
+        {isAuthenticated ? (
           <React.Fragment>
             <div className="flex items-center justify-end gap-[15px] mb-[20px]">
               <button
@@ -53,7 +47,7 @@ const Subscription = () => {
 
             <div>
               <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 4xl:grid-cols-6 gap-x-4 gap-y-12">
-                {isLoading && token ? (
+                {isLoading && isAuthenticated ? (
                   Array.from({ length: 12 }).map((_, index) => (
                     <div key={index}>
                       <CardVideoSkeleton />

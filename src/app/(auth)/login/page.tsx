@@ -1,12 +1,12 @@
 "use client";
+
 import Link from "next/link";
 import LogoIcon from "@/components/icons/Logo";
-import { useLoginMutation } from "@/redux/api/authApi";
+import { useGetMeQuery, useLoginMutation } from "@/redux/api/authApi";
 import { useState } from "react";
-import { message } from "antd";
+import { Divider, message } from "antd";
 import { useRouter } from "next/navigation";
-import { setCredentials } from "@/redux/features/authSlice";
-import { useDispatch } from "react-redux";
+import { useUser } from "@/hook/AuthContext";
 
 interface LoginFormValues {
   email: string;
@@ -16,10 +16,14 @@ interface LoginFormValues {
 const Login = () => {
   const [login, { isLoading }] = useLoginMutation();
   const router = useRouter();
-  const dispatch = useDispatch();
+  const { user } = useUser();
   const [formValues, setFormValues] = useState<LoginFormValues>({
     email: "",
     password: "",
+  });
+
+  const { data, error, refetch } = useGetMeQuery("", {
+    skip: false,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,12 +37,20 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const userData = await login(formValues).unwrap();
-      dispatch(setCredentials(userData.token));
+      await login(formValues).unwrap();
       message.success("Đăng nhập thành công");
+      refetch();
       router.back();
     } catch (error) {
       message.error("Đăng nhập thất bại");
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      window.location.href = process.env.NEXT_PUBLIC_BASE_URL + "/auth/google";
+    } catch (error) {
+      console.error("Google login failed:", error);
     }
   };
 
@@ -121,6 +133,13 @@ const Login = () => {
             </button>
           </div>
         </form>
+        <Divider>Hoặc</Divider>
+        <button
+          onClick={handleGoogleLogin}
+          className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        >
+          Đăng nhập bằng Google
+        </button>
 
         <p className="mt-5 text-center text-sm text-gray-500">
           Bạn chưa có tài khoản?

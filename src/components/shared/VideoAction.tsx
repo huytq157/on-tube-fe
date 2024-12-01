@@ -3,11 +3,8 @@
 import LikeIcon from "@/components/icons/Like";
 import DisLikeIcon from "@/components/icons/DisLike";
 import SaveIcon from "@/components/icons/Save";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ModalSave from "./ModalSave";
-import { useSelector } from "react-redux";
-import { selectCurrentToken } from "@/redux/features/authSlice";
-import { useGetMeQuery } from "@/redux/api/authApi";
 import { message } from "antd";
 import {
   useCheckIsDisLikedQuery,
@@ -30,7 +27,7 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
     refetchOnMountOrArgChange: true,
   });
 
-  const { user, isAuthenticated } = useUser();
+  const { user } = useUser();
 
   const { data: checkedLike, refetch: refetchLike } =
     useCheckIsLikedQuery(videoId);

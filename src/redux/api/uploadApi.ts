@@ -4,7 +4,7 @@ export const UploadApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     uploadImage: builder.mutation({
       query: (formData) => ({
-        url: "upload/image",
+        url: "/api/upload/image",
         method: "POST",
         body: formData,
         headers: {
@@ -18,7 +18,7 @@ export const UploadApiSlice = apiSlice.injectEndpoints({
 
     uploadVideo: builder.mutation({
       query: (formData) => ({
-        url: "upload/video",
+        url: "/api/upload/video",
         method: "POST",
         body: formData,
         headers: {

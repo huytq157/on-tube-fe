@@ -4,7 +4,7 @@ export const PlaylistApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getPlaylist: builder.query({
       query: ({ page = 1, limit = 10 }) => ({
-        url: "playlist/list",
+        url: "/api/playlist/list",
         params: { page, limit },
         credentials: "include",
       }),
@@ -14,21 +14,21 @@ export const PlaylistApiSlice = apiSlice.injectEndpoints({
 
     getPlaylistById: builder.query({
       query: (id) => ({
-        url: `playlist/user/${id}`,
+        url: `/api/playlist/user/${id}`,
       }),
       providesTags: (result, error, id) => [{ type: "Playlist", id }],
     }),
 
     getPlaylistDetail: builder.query({
       query: (id) => ({
-        url: `playlist/${id}`,
+        url: `/api/playlist/${id}`,
       }),
       providesTags: (result, error, id) => [{ type: "Playlist", id }],
     }),
 
     addPlaylist: builder.mutation({
       query: (newplaylist) => ({
-        url: "playlist",
+        url: "/api/playlist",
         method: "POST",
         body: newplaylist,
         credentials: "include",
@@ -38,7 +38,7 @@ export const PlaylistApiSlice = apiSlice.injectEndpoints({
 
     updatePlaylist: builder.mutation({
       query: ({ playlistId, updatedData }) => ({
-        url: `playlist/${playlistId}`,
+        url: `/api/playlist/${playlistId}`,
         method: "PATCH",
         body: updatedData,
         credentials: "include",
@@ -50,7 +50,7 @@ export const PlaylistApiSlice = apiSlice.injectEndpoints({
 
     deletePlaylist: builder.mutation({
       query: (playlistId) => ({
-        url: `playlist/${playlistId}`,
+        url: `/api/playlist/${playlistId}`,
         method: "DELETE",
         credentials: "include",
       }),
@@ -61,7 +61,7 @@ export const PlaylistApiSlice = apiSlice.injectEndpoints({
 
     saveVideoPlaylist: builder.mutation({
       query: (data) => ({
-        url: "playlist/save-to-playlist",
+        url: "/api/playlist/save-to-playlist",
         method: "POST",
         body: data,
         credentials: "include",
@@ -70,7 +70,7 @@ export const PlaylistApiSlice = apiSlice.injectEndpoints({
     }),
     removeVideoPlaylist: builder.mutation({
       query: (data) => ({
-        url: "playlist/remove-to-playlist",
+        url: "/api/playlist/remove-to-playlist",
         method: "DELETE",
         body: data,
         credentials: "include",

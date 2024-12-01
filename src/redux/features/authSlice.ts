@@ -7,9 +7,6 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  // token:
-  //   (typeof window !== "undefined" && localStorage.getItem("authToken")) ||
-  //   null,
   token: Cookies.get("token") || null,
 };
 
@@ -21,28 +18,14 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (state: AuthState, action: PayloadAction<string>) => {
       state.token = action.payload;
-      // localStorage.setItem("authToken", action.payload);
       Cookies.set("token", action.payload, {
         expires: 1,
         secure: process.env.NODE_ENV === "production",
-      }); // Lưu token vào cookie
-
-      if (!socket) {
-        socket = io("http://localhost:5000/", {
-          auth: {
-            token: action.payload,
-          },
-        });
-
-        socket.on("connect", () => {
-          console.log("Socket connected, ID:", socket?.id);
-        });
-      }
+      });
     },
 
     logOut: (state: AuthState) => {
       state.token = null;
-      // localStorage.removeItem("authToken");
       Cookies.remove("token");
 
       if (socket) {

@@ -48,7 +48,7 @@ const Login = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      window.location.href = process.env.NEXT_PUBLIC_BASE_URL + "/auth/google";
+      window.location.href = process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL as string;
     } catch (error) {
       console.error("Google login failed:", error);
     }

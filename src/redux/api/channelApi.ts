@@ -4,14 +4,14 @@ export const ChannelApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getChannelInfo: builder.query({
       query: (id) => ({
-        url: `channel/${id}`,
+        url: `/api/channel/${id}`,
       }),
       providesTags: (result, error, id) => [{ type: "Channel", id }],
     }),
 
     getChannelVideo: builder.query({
       query: ({ id, isPublic, page = 1, limit = 10 }) => ({
-        url: `channel/video/${id}`,
+        url: `/api/channel/video/${id}`,
         params: { isPublic, page, limit },
         credentials: "include",
       }),
@@ -20,7 +20,7 @@ export const ChannelApiSlice = apiSlice.injectEndpoints({
 
     getChannelPlaylist: builder.query({
       query: ({ id, isPublic, page = 1, limit = 10 }) => ({
-        url: `channel/playlist/${id}`,
+        url: `/api/channel/playlist/${id}`,
         params: { isPublic, page, limit },
         credentials: "include",
       }),
@@ -29,7 +29,7 @@ export const ChannelApiSlice = apiSlice.injectEndpoints({
 
     searchChannel: builder.query({
       query: (searchTerm) => ({
-        url: "channel/search",
+        url: "/api/channel/search",
         params: { q: searchTerm },
       }),
       providesTags: ["Channel"],
@@ -37,7 +37,7 @@ export const ChannelApiSlice = apiSlice.injectEndpoints({
 
     updateChannel: builder.mutation({
       query: ({ channelId, data }) => ({
-        url: `channel/${channelId}`,
+        url: `/api/channel/${channelId}`,
         method: "PUT",
         body: data,
         credentials: "include",

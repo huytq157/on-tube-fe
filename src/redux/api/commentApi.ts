@@ -4,7 +4,7 @@ export const CommentApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getComments: builder.query({
       query: ({ videoId, parentId }) => {
-        let url = `comments/${videoId}`;
+        let url = `/api/comments/${videoId}`;
         if (parentId) {
           url += `?parent_id=${parentId}`;
         }
@@ -21,7 +21,7 @@ export const CommentApiSlice = apiSlice.injectEndpoints({
 
     addComment: builder.mutation({
       query: (newComment) => ({
-        url: "comments/create",
+        url: "/api/comments/create",
         method: "POST",
         body: newComment,
         credentials: "include",
@@ -31,7 +31,7 @@ export const CommentApiSlice = apiSlice.injectEndpoints({
 
     updateComment: builder.mutation({
       query: ({ commentId, comment }) => ({
-        url: `comments/${commentId}`,
+        url: `/api/comments/${commentId}`,
         method: "PUT",
         body: comment,
         credentials: "include",
@@ -43,7 +43,7 @@ export const CommentApiSlice = apiSlice.injectEndpoints({
 
     deleteComment: builder.mutation({
       query: (commentId) => ({
-        url: `comments/${commentId}`,
+        url: `/api/comments/${commentId}`,
         method: "DELETE",
         credentials: "include",
       }),
@@ -52,7 +52,7 @@ export const CommentApiSlice = apiSlice.injectEndpoints({
 
     replyComment: builder.mutation({
       query: (newReply) => ({
-        url: "comments/reply",
+        url: "/api/comments/reply",
         method: "POST",
         body: newReply,
         credentials: "include",

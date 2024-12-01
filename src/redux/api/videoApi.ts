@@ -4,7 +4,7 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getVideo: builder.query({
       query: ({ page = 1, limit = 12, category, isPublic }) => ({
-        url: "video/list",
+        url: "/api/video/list",
         params: { page, limit, category, isPublic },
         credentials: "include",
       }),
@@ -14,14 +14,14 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
 
     getVideoById: builder.query({
       query: (id) => ({
-        url: `video/${id}`,
+        url: `/api/video/${id}`,
       }),
       providesTags: (result, error, id) => [{ type: "Video", id }],
     }),
 
     descView: builder.mutation({
       query: ({ videoId, watchTime }) => ({
-        url: `video/watch/${videoId}`,
+        url: `/api/video/watch/${videoId}`,
         method: "POST",
         body: { watchTime },
       }),
@@ -32,7 +32,7 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
 
     descViewAuth: builder.mutation({
       query: ({ videoId, watchTime }) => ({
-        url: `video/watch/auth/${videoId}`,
+        url: `/api/video/watch/auth/${videoId}`,
         method: "POST",
         body: { watchTime },
         credentials: "include",
@@ -44,14 +44,14 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
 
     getVideoRecommend: builder.query({
       query: (id) => ({
-        url: `video/list/recommend/${id}`,
+        url: `/api/video/list/recommend/${id}`,
       }),
       providesTags: (result, error, id) => [{ type: "Video", id }],
     }),
 
     searchVideo: builder.query({
       query: (searchTerm) => ({
-        url: "video/search",
+        url: "/api/video/search",
         params: { q: searchTerm },
       }),
       providesTags: ["Video"],
@@ -59,7 +59,7 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
 
     addVideo: builder.mutation({
       query: (newVideo) => ({
-        url: "video/add",
+        url: "/api/video/add",
         method: "POST",
         body: newVideo,
         credentials: "include",
@@ -69,7 +69,7 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
 
     updateVideo: builder.mutation({
       query: ({ videoId, updatedData }) => ({
-        url: `video/${videoId}`,
+        url: `/api/video/${videoId}`,
         method: "PATCH",
         body: updatedData,
         credentials: "include",
@@ -81,7 +81,7 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
 
     deleteVideo: builder.mutation({
       query: (videoId) => ({
-        url: `video/${videoId}`,
+        url: `/api/video/${videoId}`,
         method: "DELETE",
         credentials: "include",
       }),
@@ -92,7 +92,7 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
 
     getVideoTrending: builder.query({
       query: () => ({
-        url: "video/trending",
+        url: "/api/video/trending",
       }),
       keepUnusedDataFor: 5,
       providesTags: ["Video"],
@@ -100,7 +100,7 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
 
     getVideoHistory: builder.query({
       query: ({ userId }) => ({
-        url: `video/user/${userId}/history`,
+        url: `/api/video/user/${userId}/history`,
         credentials: "include",
       }),
       providesTags: (result, error, id) => [{ type: "Video", id }],
@@ -108,7 +108,7 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
 
     likeVideo: builder.mutation({
       query: (data) => ({
-        url: "vote/like",
+        url: "/api/vote/like",
         method: "POST",
         body: data,
         credentials: "include",
@@ -116,7 +116,7 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
     }),
     dislikeVideo: builder.mutation({
       query: (data) => ({
-        url: "vote/dislike",
+        url: "/api/vote/dislike",
         method: "POST",
         body: data,
         credentials: "include",
@@ -124,14 +124,14 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
     }),
     checkIsLiked: builder.query({
       query: (videoId) => ({
-        url: `vote/check-like/${videoId}`,
+        url: `/api/vote/check-like/${videoId}`,
         method: "GET",
         credentials: "include",
       }),
     }),
     checkIsDisLiked: builder.query({
       query: (videoId) => ({
-        url: `vote/check-dislike/${videoId}`,
+        url: `/api/vote/check-dislike/${videoId}`,
         method: "GET",
         credentials: "include",
       }),
@@ -139,7 +139,7 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
 
     getlikeVideo: builder.query({
       query: () => ({
-        url: "vote/video-like",
+        url: "/api/vote/video-like",
         method: "GET",
         credentials: "include",
       }),
@@ -148,7 +148,7 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
     }),
     getChannelVideoCount: builder.query({
       query: (channelId) => ({
-        url: `video/${channelId}/video-count`,
+        url: `/api/video/${channelId}/video-count`,
       }),
       providesTags: ["Video"],
     }),

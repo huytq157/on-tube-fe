@@ -4,7 +4,7 @@ export const SubcriptionApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     subCription: builder.mutation({
       query: (data) => ({
-        url: "subcription/sub",
+        url: "/api/subcription/sub",
         method: "POST",
         body: data,
         credentials: "include",
@@ -13,7 +13,7 @@ export const SubcriptionApiSlice = apiSlice.injectEndpoints({
     }),
     unSubCription: builder.mutation({
       query: (data) => ({
-        url: "subcription/un-sub",
+        url: "/api/subcription/un-sub",
         method: "POST",
         body: data,
         credentials: "include",
@@ -22,7 +22,7 @@ export const SubcriptionApiSlice = apiSlice.injectEndpoints({
     }),
     listVideoSubcription: builder.query({
       query: ({}) => ({
-        url: "subcription/video-sub",
+        url: "/api/subcription/video-sub",
         params: {},
         credentials: "include",
       }),
@@ -31,7 +31,7 @@ export const SubcriptionApiSlice = apiSlice.injectEndpoints({
     }),
     listSubcriber: builder.query({
       query: ({}) => ({
-        url: "subcription/subcriber",
+        url: "/api/subcription/subcriber",
         params: {},
         credentials: "include",
       }),
@@ -40,14 +40,14 @@ export const SubcriptionApiSlice = apiSlice.injectEndpoints({
     }),
     checkSubCription: builder.query({
       query: (channelId) => ({
-        url: `subcription/check-sub/${channelId}`,
+        url: `/api/subcription/check-sub/${channelId}`,
         credentials: "include",
       }),
       providesTags: ["Subcription"],
     }),
     getChannelSubscribersCount: builder.query({
       query: (channelId) => ({
-        url: `subcription/channel/${channelId}/subcount`,
+        url: `/api/subcription/channel/${channelId}/subcount`,
         credentials: "include",
       }),
       providesTags: ["Subcription"],

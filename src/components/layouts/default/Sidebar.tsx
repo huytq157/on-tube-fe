@@ -165,7 +165,6 @@ const Sidebar = ({
             <div className="px-[8px]">
               <Divider />
               <h3 className="font-[600] mb-3">Kênh đăng ký</h3>
-
               {subcribers?.data?.map((sub: any) => (
                 <div
                   onClick={() => router.push(`/channel/${sub?._id}`)}
@@ -186,7 +185,8 @@ const Sidebar = ({
               ))}
             </div>
           )}
-          {!user && (
+
+          {!collapsed && !isAuthenticated && (
             <>
               <Divider />
               <div className="px-[20px]">
@@ -222,7 +222,7 @@ const StyledMenu = styled((props: StyledMenuProps) => <Menu {...props} />)<{
     justify-content: center;
     align-items: center;
     margin: 0px !important;
-    width: 230px;
+    width: ${({ $collapsed }) => ($collapsed ? "56px" : "230px")};
     transition: none;
   }
 

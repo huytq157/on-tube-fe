@@ -30,7 +30,7 @@ const LayoutDefault = ({ children }: Props) => {
       </div>
 
       <div className="flex flex-1 mt-[56px] overflow-hidden">
-        <div className="sticky  h-[calc(100vh-56px)] sidebar-custom-scrollbar">
+        <div className="sticky h-[calc(100vh-56px)] sidebar-custom-scrollbar  ">
           <Sidebar
             collapsed={collapsed}
             drawerVisible={drawerVisible}

@@ -38,6 +38,12 @@ export default async function Page() {
   return (
     <LayoutDefault>
       <div className="flex gap-[10px] mb-[20px] overflow-y-auto">
+        <button
+          type="button"
+          className="bg-[#000] text-[#fff] rounded-[8px] min-w-[90px] h-[32px] text-[14px] font-[500]"
+        >
+          Tất cả
+        </button>
         {categories?.map((item: any) => (
           <button
             type="button"

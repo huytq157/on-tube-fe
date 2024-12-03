@@ -67,7 +67,7 @@ const Subscription = () => {
             </div>
           </React.Fragment>
         ) : (
-          <div className="h-[100vh] flex justify-center pt-[100px] text-center">
+          <div className="h-[80vh] flex flex-col justify-center  text-center">
             <div className="flex justify-center mb-[10px]">
               <FavouriteIcon />
             </div>

@@ -27,12 +27,18 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
     refetchOnMountOrArgChange: true,
   });
 
-  const { user } = useUser();
+  const { user, isAuthenticated } = useUser();
 
-  const { data: checkedLike, refetch: refetchLike } =
-    useCheckIsLikedQuery(videoId);
+  const { data: checkedLike, refetch: refetchLike } = useCheckIsLikedQuery(
+    videoId,
+    {
+      skip: !isAuthenticated,
+    }
+  );
   const { data: checkedDisLike, refetch: refetchDisLike } =
-    useCheckIsDisLikedQuery(videoId);
+    useCheckIsDisLikedQuery(videoId, {
+      skip: !isAuthenticated,
+    });
 
   const [likeVideo] = useLikeVideoMutation();
   const [dislikeVideo] = useDislikeVideoMutation();

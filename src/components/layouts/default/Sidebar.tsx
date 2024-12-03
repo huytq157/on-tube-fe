@@ -222,7 +222,7 @@ const StyledMenu = styled((props: StyledMenuProps) => <Menu {...props} />)<{
     justify-content: center;
     align-items: center;
     margin: 0px !important;
-    width: ${({ $collapsed }) => ($collapsed ? "56px" : "100%")};
+    width: 230px;
     transition: none;
   }
 

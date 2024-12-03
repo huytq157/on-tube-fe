@@ -133,7 +133,7 @@ const SidebarStudio = ({
           </Drawer>
         </>
       ) : (
-        <div className="h-screen max-w-[240px]  px-[20px] mt-[5px] overflow-y-auto">
+        <div className="h-screen  px-[20px] mt-[5px] overflow-y-auto">
           <div className="text-center mb-[20px] mt-[10px]">
             <div
               className={`${

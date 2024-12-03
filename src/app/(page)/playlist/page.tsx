@@ -7,7 +7,7 @@ import CardVideoSkeleton from "@/components/skeleton/CardVideoSkelenton";
 import { useUser } from "@/hook/AuthContext";
 
 const PlayList = () => {
-  const { user, isAuthenticated } = useUser();
+  const { isAuthenticated } = useUser();
 
   const { data: playlists, isLoading } = useGetPlaylistQuery("", {
     skip: !isAuthenticated,

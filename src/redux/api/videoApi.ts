@@ -8,7 +8,7 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
         params: { page, limit, category, isPublic },
         credentials: "include",
       }),
-      keepUnusedDataFor: 5,
+      keepUnusedDataFor: 60,
       providesTags: ["Video"],
     }),
 

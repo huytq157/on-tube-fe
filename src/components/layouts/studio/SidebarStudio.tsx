@@ -13,9 +13,9 @@ import { Logo_studio } from "../../../../public";
 import OverviewIcon from "@/components/icons/Overview";
 import VideoIcon from "@/components/icons/Video";
 import { useDispatch } from "react-redux";
-import { logOut } from "@/redux/features/authSlice";
 import ListIcon from "@/components/icons/List";
 import { useUser } from "@/hook/AuthContext";
+import { useLogoutMutation } from "@/redux/api/authApi";
 
 function getItem(
   label: React.ReactNode,
@@ -49,13 +49,16 @@ const SidebarStudio = ({
   const router = useRouter();
   const [openKeys, setOpenKeys] = useState<string[]>([]);
   const isMobile = useMediaQuery({ maxWidth: 768 });
-  const dispatch = useDispatch();
-  const { user, isAuthenticated } = useUser();
+  const [logout] = useLogoutMutation();
+  const { user, logOut } = useUser();
 
-  const handleLogout = () => {
-    dispatch(logOut());
-    message.success("Đăng xuất thành công");
-    router.push("/");
+  const handleLogout = async () => {
+    try {
+      await logout(undefined).unwrap();
+      logOut();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   const items: MenuItem[] = [

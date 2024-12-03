@@ -46,7 +46,7 @@ interface CommentItemProps {
 }
 
 const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
-  const { user, isAuthenticated } = useUser();
+  const { user } = useUser();
 
   const [showReplies, setShowReplies] = useState(false);
   const [replyingToId, setReplyingToId] = useState<string | null>(null);

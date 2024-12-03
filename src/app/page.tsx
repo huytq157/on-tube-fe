@@ -93,7 +93,6 @@ export default function Home() {
     setVideos([]);
     setPage(1);
     setSelectedCategory(categoryId);
-    refetch();
   };
 
   return (
@@ -126,16 +125,12 @@ export default function Home() {
 
       <div>
         <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 4xl:grid-cols-6 gap-x-4 gap-y-12">
-          {(loadingSkeleton || isLoading) && !videos.length
-            ? Array.from({ length: skeletonLength + 3 }).map((_, index) => (
-                <div key={index}>
-                  <CardVideoSkeleton />
-                </div>
+          {videos.length === 0 && isLoading
+            ? Array.from({ length: skeletonLength }).map((_, index) => (
+                <CardVideoSkeleton key={index} />
               ))
             : memoizedVideos.map((item: any) => (
-                <div key={item._id}>
-                  <VideoCard item={item} />
-                </div>
+                <VideoCard key={item._id} item={item} />
               ))}
         </div>
 

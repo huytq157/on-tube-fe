@@ -42,25 +42,6 @@ p {
   display: none !important;
 }
 
-.swiper-container {
-  width: 100%;
-  height: auto;
-}
-
-.swiper-button-prev,
-.swiper-button-next {
-  width: 40px !important;
-  height: 40px !important;
-  background: #fff;
-  border-radius: 50%;
-}
-
-.swiper-button-prev:after,
-.swiper-button-next:after {
-  font-size: 18px !important;
-  color: #000 !important;
-}
-
 .progress-container {
   position: relative;
   height: 2px;

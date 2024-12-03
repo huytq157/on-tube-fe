@@ -1,79 +1,21 @@
 "use client";
 
-import {
-  useCheckSubCriptionQuery,
-  useGetChannelSubscribersCountQuery,
-  useSubCriptionMutation,
-  useUnSubCriptionMutation,
-} from "@/redux/api/subcription";
+import { useUser } from "@/hook/AuthContext";
+import { useSubscription } from "@/hook/useSubscription";
 import { useGetChannelVideoCountQuery } from "@/redux/api/videoApi";
-import {
-  setSubscribersCount,
-  setSubscriptionStatus,
-} from "@/redux/features/subcriptionSlice";
-import { message } from "antd";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 const ChannelItem: React.FC<any> = ({ sub }) => {
-  const dispatch = useDispatch();
   const channelId = sub?._id;
-  const { data: subscriptionStatus } = useCheckSubCriptionQuery(sub?._id);
   const { data: videoCount } = useGetChannelVideoCountQuery(sub?._id);
-  const { data: subscribersCount } = useGetChannelSubscribersCountQuery(
-    sub?._id
-  );
+  const { user } = useUser();
 
-  const [subscribe] = useSubCriptionMutation();
-  const [unsubscribe] = useUnSubCriptionMutation();
-  const [isProcessing, setIsProcessing] = useState(false);
-
-  useEffect(() => {
-    if (subscriptionStatus) {
-      dispatch(
-        setSubscriptionStatus({
-          channelId,
-          subscribed: subscriptionStatus.subscribed,
-        })
-      );
-    }
-    if (subscribersCount) {
-      dispatch(
-        setSubscribersCount({ channelId, count: subscribersCount.count })
-      );
-    }
-  }, [subscriptionStatus, subscribersCount, dispatch, sub?._id]);
-
-  const currentSubscriptionStatus = useSelector(
-    (state: any) => state.subscription.subscriptionStatus[sub?._id]
-  );
-  const currentSubscribersCount = useSelector(
-    (state: any) => state.subscription.subscribersCount[sub?._id]
-  );
-
-  const handleSubCription = async () => {
-    if (!channelId) return;
-
-    try {
-      setIsProcessing(true);
-
-      if (subscriptionStatus?.subscribed) {
-        await unsubscribe({ channelId }).unwrap();
-        dispatch(setSubscriptionStatus({ channelId, subscribed: false }));
-        message.success("Đã hủy đăng ký kênh!");
-      } else {
-        await subscribe({ channelId }).unwrap();
-        dispatch(setSubscriptionStatus({ channelId, subscribed: true }));
-        message.success("Đã đăng ký kênh!");
-      }
-    } catch (error) {
-      console.error(error);
-      message.error("Có lỗi xảy ra, vui lòng thử lại!");
-    } finally {
-      setIsProcessing(false);
-    }
-  };
+  const {
+    currentSubscriptionStatus,
+    currentSubscribersCount,
+    handleSubscriptionToggle,
+    isProcessing,
+  } = useSubscription(channelId, user);
 
   return (
     <div className="flex mt-[15px] sm:flex-col sm:text-center md:flex-row md:text-start items-center gap-[15px]">
@@ -101,7 +43,7 @@ const ChannelItem: React.FC<any> = ({ sub }) => {
       <div className="flex sm:justify-center md:justify-start gap-[10px]">
         <button
           className="bg-[#333] mt-[10px] rounded-[50px] min-w-[120px] text-[#fff] h-[42px]"
-          onClick={handleSubCription}
+          onClick={handleSubscriptionToggle}
           disabled={isProcessing}
         >
           {currentSubscriptionStatus ? "Đã đăng ký" : "Đăng ký"}

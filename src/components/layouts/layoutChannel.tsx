@@ -4,22 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { useGetChannelInfoQuery } from "@/redux/api/channelApi";
-import { useDispatch, useSelector } from "react-redux";
-import { message, Skeleton } from "antd";
-import { useEffect, useState } from "react";
-import {
-  useCheckSubCriptionQuery,
-  useGetChannelSubscribersCountQuery,
-  useSubCriptionMutation,
-  useUnSubCriptionMutation,
-} from "@/redux/api/subcription";
-import {
-  setSubscribersCount,
-  setSubscriptionStatus,
-} from "@/redux/features/subcriptionSlice";
+import { useDispatch } from "react-redux";
+import { Skeleton } from "antd";
 import { useGetChannelVideoCountQuery } from "@/redux/api/videoApi";
-import { useCreateNotificationMutation } from "@/redux/api/notificationApi";
 import { useUser } from "@/hook/AuthContext";
+import { useSubscription } from "@/hook/useSubscription";
 
 const LayoutChannel = ({ children }: Props) => {
   const params = useParams();
@@ -33,79 +22,12 @@ const LayoutChannel = ({ children }: Props) => {
   const channelId = channel?.channel?._id;
   const { data: videoCount } = useGetChannelVideoCountQuery(channelId);
 
-  const [subscribe] = useSubCriptionMutation();
-  const [unsubscribe] = useUnSubCriptionMutation();
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [createNotification] = useCreateNotificationMutation();
-
-  const { data: subscriptionStatus } = useCheckSubCriptionQuery(channelId, {
-    skip: !user,
-  });
-
-  const { data: subscribersCount } = useGetChannelSubscribersCountQuery(
-    channelId,
-    { skip: !channelId }
-  );
-
-  useEffect(() => {
-    if (subscriptionStatus) {
-      dispatch(
-        setSubscriptionStatus({
-          channelId,
-          subscribed: subscriptionStatus.subscribed,
-        })
-      );
-    }
-    if (subscribersCount) {
-      dispatch(
-        setSubscribersCount({ channelId, count: subscribersCount.count })
-      );
-    }
-  }, [subscriptionStatus, subscribersCount, dispatch, channelId]);
-
-  const handleSubCription = async () => {
-    if (!user) {
-      message.warning("Bạn phải đăng nhập để đăng ký!");
-      return;
-    }
-    if (!channelId) return;
-
-    try {
-      setIsProcessing(true);
-
-      if (subscriptionStatus?.subscribed) {
-        await unsubscribe({ channelId }).unwrap();
-        dispatch(setSubscriptionStatus({ channelId, subscribed: false }));
-
-        message.success("Đã hủy đăng ký kênh!");
-      } else {
-        await subscribe({ channelId }).unwrap();
-        dispatch(setSubscriptionStatus({ channelId, subscribed: true }));
-
-        await createNotification({
-          comment: null,
-          video: null,
-          message: "đã đăng ký kênh của bạn",
-          url: "/",
-          user: [channelId],
-        }).unwrap();
-
-        message.success("Đã đăng ký kênh!");
-      }
-    } catch (error) {
-      console.error(error);
-      message.error("Có lỗi xảy ra, vui lòng thử lại!");
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
-  const currentSubscriptionStatus = useSelector(
-    (state: any) => state.subscription.subscriptionStatus[channelId]
-  );
-  const currentSubscribersCount = useSelector(
-    (state: any) => state.subscription.subscribersCount[channelId]
-  );
+  const {
+    currentSubscriptionStatus,
+    currentSubscribersCount,
+    handleSubscriptionToggle,
+    isProcessing,
+  } = useSubscription(channelId, user);
 
   return (
     <div>
@@ -161,7 +83,7 @@ const LayoutChannel = ({ children }: Props) => {
             {!isOwner ? (
               <button
                 className="bg-[#333] mt-[10px] rounded-[50px] min-w-[90px] text-[#fff] h-[36px]"
-                onClick={handleSubCription}
+                onClick={handleSubscriptionToggle}
                 disabled={isProcessing}
               >
                 {currentSubscriptionStatus ? "Đã đăng ký" : "Đăng ký"}
@@ -220,22 +142,3 @@ type Props = {
 };
 
 export default LayoutChannel;
-
-// {
-//     "video": "672263a54f9941b0e43d762e",
-//     "message": "đã bình luận video của bạn",
-//     "url": "/video/672263a54f9941b0e43d762e",
-//     "user": [
-//         "66ea9c3742092cef6b493b95"
-//     ]
-// }
-
-// {
-//     "comment": "",
-//     "video": "",
-//     "message": "đã đăng ký kênh của bạn",
-//     "url": "",
-//     "user": [
-//         "66ea9c3742092cef6b493b95"
-//     ]
-// }

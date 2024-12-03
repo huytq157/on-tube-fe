@@ -71,17 +71,6 @@ const Content = () => {
       dataIndex: "title",
       key: "title",
     },
-    // {
-    //   title: "Video",
-    //   dataIndex: "videoUrl",
-    //   key: "videoUrl",
-    //   render: (videoUrl: string) => (
-    //     <video width="300" height="200" controls>
-    //       <source src={videoUrl} type="video/mp4" />
-    //       Trình duyệt của bạn không hỗ trợ thẻ video.
-    //     </video>
-    //   ),
-    // },
     {
       title: "Thumbnail",
       dataIndex: "videoThumbnail",

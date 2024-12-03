@@ -28,8 +28,7 @@
     "react-responsive": "^10.0.0",
     "sharp": "^0.33.5",
     "socket.io-client": "^4.8.0",
-    "styled-components": "^6.1.13",
-    "swiper": "^11.1.11"
+    "styled-components": "^6.1.13"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",

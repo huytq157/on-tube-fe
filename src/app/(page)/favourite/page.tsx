@@ -11,12 +11,7 @@ import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 dayjs.extend(isSameOrAfter);
 
 const Favourite = () => {
-  const {
-    data: favouries,
-    error,
-    isLoading,
-    isFetching,
-  } = useGetlikeVideoQuery("");
+  const { data: favouries, isLoading } = useGetlikeVideoQuery("");
 
   return (
     <LayoutDefault>

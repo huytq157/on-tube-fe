@@ -5,9 +5,6 @@ import LayoutStudio from "@/components/layouts/studio/LayoutStudio";
 import { useRouter } from "next/navigation";
 import { Table, Spin, Button, message, Popconfirm, Tooltip } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { useSelector } from "react-redux";
-import { selectCurrentToken } from "@/redux/features/authSlice";
-import { useGetMeQuery } from "@/redux/api/authApi";
 import {
   useDeletePlaylistMutation,
   useGetPlaylistQuery,

@@ -17,7 +17,7 @@ const HeaderStudio = ({
   toggleDrawer: () => void;
 }) => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
-  const { user, isAuthenticated } = useUser();
+  const { user } = useUser();
 
   return (
     <div className="flex justify-between h-[100%] items-center">

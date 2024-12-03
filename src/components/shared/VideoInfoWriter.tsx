@@ -1,23 +1,10 @@
 "use client";
 
 import { useUser } from "@/hook/AuthContext";
-import { useGetMeQuery } from "@/redux/api/authApi";
-import {
-  useCheckSubCriptionQuery,
-  useGetChannelSubscribersCountQuery,
-  useSubCriptionMutation,
-  useUnSubCriptionMutation,
-} from "@/redux/api/subcription";
-import { selectCurrentToken } from "@/redux/features/authSlice";
-import {
-  setSubscribersCount,
-  setSubscriptionStatus,
-} from "@/redux/features/subcriptionSlice";
-import { message, Skeleton } from "antd";
+import { useSubscription } from "@/hook/useSubscription";
+import { Skeleton } from "antd";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 interface ModalProps {
   video: any;
@@ -25,72 +12,15 @@ interface ModalProps {
 }
 
 const VideoInfoWriter: React.FC<ModalProps> = ({ video, videoLoading }) => {
-  const { user, isAuthenticated } = useUser();
-  const dispatch = useDispatch();
-
+  const { user } = useUser();
   const channelId = video?.video?.writer?._id;
-  const [subscribe] = useSubCriptionMutation();
-  const [unsubscribe] = useUnSubCriptionMutation();
-  const [isProcessing, setIsProcessing] = useState(false);
-  const { data: subscriptionStatus, isLoading: isCheckingSubscription } =
-    useCheckSubCriptionQuery(channelId, {
-      skip: !user,
-    });
 
-  const { data: subscribersCount } = useGetChannelSubscribersCountQuery(
-    channelId,
-    { skip: !channelId }
-  );
-
-  useEffect(() => {
-    if (subscriptionStatus) {
-      dispatch(
-        setSubscriptionStatus({
-          channelId,
-          subscribed: subscriptionStatus.subscribed,
-        })
-      );
-    }
-    if (subscribersCount) {
-      dispatch(
-        setSubscribersCount({ channelId, count: subscribersCount.count })
-      );
-    }
-  }, [subscriptionStatus, subscribersCount, dispatch, channelId]);
-
-  const handleSubCription = async () => {
-    if (!isAuthenticated) {
-      message.warning("Bạn phải đăng nhập để đăng ký!");
-      return;
-    }
-    if (!channelId) return;
-
-    try {
-      setIsProcessing(true);
-
-      if (subscriptionStatus?.subscribed) {
-        await unsubscribe({ channelId }).unwrap();
-        dispatch(setSubscriptionStatus({ channelId, subscribed: false }));
-        message.success("Đã hủy đăng ký kênh!");
-      } else {
-        await subscribe({ channelId }).unwrap();
-        dispatch(setSubscriptionStatus({ channelId, subscribed: true }));
-        message.success("Đã đăng ký kênh!");
-      }
-    } catch (error) {
-      console.error(error);
-      message.error("Có lỗi xảy ra, vui lòng thử lại!");
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
-  const currentSubscriptionStatus = useSelector(
-    (state: any) => state.subscription.subscriptionStatus[channelId]
-  );
-  const currentSubscribersCount = useSelector(
-    (state: any) => state.subscription.subscribersCount[channelId]
-  );
+  const {
+    currentSubscriptionStatus,
+    currentSubscribersCount,
+    handleSubscriptionToggle,
+    isProcessing,
+  } = useSubscription(channelId, user);
 
   return (
     <div className=" flex items-center gap-[20px]">
@@ -128,8 +58,8 @@ const VideoInfoWriter: React.FC<ModalProps> = ({ video, videoLoading }) => {
         {user?.user?._id !== video?.video?.writer?._id && (
           <button
             className="bg-[#333] rounded-[50px] px-3 min-w-[90px] text-[#fff] h-[36px] font-roboto"
-            onClick={handleSubCription}
-            disabled={isCheckingSubscription || isProcessing}
+            onClick={handleSubscriptionToggle}
+            disabled={isProcessing}
           >
             {currentSubscriptionStatus ? "Đã đăng ký" : "Đăng ký"}
           </button>

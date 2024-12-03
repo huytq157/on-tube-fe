@@ -35,11 +35,7 @@ const VideoDetail = () => {
   const router = useRouter();
   const { user, isAuthenticated } = useUser();
 
-  const {
-    data: video,
-    isLoading: videoLoading,
-    refetch,
-  } = useGetVideoByIdQuery(id, {
+  const { data: video, isLoading: videoLoading } = useGetVideoByIdQuery(id, {
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
   });

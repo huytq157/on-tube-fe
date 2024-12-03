@@ -9,10 +9,6 @@ import { useParams, useRouter } from "next/navigation";
 import { NoThumbnail } from "../../../../../public";
 import { calculateCreatedTime } from "@/components/utils/formatDate";
 
-const renderHTML = (htmlString: string) => {
-  return <div dangerouslySetInnerHTML={{ __html: htmlString }} />;
-};
-
 const PlayListDetail = () => {
   const params = useParams();
   const { id } = params;
@@ -64,8 +60,6 @@ const PlayListDetail = () => {
               >
                 Phát tất cả
               </button>
-
-              {/* <p>{renderHTML(playlists?.playlist?.description)}</p> */}
             </div>
           </Col>
 

@@ -5,20 +5,14 @@ import SmellIcon from "../icons/Smell";
 import { useState, ChangeEvent } from "react";
 import { EmojiClickData } from "emoji-picker-react";
 import EmojiPicker from "emoji-picker-react";
-import { useSelector } from "react-redux";
-import { useGetMeQuery } from "@/redux/api/authApi";
-import { selectCurrentToken } from "@/redux/features/authSlice";
 import Link from "next/link";
+import { useUser } from "@/hook/AuthContext";
 
 const FormComment = () => {
   const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
-
-  const token = useSelector(selectCurrentToken);
-  const { data: user } = useGetMeQuery(undefined, {
-    skip: !token,
-  });
+  const { user } = useUser();
 
   const handleEmojiClick = (emojiObject: EmojiClickData) => {
     setInputValue((prev) => prev + emojiObject.emoji);
@@ -69,6 +63,7 @@ const FormComment = () => {
                   </div>
                   <div>
                     <button
+                      type="button"
                       className="bg-transparent min-w-[90px] h-[36px] rounded-[50px] hover:bg-[#f2f2f2] mr-2"
                       onClick={handleCancel}
                     >

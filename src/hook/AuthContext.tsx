@@ -2,7 +2,6 @@
 
 import { useGetMeQuery } from "@/redux/api/authApi";
 import React, { createContext, useContext, useState, useEffect } from "react";
-// import { useGetMeQuery } from "@/redux/api/userApi";
 
 interface User {
   id: string;

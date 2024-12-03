@@ -3,12 +3,9 @@
 import VideoItem from "@/components/card/VideoItem";
 import HistoryIcon from "@/components/icons/History";
 import LayoutDefault from "@/components/layouts/default/LayoutDefault";
-import { useGetMeQuery } from "@/redux/api/authApi";
 import { useGetVideoHistoryQuery } from "@/redux/api/videoApi";
-import { selectCurrentToken } from "@/redux/features/authSlice";
 import { Spin } from "antd";
 import Link from "next/link";
-import { useSelector } from "react-redux";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useUser } from "@/hook/AuthContext";
 
@@ -23,7 +20,7 @@ const History = () => {
     }
   );
 
-  http: return (
+  return (
     <LayoutDefault>
       {user ? (
         <div className="p-4">

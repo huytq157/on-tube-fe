@@ -52,7 +52,10 @@ const History = () => {
               Bạn không thể xem được nhật kí xem khi đã đăng xuất
             </p>
             <Link href="/login">
-              <button className="bg-[#333] rounded-[50px] px-[15px] min-w-[90px] text-[#fff] h-[36px]">
+              <button
+                type="button"
+                className="bg-[#333] rounded-[50px] px-[15px] min-w-[90px] text-[#fff] h-[36px]"
+              >
                 Đăng nhập
               </button>
             </Link>

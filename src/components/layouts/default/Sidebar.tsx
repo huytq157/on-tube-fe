@@ -195,6 +195,7 @@ const Sidebar = ({
                 </p>
                 <Link href="/login">
                   <button
+                    type="button"
                     className="bg-[#333] text-[14px] rounded-[50px] px-[13px] text-[#fff] h-[36px]"
                     aria-label="Đăng nhập để tiếp tục"
                   >

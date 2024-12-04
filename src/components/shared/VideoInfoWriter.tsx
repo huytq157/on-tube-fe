@@ -50,6 +50,7 @@ const VideoInfoWriter: React.FC<ModalProps> = ({ video }) => {
       <div>
         {user?.user?._id !== video?.writer?._id && (
           <button
+            type="button"
             className="bg-[#333] rounded-[50px] px-3 min-w-[90px] text-[#fff] h-[36px] font-roboto"
             onClick={handleSubscriptionToggle}
             disabled={isProcessing}

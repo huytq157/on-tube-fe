@@ -255,6 +255,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
                 <TooltipButton title="Thích" Icon={<LikeIcon />} />
                 <TooltipButton title="Không thích" Icon={<DisLikeIcon />} />
                 <button
+                  type="button"
                   className="font-semibold ml-4"
                   onClick={() => setReplyingToId(reply._id)}
                 >
@@ -272,6 +273,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
                       {
                         label: (
                           <button
+                            type="button"
                             className="flex gap-[10px]"
                             onClick={() => handleDeleteReply(reply._id)}
                           >
@@ -283,6 +285,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
                       {
                         label: (
                           <button
+                            type="button"
                             className="flex gap-[10px]"
                             onClick={() =>
                               handleEditComment(reply._id, reply.comment)
@@ -433,6 +436,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
           <TooltipButton title="Thích" Icon={<LikeIcon />} />
           <TooltipButton title="Không thích" Icon={<DisLikeIcon />} />
           <button
+            type="button"
             className="font-semibold ml-3"
             onClick={() => setReplyingToId(comment._id)}
           >
@@ -489,6 +493,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
 
         {comment.replies.length > 0 && (
           <button
+            type="button"
             onClick={() => setShowReplies(!showReplies)}
             className="text-blue-500 font-[500] mb-2"
           >

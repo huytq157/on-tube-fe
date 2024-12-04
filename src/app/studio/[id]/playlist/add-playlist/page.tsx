@@ -4,13 +4,12 @@ import LayoutStudio from "@/components/layouts/studio/LayoutStudio";
 import { useUser } from "@/hook/AuthContext";
 import { useAddPlaylistMutation } from "@/redux/api/playListApi";
 import { Form, Input, Button, message, Switch } from "antd";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 const AddPlaylist = () => {
   const [form] = Form.useForm();
-  const params = useParams();
   const router = useRouter();
   const { user } = useUser();
   const [addPlaylist, { isLoading: isAddting }] = useAddPlaylistMutation();

@@ -12,7 +12,6 @@ import styled from "styled-components";
 import { Logo_studio } from "../../../../public";
 import OverviewIcon from "@/components/icons/Overview";
 import VideoIcon from "@/components/icons/Video";
-import { useDispatch } from "react-redux";
 import ListIcon from "@/components/icons/List";
 import { useUser } from "@/hook/AuthContext";
 import { useLogoutMutation } from "@/redux/api/authApi";
@@ -171,7 +170,9 @@ const SidebarStudio = ({
           />
           <Divider />
           <div className="text-center">
-            <button onClick={handleLogout}>Đăng xuất</button>
+            <button type="button" onClick={handleLogout}>
+              Đăng xuất
+            </button>
           </div>
         </div>
       )}

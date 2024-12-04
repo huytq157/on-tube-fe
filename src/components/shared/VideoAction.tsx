@@ -98,6 +98,7 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
       <div className="bg-[#f2f2f2] rounded-[50px]">
         <div className="flex flex-nowrap items-center h-[100%] py-[5px] px-[10px]">
           <button
+            type="button"
             className="flex items-center gap-[5px] h-[100%]"
             onClick={handleLikeClick}
           >
@@ -106,6 +107,7 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
           </button>
           <div className="w-[20px] border-[1px] rotate-[-90deg] mx-[10px] border-[#B2B2B2]"></div>
           <button
+            type="button"
             className="flex items-center gap-[5px]"
             onClick={handleDislikeClick}
           >
@@ -115,11 +117,15 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
         </div>
       </div>
 
-      <button className="bg-[#f2f2f2]  flex flex-nowrap items-center gap-[8px] px-[10px] rounded-[50px]">
+      <button
+        type="button"
+        className="bg-[#f2f2f2]  flex flex-nowrap items-center gap-[8px] px-[10px] rounded-[50px]"
+      >
         <LikeIcon />{" "}
         <span className="font-semibold font-roboto text-nowrap">Chia sẻ</span>
       </button>
       <button
+        type="button"
         className="bg-[#f2f2f2] font-semibold flex flex-nowrap items-center gap-[10px] px-[10px] rounded-[50px] font-roboto"
         onClick={handleSaveClick}
       >

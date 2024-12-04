@@ -76,6 +76,7 @@ const PlaylistCard: React.FC<PlayListCardProps> = ({ playlist }) => {
         <span>Danh sách phát</span>
       </div>
       <button
+        type="button"
         onClick={handleViewPlaylist}
         className="text-[14px] py-2 text-[#606060] hover:text-[#000] font-[600]"
       >

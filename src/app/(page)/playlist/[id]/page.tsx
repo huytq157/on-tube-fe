@@ -55,6 +55,7 @@ const PlayListDetail = () => {
               </div>
 
               <button
+                type="button"
                 onClick={handlePlayAll}
                 className="bg-[#fff] my-[15px] text-[14px] rounded-[50px] px-[20px] text-[#000] h-[36px] font-roboto font-semibold"
               >

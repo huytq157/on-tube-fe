@@ -31,8 +31,6 @@ const renderHTML = (htmlString: string) => {
 };
 
 const VideoDetail: React.FC<VideoDetailProps> = ({ id, video }) => {
-  console.log("video:", video);
-
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const hasViewedRef = useRef(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -164,6 +162,7 @@ const VideoDetail: React.FC<VideoDetailProps> = ({ id, video }) => {
                 : video?.description.slice(0, 300) + "..."
             )}
             <button
+              type="button"
               className="block font-semibold mt-3 font-roboto"
               onClick={toggleDescription}
             >

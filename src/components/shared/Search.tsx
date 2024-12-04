@@ -84,7 +84,7 @@ const Search: React.FC<SearchProps> = ({ showSearch, setShowSearch }) => {
   };
 
   return (
-    <div>
+    <>
       <div className="sm:hidden md:flex gap-[10px]">
         <form
           className="border-[1px] h-[40px] w-[550px] flex rounded-[40px] overflow-hidden"
@@ -166,7 +166,7 @@ const Search: React.FC<SearchProps> = ({ showSearch, setShowSearch }) => {
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

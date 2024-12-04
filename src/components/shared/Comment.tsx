@@ -83,7 +83,10 @@ const Comments: React.FC<CommentsProps> = ({ videoId, video }) => {
           {comments?.totalComments} bình luận
         </span>
         <Dropdown menu={{ items }} trigger={["click"]}>
-          <button className="flex font-[500] gap-[5px] font-roboto">
+          <button
+            type="button"
+            className="flex font-[500] gap-[5px] font-roboto"
+          >
             <SortIcon /> Sắp xếp theo
           </button>
         </Dropdown>

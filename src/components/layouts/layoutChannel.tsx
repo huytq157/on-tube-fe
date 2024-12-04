@@ -13,7 +13,6 @@ import { useSubscription } from "@/hook/useSubscription";
 const LayoutChannel = ({ children }: Props) => {
   const params = useParams();
   const pathName = usePathname();
-  const dispatch = useDispatch();
   const { id } = params;
   const { user } = useUser();
 
@@ -82,6 +81,7 @@ const LayoutChannel = ({ children }: Props) => {
           <div className="flex sm:justify-center md:justify-start gap-[10px]">
             {!isOwner ? (
               <button
+                type="button"
                 className="bg-[#333] mt-[10px] rounded-[50px] min-w-[90px] text-[#fff] h-[36px]"
                 onClick={handleSubscriptionToggle}
                 disabled={isProcessing}
@@ -94,7 +94,10 @@ const LayoutChannel = ({ children }: Props) => {
                   href={`/studio/${user?.user?._id}/channel/${channel?.channel?._id}`}
                   target="_blank"
                 >
-                  <button className="bg-[#ccc] text-[14px] mt-[10px] px-[10px] rounded-[50px] min-w-[90px] text-[#000] h-[36px]">
+                  <button
+                    type="button"
+                    className="bg-[#ccc] text-[14px] mt-[10px] px-[10px] rounded-[50px] min-w-[90px] text-[#000] h-[36px]"
+                  >
                     Tùy chỉnh kênh
                   </button>
                 </Link>
@@ -102,7 +105,10 @@ const LayoutChannel = ({ children }: Props) => {
                   href={`/studio/${user?.user?._id}/content`}
                   target="_blank"
                 >
-                  <button className="bg-[#ccc]  text-[14px] mt-[10px] px-[10px] rounded-[50px] min-w-[90px] text-[#000] h-[36px]">
+                  <button
+                    type="button"
+                    className="bg-[#ccc]  text-[14px] mt-[10px] px-[10px] rounded-[50px] min-w-[90px] text-[#000] h-[36px]"
+                  >
                     Quản lý video
                   </button>
                 </Link>

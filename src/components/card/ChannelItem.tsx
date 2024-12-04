@@ -42,6 +42,7 @@ const ChannelItem: React.FC<any> = ({ sub }) => {
       </div>
       <div className="flex sm:justify-center md:justify-start gap-[10px]">
         <button
+          type="button"
           className="bg-[#333] mt-[10px] rounded-[50px] min-w-[120px] text-[#fff] h-[42px]"
           onClick={handleSubscriptionToggle}
           disabled={isProcessing}

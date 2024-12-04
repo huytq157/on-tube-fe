@@ -42,6 +42,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
   const progressThumbRef = useRef<HTMLDivElement | null>(null);
   const [formattedTime, setFormattedTime] = useState<string>("00:00");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isImageLoading, setImageLoading] = useState(true);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -152,13 +153,17 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
           {item.videoThumbnail && (
             <Image
               src={item.videoThumbnail || ".././../../public/no-image.png"}
-              width={500}
-              height={200}
+              width={320}
+              height={180}
               alt={item.title}
               className={`w-full h-[100%] object-cover rounded-[10px] ${
                 isHovered ? "hidden" : "block"
-              }`}
+              } ${isImageLoading ? "blur" : "remove-blur"}`}
+              onLoad={() => setImageLoading(false)}
               role="img"
+              style={{
+                objectFit: "contain",
+              }}
               aria-labelledby="thumbnail-title"
               loading="lazy"
             />
@@ -185,6 +190,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
           {isHovered && (
             <>
               <button
+                type="button"
                 onClick={handleMuteClick}
                 className="absolute top-2 right-2 p-1 bg-black text-white rounded-full"
                 aria-label={isMuted ? "Unmute" : "Mute"}

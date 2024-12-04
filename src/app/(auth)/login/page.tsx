@@ -135,6 +135,7 @@ const Login = () => {
         </form>
         <Divider>Hoặc</Divider>
         <button
+          type="button"
           onClick={handleGoogleLogin}
           className="flex w-full gap-3 justify-center rounded-md bg-[#eee] px-3 py-1.5 text-sm font-semibold leading-6 text-[#000] shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 "
         >

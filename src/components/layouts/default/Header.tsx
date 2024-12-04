@@ -244,7 +244,7 @@ const Header = ({
             onClick={() => setShowSearch(true)}
           />
         </div>
-        {user && (
+        {isAuthenticated && (
           <React.Fragment>
             <Link
               href={`/studio/${user?.user?._id}/upload/add-video`}

@@ -30,15 +30,16 @@ const Subscription = () => {
           <React.Fragment>
             <div className="flex items-center justify-end gap-[15px] mb-[20px]">
               <button
+                type="button"
                 className="bg-[#333]  rounded-[50px] min-w-[90px] text-[#fff] h-[36px]"
                 onClick={() => router.push("/channel-sub")}
               >
                 Quản lý
               </button>
-              <button aria-label="Grid View">
+              <button aria-label="Grid View" type="button">
                 <GridIcon />
               </button>
-              <button aria-label="Grid View">
+              <button aria-label="Grid View" type="button">
                 <GridDetail />
               </button>
             </div>
@@ -78,7 +79,10 @@ const Subscription = () => {
               Đăng nhập để xem cập nhật từ các kênh Youtube yêu thích của bạn
             </p>
             <Link href="/login">
-              <button className="bg-[#333] rounded-[50px] px-[15px] min-w-[90px] text-[#fff] h-[36px]">
+              <button
+                type="button"
+                className="bg-[#333] rounded-[50px] px-[15px] min-w-[90px] text-[#fff] h-[36px]"
+              >
                 Đăng nhập
               </button>
             </Link>

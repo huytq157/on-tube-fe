@@ -67,7 +67,9 @@ const PageResult = () => {
               ))
             ) : channelResults && channelResults.results?.length > 0 ? (
               channelResults.results.map((item: any) => (
-                <ChannelItem sub={item} key={item?._id} />
+                <Col key={item?._id} xs={24} sm={24} lg={24} xl={24} xxl={24}>
+                  <ChannelItem sub={item} />
+                </Col>
               ))
             ) : (
               <p>

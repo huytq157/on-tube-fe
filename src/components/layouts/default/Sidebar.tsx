@@ -123,7 +123,7 @@ const Sidebar = ({
               onClick={onMenuClick}
             />
             <Divider />
-            {isAuthenticated && (
+            {isAuthenticated && user && (
               <div>
                 <h3 className="font-semibold font-roboto mb-3">Kênh đăng ký</h3>
                 {subcribers?.data?.map((sub: any) => (
@@ -186,7 +186,7 @@ const Sidebar = ({
             </div>
           )}
 
-          {!collapsed && !isAuthenticated && (
+          {!collapsed && !isAuthenticated && !user && (
             <>
               <Divider />
               <div className="px-[20px]">

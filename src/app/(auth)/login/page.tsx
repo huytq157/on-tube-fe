@@ -16,7 +16,6 @@ interface LoginFormValues {
 const Login = () => {
   const [login, { isLoading }] = useLoginMutation();
   const router = useRouter();
-  const { user } = useUser();
   const [formValues, setFormValues] = useState<LoginFormValues>({
     email: "",
     password: "",

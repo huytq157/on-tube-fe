@@ -2,8 +2,8 @@
 
 import VideoCard from "@/components/card/VideoCard";
 import FavouriteIcon from "@/components/icons/Favourite";
-import GridIcon from "@/components/icons/Grid";
-import GridDetail from "@/components/icons/GridDetail";
+// import GridIcon from "@/components/icons/Grid";
+// import GridDetail from "@/components/icons/GridDetail";
 import LayoutDefault from "@/components/layouts/default/LayoutDefault";
 import CardVideoSkeleton from "@/components/skeleton/CardVideoSkelenton";
 import { useListVideoSubcriptionQuery } from "@/redux/api/subcription";
@@ -36,12 +36,12 @@ const Subscription = () => {
               >
                 Quản lý
               </button>
-              <button aria-label="Grid View" type="button">
+              {/* <button aria-label="Grid View" type="button">
                 <GridIcon />
               </button>
               <button aria-label="Grid View" type="button">
                 <GridDetail />
-              </button>
+              </button> */}
             </div>
             <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 4xl:grid-cols-6 gap-x-4 gap-y-12">
               {isLoading && isAuthenticated ? (

@@ -3,7 +3,7 @@ import BackIcon from "../icons/Back";
 import SearchIcon from "../icons/Search";
 import VoiceIcon from "../icons/Voice";
 import TooltipButton from "./TooltipButton";
-import { message } from "antd";
+import { message, Spin } from "antd";
 import { useRouter, useSearchParams } from "next/navigation";
 import CloseIcon from "../icons/Close";
 
@@ -19,12 +19,14 @@ const Search: React.FC<SearchProps> = ({ showSearch, setShowSearch }) => {
   const [searchTerm, setSearchTerm] = useState(searchTermFromParams);
   const [isListening, setIsListening] = useState(false);
   const [voiceSearchText, setVoiceSearchText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setSearchTerm(searchTermFromParams);
   }, [searchTermFromParams]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
+    setIsLoading(true);
     e.preventDefault();
     if (searchTerm.trim() === "") return;
     const encodedSearchTerm = encodeURIComponent(searchTerm).replace(
@@ -33,6 +35,7 @@ const Search: React.FC<SearchProps> = ({ showSearch, setShowSearch }) => {
     );
     setShowSearch(false);
     router.push(`/search?q=${encodedSearchTerm}`);
+    setIsLoading(false);
   };
 
   const handleVoiceSearch = () => {
@@ -109,13 +112,13 @@ const Search: React.FC<SearchProps> = ({ showSearch, setShowSearch }) => {
               onClick={handleClearSearch}
             />
           )}
+
           <button
             type="submit"
             className="w-[60px] flex justify-center items-center bg-slate-100"
             aria-label="Tìm kiếm"
           >
-            <SearchIcon />
-            {}
+            {isLoading ? <Spin /> : <SearchIcon />}
           </button>
         </form>
         <div>
@@ -130,13 +133,13 @@ const Search: React.FC<SearchProps> = ({ showSearch, setShowSearch }) => {
       {/* Search for Mobile */}
       <div className="sm:block md:hidden">
         {showSearch && (
-          <div className="absolute top-0 left-0 bg-[#fff] w-full h-[100vh] bottom-0">
+          <div className="absolute top-0 left-0 bg-[#fff] w-full h-[100vh] bottom-0 z-10">
             <TooltipButton
               title=""
               Icon={<BackIcon />}
               onClick={() => setShowSearch(false)}
             />
-            <div className="flex px-[10px] gap-[10px]">
+            <div className="flex px-[10px] gap-[10px] ">
               <form
                 className="border-[1px] h-[40px] w-full flex rounded-[40px] overflow-hidden"
                 onSubmit={handleSearchSubmit}
@@ -148,6 +151,7 @@ const Search: React.FC<SearchProps> = ({ showSearch, setShowSearch }) => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full flex-1 h-[100%] border-0 rounded-md pl-[20px] text-[16px] focus:outline-none"
                 />
+
                 <button
                   type="submit"
                   className="w-[60px] flex justify-center items-center bg-slate-100"

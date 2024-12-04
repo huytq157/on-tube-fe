@@ -35,7 +35,7 @@ export default function RootLayout({
             <AntdRegistry>
               <ConfigProvider>
                 <RegistyProvider>
-                  <Suspense>{children}</Suspense>
+                  <Suspense fallback={<p>...</p>}>{children}</Suspense>
                 </RegistyProvider>
               </ConfigProvider>
             </AntdRegistry>

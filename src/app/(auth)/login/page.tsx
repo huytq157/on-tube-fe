@@ -6,12 +6,7 @@ import { useGetMeQuery, useLoginMutation } from "@/redux/api/authApi";
 import { useState } from "react";
 import { Divider, message } from "antd";
 import { useRouter } from "next/navigation";
-import { useUser } from "@/hook/AuthContext";
-
-interface LoginFormValues {
-  email: string;
-  password: string;
-}
+import { LoginFormValues } from "@/components/types";
 
 const Login = () => {
   const [login, { isLoading }] = useLoginMutation();

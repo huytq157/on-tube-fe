@@ -2,22 +2,9 @@ import Image from "next/image";
 import { NoThumbnail } from "../../../public";
 import PlayIcon from "../icons/Play";
 import { useRouter } from "next/navigation";
+import { PlayListCard } from "../types";
 
-interface PlayListCardProps {
-  playlist: {
-    _id: string;
-    title: string;
-    isPublic: boolean;
-    videos: Array<{
-      _id: string;
-      title: string;
-      videoThumbnail: string;
-      videoUrl: string;
-    }>;
-  };
-}
-
-const PlaylistCard: React.FC<PlayListCardProps> = ({ playlist }) => {
+const PlaylistCard: React.FC<PlayListCard> = ({ playlist }) => {
   const router = useRouter();
   const videoThumbnail = playlist?.videos.length
     ? playlist.videos[0].videoThumbnail

@@ -4,8 +4,9 @@ import { useUser } from "@/hook/AuthContext";
 import { useSubscription } from "@/hook/useSubscription";
 import { useGetChannelVideoCountQuery } from "@/redux/api/videoApi";
 import Image from "next/image";
+import { ChannelItems } from "../types";
 
-const ChannelItem: React.FC<any> = ({ sub }) => {
+const ChannelItem: React.FC<ChannelItems> = ({ sub }) => {
   const channelId = sub?._id;
   const { data: videoCount } = useGetChannelVideoCountQuery(sub?._id);
   const { user } = useUser();

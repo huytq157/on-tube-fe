@@ -6,13 +6,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import PrivateIcon from "../icons/Private";
 import PublicIcon from "../icons/Public";
-
-interface VideoPlaylistProps {
-  video: {
-    playlist: string;
-    _id: string;
-  };
-}
+import { VideoPlaylistProps } from "../types";
 
 const PlayList: React.FC<VideoPlaylistProps> = ({ video }) => {
   const searchParams = useSearchParams();

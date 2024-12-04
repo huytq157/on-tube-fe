@@ -19,33 +19,9 @@ import EmojiPicker from "emoji-picker-react";
 import SmellIcon from "../icons/Smell";
 import { useCreateNotificationMutation } from "@/redux/api/notificationApi";
 import { useUser } from "@/hook/AuthContext";
+import { CommentItems, Reply } from "../types";
 
-interface User {
-  _id: string;
-  avatar: string;
-  name: string;
-}
-
-interface Reply {
-  _id: string;
-  comment: string;
-  user: User;
-  createdAt: Date;
-  updatedAt: Date;
-  replies?: Reply[];
-}
-
-interface CommentItemProps {
-  comment: {
-    _id: string;
-    createdAt: Date;
-    comment: string;
-    user: User;
-    replies: Reply[];
-  };
-}
-
-const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
+const CommentItem: React.FC<CommentItems> = ({ comment }) => {
   const { user } = useUser();
 
   const [showReplies, setShowReplies] = useState(false);

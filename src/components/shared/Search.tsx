@@ -6,11 +6,7 @@ import TooltipButton from "./TooltipButton";
 import { message, Spin } from "antd";
 import { useRouter, useSearchParams } from "next/navigation";
 import CloseIcon from "../icons/Close";
-
-interface SearchProps {
-  showSearch: boolean;
-  setShowSearch: (value: boolean) => void;
-}
+import { SearchProps } from "../types";
 
 const Search: React.FC<SearchProps> = ({ showSearch, setShowSearch }) => {
   const router = useRouter();

@@ -12,26 +12,9 @@ import { calculateCreatedTime } from "../utils/formatDate";
 import AudioIcon from "../icons/Audio";
 import Audio2Icon from "../icons/Audio2";
 import ModalSave from "../shared/ModalSave";
+import { VideoCards } from "../types";
 
-interface VideoCardProps {
-  item: {
-    _id: string;
-    title: string;
-    totalView: number;
-    createdAt: Date;
-    videoUrl: string;
-    videoThumbnail: string;
-    isPublic: boolean;
-    publishedDate: Date;
-    writer: {
-      _id: string;
-      avatar: string;
-      name: string;
-    };
-  };
-}
-
-const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
+const VideoCard: React.FC<VideoCards> = ({ item }) => {
   const [duration, setDuration] = useState<string>("");
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -149,13 +132,17 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
           onMouseLeave: handleMouseLeave,
         })}
       >
-        <Link href={`/video/${item?._id}`}>
+        <Link
+          href={`/video/${item?._id}`}
+          aria-label={`Xem video: ${item.title}`}
+        >
           {item.videoThumbnail && (
             <Image
               src={item.videoThumbnail || ".././../../public/no-image.png"}
               width={320}
               height={180}
               alt={item.title}
+              priority
               className={`w-full h-[100%] object-cover rounded-[10px] ${
                 isHovered ? "hidden" : "block"
               } ${isImageLoading ? "blur" : "remove-blur"}`}
@@ -165,7 +152,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ item }) => {
                 objectFit: "contain",
               }}
               aria-labelledby="thumbnail-title"
-              loading="lazy"
+              // loading="lazy"
             />
           )}
         </Link>

@@ -10,8 +10,9 @@ import Option2Icon from "../icons/Option2";
 import { calculateCreatedTime } from "../utils/formatDate";
 import { useState } from "react";
 import ModalSave from "../shared/ModalSave";
+import { VideoItemProp } from "../types";
 
-const VideoItem: React.FC<any> = ({ video }) => {
+const VideoItem: React.FC<VideoItemProp> = ({ video }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const items: MenuProps["items"] = [

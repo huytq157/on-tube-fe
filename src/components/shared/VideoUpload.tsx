@@ -1,16 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Upload, Button, message } from "antd";
 import { InboxOutlined, DeleteOutlined } from "@ant-design/icons";
-
+import { VideoUploadProps } from "../types";
 const { Dragger } = Upload;
-
-interface VideoUploadProps {
-  onUpload: (file: File) => Promise<void>;
-  uploading: boolean;
-  uploadProgress: number;
-  videoUrl: string;
-  onDeleteVideo: () => void;
-}
 
 const VideoUpload: React.FC<VideoUploadProps> = ({
   onUpload,

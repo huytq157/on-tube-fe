@@ -70,6 +70,7 @@ const FormComment = () => {
                       Hủy
                     </button>
                     <button
+                      type="button"
                       className={`mt-[10px] rounded-[50px] min-w-[90px] h-[36px] ${
                         inputValue
                           ? "bg-[#333] text-[#fff]"

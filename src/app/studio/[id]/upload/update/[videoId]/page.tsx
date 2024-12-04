@@ -83,7 +83,7 @@ const UpdateVideo = () => {
     setVideoUrl("");
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/upload/video`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/upload/video`,
         formData,
         {
           headers: {

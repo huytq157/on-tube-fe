@@ -14,11 +14,7 @@ import {
 } from "@/redux/api/commentApi";
 import { useCreateNotificationMutation } from "@/redux/api/notificationApi";
 import { useUser } from "@/hook/AuthContext";
-
-interface CommentsProps {
-  videoId: string | any;
-  video: any;
-}
+import { CommentsProps } from "../types";
 
 const items: MenuProps["items"] = [
   {

@@ -7,14 +7,9 @@ import {
 } from "@ant-design/icons";
 import Image from "next/image";
 import { LoadingOutlined } from "@ant-design/icons";
+import { ImageUploadProps } from "../types";
 
 const { Dragger } = Upload;
-
-interface ImageUploadProps {
-  onUpload: (file: File) => Promise<void>;
-  thumbnailUrl: string;
-  onDelete: () => void;
-}
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
   onUpload,

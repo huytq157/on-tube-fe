@@ -15,19 +15,6 @@ import { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useUser } from "@/hook/AuthContext";
 import { ModalProps, Playlist } from "../types";
 
-// interface Playlist {
-//   _id: string;
-//   title: string;
-//   isPublic: boolean;
-//   videos: { _id: string }[];
-// }
-
-// interface ModalProps {
-//   open: boolean;
-//   setIsModalOpen: (value: boolean) => void;
-//   videoId: string;
-// }
-
 const ModalSave: React.FC<ModalProps> = ({ open, setIsModalOpen, videoId }) => {
   const { isAuthenticated } = useUser();
   const { data: playlists } = useGetPlaylistQuery("", {

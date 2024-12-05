@@ -15,7 +15,7 @@ const Spinner = () => (
 );
 
 export default function Page() {
-  const [categories, setCategories] = useState<any>([]); // Danh sách categories
+  const [categories, setCategories] = useState<any>([]);
   const [videos, setVideos] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("null");
   const [loading, setLoading] = useState(false);
@@ -137,7 +137,7 @@ export default function Page() {
             type="button"
             onClick={() => {
               setSelectedCategory(item._id);
-              setPage(1); // Reset page
+              setPage(1);
             }}
             className={`rounded-[8px] min-w-[90px] h-[32px] text-[14px] font-[500] ${
               selectedCategory === item._id

@@ -19,6 +19,7 @@ import { useUser } from "@/hook/AuthContext";
 import Image from "next/image";
 import { IsDisLikeIcons, IsLikeIcons } from "../../../public";
 import ShareIcon from "../icons/Share";
+import ModalShare from "./ModalShare";
 
 interface ModalProps {
   videoId: string | any;
@@ -26,6 +27,7 @@ interface ModalProps {
 
 const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalShareOpen, setIsModalShareOpen] = useState(false);
   const { data: video, refetch } = useGetVideoByIdQuery(videoId, {
     refetchOnMountOrArgChange: true,
   });
@@ -143,6 +145,7 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
       </div>
 
       <button
+        onClick={() => setIsModalShareOpen(true)}
         type="button"
         className="bg-[#f2f2f2] min-w-[120px]  flex flex-nowrap justify-center items-center gap-[8px] px-[10px] rounded-[50px]"
       >
@@ -161,6 +164,12 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
       <ModalSave
         open={isModalOpen}
         setIsModalOpen={setIsModalOpen}
+        videoId={videoId}
+      />
+
+      <ModalShare
+        open={isModalShareOpen}
+        setIsModalOpen={setIsModalShareOpen}
         videoId={videoId}
       />
     </div>

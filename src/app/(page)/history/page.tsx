@@ -22,7 +22,7 @@ const History = () => {
 
   return (
     <LayoutDefault>
-      {isAuthenticated ? (
+      {user && isAuthenticated ? (
         <div className="p-4">
           <h1 className="text-2xl font-bold mb-4">Video đã xem</h1>
           {isLoading ? (

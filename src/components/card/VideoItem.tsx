@@ -32,8 +32,8 @@ const VideoItem: React.FC<VideoItemProp> = ({ video }) => {
         <Link href={`/video/${video?._id}`}>
           <Image
             src={video?.videoThumbnail}
-            width={168}
-            height={100}
+            width={256}
+            height={144}
             alt={video?.title}
             loading="lazy"
             className="w-[100%] h-[100%] object-fill"

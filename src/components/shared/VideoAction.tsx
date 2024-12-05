@@ -16,6 +16,9 @@ import {
 import IsLikeIcon from "../icons/isLike";
 import IsDisLikeIcon from "../icons/isDisLike";
 import { useUser } from "@/hook/AuthContext";
+import Image from "next/image";
+import { IsDisLikeIcons, IsLikeIcons } from "../../../public";
+import ShareIcon from "../icons/Share";
 
 interface ModalProps {
   videoId: string | any;
@@ -96,22 +99,44 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
   return (
     <div className="flex gap-[10px] overflow-y-auto">
       <div className="bg-[#f2f2f2] rounded-[50px]">
-        <div className="flex flex-nowrap items-center h-[100%] py-[5px] px-[10px]">
+        <div className="flex flex-nowrap w-[150px] justify-center items-center h-[100%] py-[5px] px-[10px]">
           <button
             type="button"
-            className="flex items-center gap-[5px] h-[100%]"
+            className="flex flex-1 justify-center items-center gap-[5px] h-[100%]"
             onClick={handleLikeClick}
           >
-            {checkedLike?.isLiked ? <IsLikeIcon /> : <LikeIcon />}
+            {checkedLike?.isLiked ? (
+              <Image
+                src={IsLikeIcons}
+                width={20}
+                height={20}
+                alt="like"
+                className="w-[18px] h-[18px]"
+                loading="lazy"
+              />
+            ) : (
+              <LikeIcon />
+            )}
             <strong>{video?.video?.likeCount ?? 0}</strong>
           </button>
           <div className="w-[20px] border-[1px] rotate-[-90deg] mx-[10px] border-[#B2B2B2]"></div>
           <button
             type="button"
-            className="flex items-center gap-[5px]"
+            className="flex flex-1 justify-center items-center gap-[5px]"
             onClick={handleDislikeClick}
           >
-            {checkedDisLike?.isDisliked ? <IsDisLikeIcon /> : <DisLikeIcon />}
+            {checkedDisLike?.isDisliked ? (
+              <Image
+                src={IsDisLikeIcons}
+                width={20}
+                height={20}
+                alt="dislike"
+                className="w-[18px] h-[18px]"
+                loading="lazy"
+              />
+            ) : (
+              <DisLikeIcon />
+            )}
             <strong>{video?.video?.dislikeCount ?? 0}</strong>
           </button>
         </div>
@@ -119,14 +144,14 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
 
       <button
         type="button"
-        className="bg-[#f2f2f2]  flex flex-nowrap items-center gap-[8px] px-[10px] rounded-[50px]"
+        className="bg-[#f2f2f2] min-w-[120px]  flex flex-nowrap justify-center items-center gap-[8px] px-[10px] rounded-[50px]"
       >
-        <LikeIcon />{" "}
+        <ShareIcon />{" "}
         <span className="font-semibold font-roboto text-nowrap">Chia sẻ</span>
       </button>
       <button
         type="button"
-        className="bg-[#f2f2f2] font-semibold flex flex-nowrap items-center gap-[10px] px-[10px] rounded-[50px] font-roboto"
+        className="bg-[#f2f2f2] flex flex-nowrap items-center gap-[10px] px-[10px] rounded-[50px] font-roboto"
         onClick={handleSaveClick}
       >
         <SaveIcon />{" "}

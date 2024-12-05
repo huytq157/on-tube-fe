@@ -139,13 +139,14 @@ const VideoCard: React.FC<VideoCards> = ({ item }) => {
           {item.videoThumbnail && (
             <Image
               src={item.videoThumbnail || ".././../../public/no-image.png"}
-              width={320}
+              width={315}
               height={180}
               alt={item.title}
               priority
               className={`w-full h-[100%] object-cover rounded-[10px] ${
                 isHovered ? "hidden" : "block"
-              } ${isImageLoading ? "blur" : "remove-blur"}`}
+              } `}
+              // ${isImageLoading ? "blur" : "remove-blur"}
               onLoad={() => setImageLoading(false)}
               role="img"
               style={{

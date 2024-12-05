@@ -30,10 +30,13 @@ const VideoInfoWriter: React.FC<ModalProps> = ({ video }) => {
               src={video?.writer?.avatar || ""}
               width={40}
               height={40}
-              alt=""
+              alt={`Avatar của ${video?.writer?.name || "người dùng"}`}
               className="w-[100%] h-[100%]"
               loading="lazy"
             />
+            <span className="sr-only">
+              Đi đến playlist của {video?.writer?.name || "người dùng"}
+            </span>
           </Link>
         </div>
         <div>

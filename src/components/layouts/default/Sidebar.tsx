@@ -9,6 +9,7 @@ import { useMediaQuery } from "react-responsive";
 import Link from "next/link";
 
 import LogoIcon from "@/components/icons/Logo";
+import SortIcon from "@/components/icons/Sort";
 import HomeIcon from "@/components/icons/Home";
 import SubIcon from "@/components/icons/Sub";
 import TrendIcon from "@/components/icons/Trend";
@@ -20,6 +21,7 @@ import TooltipButton from "@/components/shared/TooltipButton";
 import MenuIcon from "@/components/icons/Menu";
 import { useListSubcriberQuery } from "@/redux/api/subcription";
 import { useUser } from "@/hook/AuthContext";
+import ShortIcon from "@/components/icons/Short";
 
 function getItem(
   label: React.ReactNode,
@@ -64,6 +66,7 @@ const Sidebar = ({
 
   const items: MenuItem[] = [
     getItem("Trang chủ", "/", <HomeIcon />),
+    getItem("Shorts", "/shorts", <ShortIcon />),
     getItem("Kênh đăng ký", "/subcription", <SubIcon />),
     getItem("Thịnh hành", "/trending", <TrendIcon />),
     ...(user

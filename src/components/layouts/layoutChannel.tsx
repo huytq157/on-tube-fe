@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { useGetChannelInfoQuery } from "@/redux/api/channelApi";
-import { useDispatch } from "react-redux";
 import { Skeleton } from "antd";
 import { useGetChannelVideoCountQuery } from "@/redux/api/videoApi";
 import { useUser } from "@/hook/AuthContext";
@@ -63,6 +62,7 @@ const LayoutChannel = ({ children }: Props) => {
               alt={channel?.channel?.name}
               className="w-[100%] h-[100%] object-fill rounded-[12px]"
               loading="lazy"
+              fill={true}
             />
           )}
         </div>

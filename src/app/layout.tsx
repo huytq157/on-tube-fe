@@ -8,7 +8,7 @@ import ReduxProviderClient from "@/components/utils/ReduxProviderClient";
 import Roboto from "./assets/fonts";
 import { Suspense } from "react";
 import { UserProvider } from "@/hook/AuthContext";
-// import LoadingPage from "./loading";
+import LoadingPage from "./loading";
 
 export const metadata: Metadata = {
   title: "H-tube",
@@ -36,9 +36,7 @@ export default function RootLayout({
             <AntdRegistry>
               <ConfigProvider>
                 <RegistyProvider>
-                  {/* <Suspense fallback={<LoadingPage />}> */}
-                  {children}
-                  {/* </Suspense> */}
+                  <Suspense fallback={<LoadingPage />}>{children}</Suspense>
                 </RegistyProvider>
               </ConfigProvider>
             </AntdRegistry>

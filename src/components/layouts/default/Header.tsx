@@ -82,7 +82,7 @@ const Header = ({
     if (!notification.read) {
       await updateSeenNotification({
         notificationId: notification._id,
-        user_id: user?.user?._id,
+        user_id: user?.data?._id,
       });
     }
   };
@@ -177,7 +177,7 @@ const Header = ({
       <Space align="start">
         <div className="w-[40px] h-[40px] rounded-[50%] overflow-hidden cursor-pointer">
           <Image
-            src={user?.user?.avatar || ""}
+            src={user?.data?.avatar || ""}
             width={40}
             height={40}
             alt=""
@@ -186,9 +186,12 @@ const Header = ({
           />
         </div>
         <div className="flex flex-col">
-          <span className="font-semibold text-[17px]">{user?.user?.name}</span>
-          <span>{user?.user?.email}</span>
-          <Link href={`channel/${user?.user?._id}`} className="mt-[5px]">
+          <span className="font-semibold text-[17px]">{user?.data?.name}</span>
+          <span>{user?.data?.email}</span>
+          <Link
+            href={`channel/${user?.data?._id}/playlist`}
+            className="mt-[5px]"
+          >
             Xem kênh của bạn
           </Link>
         </div>
@@ -247,7 +250,7 @@ const Header = ({
         {isAuthenticated && user && (
           <React.Fragment>
             <Link
-              href={`/studio/${user?.user?._id}/upload/add-video`}
+              href={`/studio/${user?.data?._id}/upload/add-video`}
               target="_blank"
             >
               <TooltipButton title="Tạo video" Icon={<CamIcon />} />
@@ -311,7 +314,8 @@ const Header = ({
                                 src={notification?.from_user?.avatar}
                                 width={30}
                                 height={30}
-                                alt=""
+                                priority
+                                alt={notification?.from_user?.name}
                                 className="w-[30px] h-[30px] rounded-full"
                               />
                               <span className="font-[500] ">
@@ -340,9 +344,9 @@ const Header = ({
             trigger="click"
             placement="topRight"
           >
-            {user?.user?.avatar ? (
+            {user?.data?.avatar ? (
               <Image
-                src={user?.user?.avatar || ""}
+                src={user?.data?.avatar || ""}
                 width={36}
                 height={36}
                 alt="channels-avartar"

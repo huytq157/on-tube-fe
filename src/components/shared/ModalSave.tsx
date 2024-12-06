@@ -31,7 +31,7 @@ const ModalSave: React.FC<ModalProps> = ({ open, setIsModalOpen, videoId }) => {
 
   useEffect(() => {
     if (playlists) {
-      const checkedIds = playlists.playlists
+      const checkedIds = playlists.data
         .filter((playlist: Playlist) =>
           playlist.videos.some((video) => video._id === videoId)
         )
@@ -107,7 +107,7 @@ const ModalSave: React.FC<ModalProps> = ({ open, setIsModalOpen, videoId }) => {
         footer={null}
         width={280}
       >
-        {playlists?.playlists?.map((item: Playlist) => (
+        {playlists?.data?.map((item: Playlist) => (
           <div
             key={item?._id}
             className="flex mb-2 items-center justify-between"

@@ -1,14 +1,21 @@
 "use client";
 
 import { useGetMeQuery } from "@/redux/api/authApi";
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { io, Socket } from "socket.io-client";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+} from "react";
 
 interface User {
   id: string;
   name: string;
   email: string;
   avatar?: string;
-  user?: any;
+  data?: any;
 }
 
 interface UserContextType {
@@ -17,6 +24,7 @@ interface UserContextType {
   setUser: (user: User | null) => void;
   logOut: () => void;
   loading: boolean;
+  socket: any;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -29,6 +37,14 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   const [loading, setLoading] = useState(true);
 
   const { data: userData, isLoading, error } = useGetMeQuery("");
+  const socket = useRef<Socket | null>(null);
+
+  useEffect(() => {
+    socket.current = io("https://socket-b74w.onrender.com");
+    return () => {
+      socket.current?.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     if (userData) {
@@ -48,7 +64,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <UserContext.Provider
-      value={{ user, isAuthenticated, setUser, logOut, loading }}
+      value={{ user, isAuthenticated, setUser, logOut, loading, socket }}
     >
       {children}
     </UserContext.Provider>

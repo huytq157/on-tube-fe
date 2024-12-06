@@ -18,9 +18,9 @@ const VideoItem: React.FC<VideoItemProp> = ({ video }) => {
   const items: MenuProps["items"] = [
     {
       label: (
-        <li className="flex gap-[10px]" onClick={() => setIsModalOpen(true)}>
+        <div className="flex gap-[10px]" onClick={() => setIsModalOpen(true)}>
           <ListIcon /> Thêm vào danh sách phát
-        </li>
+        </div>
       ),
       key: "0",
     },
@@ -35,7 +35,7 @@ const VideoItem: React.FC<VideoItemProp> = ({ video }) => {
             width={256}
             height={144}
             alt={video?.title}
-            loading="lazy"
+            priority
             className="w-[100%] h-[100%] object-fill"
           />
         </Link>

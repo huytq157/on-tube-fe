@@ -23,7 +23,7 @@ export const useSubscription = (channelId: string | any, user: any) => {
   const [createNotification] = useCreateNotificationMutation();
 
   const { data: subscriptionStatus } = useCheckSubCriptionQuery(channelId, {
-    skip: !user,
+    skip: !user || !channelId,
   });
 
   const { data: subscribersCount } = useGetChannelSubscribersCountQuery(
@@ -69,7 +69,7 @@ export const useSubscription = (channelId: string | any, user: any) => {
           comment: null,
           video: null,
           message: "đã đăng ký kênh của bạn",
-          url: "/",
+          url: `/channel/${user?.user?._id}/video`,
           user: [channelId],
         }).unwrap();
 

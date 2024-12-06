@@ -19,20 +19,20 @@ const ChannelItem: React.FC<ChannelItems> = ({ sub }) => {
   } = useSubscription(channelId, user);
 
   return (
-    <div className="flex justify-center md:px-[25%] items-center gap-5">
-      <div className="md:w-[160px] md:h-[160px] sm:w-[80px]  sm:h-[80px] rounded-[50%] overflow-hidden">
+    <div className="flex justify-center items-center gap-4">
+      <div className="md:w-[100px] md:h-[100px] sm:w-[70px]  sm:h-[70px] rounded-[50%] overflow-hidden">
         <Image
           src={sub?.avatar}
           width={60}
           height={60}
           alt="Picture of the author"
           className="w-[100%] h-[100%] object-fill"
-          loading="lazy"
+          priority
         />
       </div>
-      <div className="flex-1 flex sm:flex-col md:flex-row justify-between">
+      <div className="flex-1 items-center flex  md:flex-row justify-between">
         <div className="py-1">
-          <h1 className="font-bold text-[22px] mb-1 leading-[32px]">
+          <h1 className="font-bold text-[20px] mb-1 leading-[32px]">
             {sub?.name}
           </h1>
           <p className="text-[#333] text-[14px]">{sub?.email}</p>
@@ -46,7 +46,11 @@ const ChannelItem: React.FC<ChannelItems> = ({ sub }) => {
         <div className="flex justify-start gap-[10px]">
           <button
             type="button"
-            className="bg-[#333]  rounded-[50px] md:min-w-[120px] sm:min-w-[90px] text-[#fff] md:h-[42px] sm:h-[32px]"
+            className={` ${
+              currentSubscriptionStatus
+                ? "bg-[#ccc] text-[#000]"
+                : "bg-[#333] text-[#fff]"
+            }  rounded-[50px] px-3 min-w-[90px] h-[36px] font-roboto`}
             onClick={handleSubscriptionToggle}
             disabled={isProcessing}
           >

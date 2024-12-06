@@ -72,9 +72,9 @@ export default function Page() {
       const data = await res.json();
 
       setVideos((prevVideos) =>
-        reset ? data.videos || [] : [...prevVideos, ...(data.videos || [])]
+        reset ? data.data || [] : [...prevVideos, ...(data.data || [])]
       );
-      setHasMore(data.videos.length > 0);
+      setHasMore(data.data.length > 0);
     } catch (error) {
       console.error("Failed to fetch videos:", error);
     } finally {

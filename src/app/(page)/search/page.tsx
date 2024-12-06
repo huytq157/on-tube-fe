@@ -23,46 +23,43 @@ const PageResult = () => {
       skip: !searchTerm,
     });
 
-  return (
-    <LayoutDefault>
-      <Tabs
-        defaultActiveKey="1"
-        tabBarStyle={{
-          color: "#333",
-          fontSize: "16px",
-          fontWeight: "bold",
-          fontFamily: "'Roboto Condensed', sans-serif",
-        }}
-      >
-        <Tabs.TabPane tab="Videos" key="1">
-          <Row gutter={[18, 48]}>
-            {isLoadingVideos ? (
-              Array.from({ length: 8 }).map((_, index) => (
-                <Col key={index} xs={24} sm={12} lg={8} xl={8} xxl={6}>
-                  <CardVideoSkeleton />
-                </Col>
-              ))
-            ) : videoResults && videoResults.results?.length > 0 ? (
-              videoResults.results.map((item: any) => (
-                <Col key={item._id} xs={24} sm={12} lg={8} xl={8} xxl={6}>
-                  <VideoCard item={item} />
-                </Col>
-              ))
-            ) : (
-              <p>
-                Không tìm thấy video cho từ khóa{" "}
-                <strong>&ldquo;{searchTerm}&rdquo;</strong>
-              </p>
-            )}
-          </Row>
-        </Tabs.TabPane>
-
-        <Tabs.TabPane tab="kênh" key="2">
+  const tabItems = [
+    {
+      label: "Videos",
+      key: "1",
+      children: (
+        <Row gutter={[18, 48]}>
+          {isLoadingVideos ? (
+            Array.from({ length: 8 }).map((_, index) => (
+              <Col key={index} xs={24} sm={12} lg={8} xl={8} xxl={6}>
+                <CardVideoSkeleton />
+              </Col>
+            ))
+          ) : videoResults && videoResults.results?.length > 0 ? (
+            videoResults.results.map((item: any) => (
+              <Col key={item._id} xs={24} sm={12} lg={8} xl={8} xxl={6}>
+                <VideoCard item={item} />
+              </Col>
+            ))
+          ) : (
+            <p>
+              Không tìm thấy video cho từ khóa{" "}
+              <strong>&ldquo;{searchTerm}&rdquo;</strong>
+            </p>
+          )}
+        </Row>
+      ),
+    },
+    {
+      label: "Kênh",
+      key: "2",
+      children: (
+        <div className="flex justify-center md:w-[50%] sm:w-full">
           <Row gutter={[18, 48]}>
             {isLoadingChannels ? (
               Array.from({ length: 8 }).map((_, index) => (
                 <Col key={index} xs={24} sm={12} lg={8} xl={8} xxl={6}>
-                  <CardVideoSkeleton />{" "}
+                  <CardVideoSkeleton />
                 </Col>
               ))
             ) : channelResults && channelResults.results?.length > 0 ? (
@@ -78,8 +75,23 @@ const PageResult = () => {
               </p>
             )}
           </Row>
-        </Tabs.TabPane>
-      </Tabs>
+        </div>
+      ),
+    },
+  ];
+
+  return (
+    <LayoutDefault>
+      <Tabs
+        defaultActiveKey="1"
+        tabBarStyle={{
+          color: "#333",
+          fontSize: "16px",
+          fontWeight: "bold",
+          fontFamily: "'Roboto Condensed', sans-serif",
+        }}
+        items={tabItems}
+      />
     </LayoutDefault>
   );
 };

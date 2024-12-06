@@ -43,6 +43,7 @@ export default async function VideoPage({
   params: { id: string };
 }) {
   const video = await getVideoById(params.id);
+
   const recommendedVideos = await getRecommendedVideos(params.id);
   if (!video) {
     notFound();

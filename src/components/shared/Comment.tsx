@@ -15,14 +15,15 @@ import {
 import { useCreateNotificationMutation } from "@/redux/api/notificationApi";
 import { useUser } from "@/hook/AuthContext";
 import { CommentsProps } from "../types";
+import { useSocket } from "@/hook/SocketContext";
 
 const items: MenuProps["items"] = [
   {
-    label: <li className="flex gap-[10px]">Bình luận hàng đầu</li>,
+    label: <div className="flex gap-[10px]">Bình luận hàng đầu</div>,
     key: "0",
   },
   {
-    label: <li className="flex gap-[10px]">Mới nhất xếp trước</li>,
+    label: <div className="flex gap-[10px]">Mới nhất xếp trước</div>,
     key: "1",
   },
 ];
@@ -33,6 +34,10 @@ const Comments: React.FC<CommentsProps> = ({ videoId, video }) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
   const { user, isAuthenticated } = useUser();
   const { data: comments, error, isLoading } = useGetCommentsQuery({ videoId });
+  // console.log("video:", video);
+  const { socket } = useSocket();
+
+  // console.log("socket ref:", socket?.current);
 
   const [addComment] = useAddCommentMutation();
   const [createNotification] = useCreateNotificationMutation();
@@ -57,15 +62,18 @@ const Comments: React.FC<CommentsProps> = ({ videoId, video }) => {
           video_id: videoId,
         }).unwrap();
 
-        if (video?.video?.writer?._id === user?.user?._id) return;
+        if (video?.writer?._id === user?.data?._id) return;
 
-        await createNotification({
+        const notification = await createNotification({
           comment: commentResponse?._id,
           video: videoId,
           message: "đã bình luận video của bạn",
           url: `/video/${videoId}`,
-          user: [video?.video?.writer?._id],
+          user: [video?.writer?._id],
+          from_user: user?.data?._id,
         }).unwrap();
+
+        socket?.current?.emit("create-new-notification", notification);
       } catch (error) {
         console.error("Lỗi khi thêm bình luận:", error);
       }
@@ -93,7 +101,7 @@ const Comments: React.FC<CommentsProps> = ({ videoId, video }) => {
           <div className="flex justify-start mb-[30px]">
             <div className="w-[40px] h-[40px] mr-[12px] rounded-[50%] overflow-hidden cursor-pointer">
               <Image
-                src={user?.user?.avatar}
+                src={user?.data?.avatar}
                 width={40}
                 height={40}
                 alt=""

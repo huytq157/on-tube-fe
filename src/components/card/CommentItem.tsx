@@ -72,7 +72,7 @@ const CommentItem: React.FC<CommentItems> = ({ comment }) => {
         parent_id: replyingToId,
       }).unwrap();
 
-      if (comment?.user?._id === user?.user?._id) return;
+      if (comment?.user?._id === user?.data?._id) return;
 
       await createNotification({
         comment: replyresponse?._id,
@@ -241,7 +241,7 @@ const CommentItem: React.FC<CommentItems> = ({ comment }) => {
             </div>
           </div>
           <div className="">
-            {user && user.user?._id === reply.user._id && (
+            {user && user.data?._id === reply.user._id && (
               <div className="mt-[12px]">
                 <Dropdown
                   menu={{
@@ -487,7 +487,7 @@ const CommentItem: React.FC<CommentItems> = ({ comment }) => {
         )}
       </div>
 
-      {user && user.user?._id === comment.user._id && (
+      {user && user.data?._id === comment.user._id && (
         <div className="mt-[12px]">
           <Dropdown
             menu={{ items }}

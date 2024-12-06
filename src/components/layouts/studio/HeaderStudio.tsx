@@ -37,13 +37,13 @@ const HeaderStudio = ({
       </div>
 
       <div className="flex gap-[10px] items-center">
-        <Link href={`/studio/${user?.user?._id}/upload/add-video`}>
+        <Link href={`/studio/${user?.data?._id}/upload/add-video`}>
           <TooltipButton title="Tạo" Icon={<CamIcon />} />
         </Link>
 
         <div className="w-[34px] h-[34px] rounded-[50%] overflow-hidden cursor-pointer">
           <Image
-            src={user?.user?.avatar}
+            src={user?.data?.avatar}
             width={36}
             height={36}
             alt=""

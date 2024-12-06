@@ -43,7 +43,7 @@ const VideoDetail: React.FC<VideoCard> = ({ id, video }) => {
           descViewAuth({
             videoId: id,
             watchTime: totalDuration * 0.5,
-            userId: user?.user?._id,
+            userId: user?.data?._id,
           }).unwrap();
         } else {
           descView({ videoId: id, watchTime: totalDuration * 0.5 }).unwrap();

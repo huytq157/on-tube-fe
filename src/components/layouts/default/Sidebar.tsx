@@ -75,7 +75,7 @@ const Sidebar = ({
           getItem("Video đã thích", "/favourite", <LikeIcon />),
           getItem(
             "Video của bạn",
-            `/studio/${user?.user?._id}/content`,
+            `/studio/${user?.data?._id}/content`,
             <VideoIcon />
           ),
         ]
@@ -84,7 +84,7 @@ const Sidebar = ({
   ];
 
   const onMenuClick = (item: any) => {
-    if (item.key === `/studio/${user?.user?._id}/content`) {
+    if (item.key === `/studio/${user?.data?._id}/content`) {
       window.open(item.key, "_blank");
     } else {
       router.push(item.key);
@@ -131,6 +131,7 @@ const Sidebar = ({
                 <h3 className="font-semibold font-roboto mb-3">Kênh đăng ký</h3>
                 {subcribers?.data?.map((sub: any) => (
                   <div
+                    onClick={() => router.push(`/channel/${sub?._id}/playlist`)}
                     key={sub?._id}
                     className="flex items-center gap-[15px] px-[10px] cursor-pointer rounded-[8px] h-[40px] hover:bg-[#f2f2f2]"
                   >
@@ -170,7 +171,7 @@ const Sidebar = ({
               <h3 className="font-[600] mb-3">Kênh đăng ký</h3>
               {subcribers?.data?.map((sub: any) => (
                 <div
-                  onClick={() => router.push(`/channel/${sub?._id}`)}
+                  onClick={() => router.push(`/channel/${sub?._id}/playlist`)}
                   key={sub?._id}
                   className="flex items-center gap-[15px] px-[10px] cursor-pointer rounded-[8px] h-[40px] hover:bg-[#f2f2f2]"
                 >

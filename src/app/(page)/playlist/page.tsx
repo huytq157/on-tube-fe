@@ -23,8 +23,8 @@ const PlayList = () => {
                 <CardVideoSkeleton />
               </div>
             ))
-          ) : playlists?.playlists?.length > 0 ? (
-            playlists.playlists.map((playlist: any) => (
+          ) : playlists?.data?.length > 0 ? (
+            playlists.data.map((playlist: any) => (
               <div key={playlist._id}>
                 <PlaylistCard playlist={playlist} />
               </div>

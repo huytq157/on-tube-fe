@@ -13,13 +13,12 @@ import {
   useGetVideoByIdQuery,
   useLikeVideoMutation,
 } from "@/redux/api/videoApi";
-import IsLikeIcon from "../icons/isLike";
-import IsDisLikeIcon from "../icons/isDisLike";
 import { useUser } from "@/hook/AuthContext";
 import Image from "next/image";
 import { IsDisLikeIcons, IsLikeIcons } from "../../../public";
 import ShareIcon from "../icons/Share";
 import ModalShare from "./ModalShare";
+import { useCreateNotificationMutation } from "@/redux/api/notificationApi";
 
 interface ModalProps {
   videoId: string | any;
@@ -33,7 +32,7 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
   });
 
   const { user, isAuthenticated } = useUser();
-
+  const [createNotification] = useCreateNotificationMutation();
   const { data: checkedLike, refetch: refetchLike } = useCheckIsLikedQuery(
     videoId,
     {
@@ -64,8 +63,19 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
     try {
       if (!checkedLike?.isLiked) {
         await likeVideo({ videoId }).unwrap();
+
         if (checkedDisLike?.isDisliked) {
           await refetchDisLike();
+        }
+
+        if (video?.video?.writer?._id !== user?.data?._id) {
+          await createNotification({
+            video: videoId,
+            message: "đã thích video của bạn",
+            url: `/video/${videoId}`,
+            user: [video?.video?.writer?._id], // người nhận thông báo
+            from_user: user?.data?._id, // người gửi thông báo
+          }).unwrap();
         }
       } else {
         await likeVideo({ videoId }).unwrap();
@@ -119,7 +129,7 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
             ) : (
               <LikeIcon />
             )}
-            <strong>{video?.video?.likeCount ?? 0}</strong>
+            <strong>{video?.data?.likeCount ?? 0}</strong>
           </button>
           <div className="w-[20px] border-[1px] rotate-[-90deg] mx-[10px] border-[#B2B2B2]"></div>
           <button
@@ -139,7 +149,7 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
             ) : (
               <DisLikeIcon />
             )}
-            <strong>{video?.video?.dislikeCount ?? 0}</strong>
+            <strong>{video?.data?.dislikeCount ?? 0}</strong>
           </button>
         </div>
       </div>

@@ -16,9 +16,12 @@ const LayoutChannel = ({ children }: Props) => {
   const { user } = useUser();
 
   const { data: channel, isLoading } = useGetChannelInfoQuery(id);
-  const isOwner = user?.user?._id === channel?.channel?._id;
-  const channelId = channel?.channel?._id;
-  const { data: videoCount } = useGetChannelVideoCountQuery(channelId);
+  const isOwner = user?.data?._id === channel?.data?._id;
+  const channelId = channel?.data?._id;
+
+  const { data: videoCount } = useGetChannelVideoCountQuery(channelId, {
+    skip: !channelId,
+  });
 
   const {
     currentSubscriptionStatus,
@@ -37,12 +40,12 @@ const LayoutChannel = ({ children }: Props) => {
           />
         ) : (
           <Image
-            src={channel?.channel?.background}
+            src={channel?.data?.background}
             width={1070}
             height={170}
-            alt={channel?.channel?.name}
+            alt={channel?.data?.name}
             className="w-[100%] h-[100%] object-fill rounded-[12px]"
-            loading="lazy"
+            priority
           />
         )}
       </div>
@@ -56,33 +59,36 @@ const LayoutChannel = ({ children }: Props) => {
             />
           ) : (
             <Image
-              src={channel?.channel?.avatar}
+              src={channel?.data?.avatar}
               width={160}
               height={160}
-              alt={channel?.channel?.name}
+              alt={channel?.data?.name}
               className="w-[100%] h-[100%] object-fill rounded-[12px]"
-              loading="lazy"
-              fill={true}
+              priority
             />
           )}
         </div>
         <div>
           <h1 className="font-bold text-[30px] leading-[32px]">
-            {channel?.channel?.name}
+            {channel?.data?.name}
           </h1>
           <div className="flex sm:flex-col md:flex-row gap-[10px] my-[5px] text-[#606060] font-medium">
-            <span className="text-[#333]">{channel?.channel?.email}</span>
+            <span className="text-[#333]">{channel?.data?.email}</span>
             <strong>.</strong>
             <span>{currentSubscribersCount} người đăng ký</span>
             <strong>.</strong>
             <span>{videoCount?.videoCount} video</span>
           </div>
-          <p>{channel?.channel?.description}</p>
-          <div className="flex sm:justify-center md:justify-start gap-[10px]">
+          <p>{channel?.data?.description}</p>
+          <div className="flex sm:justify-center md:justify-start mt-3 gap-[10px]">
             {!isOwner ? (
               <button
                 type="button"
-                className="bg-[#333] mt-[10px] rounded-[50px] min-w-[90px] text-[#fff] h-[36px]"
+                className={` ${
+                  currentSubscriptionStatus
+                    ? "bg-[#ccc] text-[#000]"
+                    : "bg-[#333] text-[#fff]"
+                }  rounded-[50px] px-3 min-w-[90px] h-[36px] font-roboto`}
                 onClick={handleSubscriptionToggle}
                 disabled={isProcessing}
               >
@@ -91,7 +97,7 @@ const LayoutChannel = ({ children }: Props) => {
             ) : (
               <div className="flex gap-3">
                 <Link
-                  href={`/studio/${user?.user?._id}/channel/${channel?.channel?._id}`}
+                  href={`/studio/${user?.data?._id}/channel/${channel?.channel?._id}`}
                   target="_blank"
                 >
                   <button
@@ -102,7 +108,7 @@ const LayoutChannel = ({ children }: Props) => {
                   </button>
                 </Link>
                 <Link
-                  href={`/studio/${user?.user?._id}/content`}
+                  href={`/studio/${user?.data?._id}/content`}
                   target="_blank"
                 >
                   <button

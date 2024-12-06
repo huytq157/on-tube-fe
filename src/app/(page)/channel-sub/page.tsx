@@ -14,28 +14,24 @@ const ChannelSub = () => {
   });
 
   return (
-    <div>
-      <LayoutDefault>
-        <div className="max-w-[800px] mx-auto">
-          <h1 className="font-semibold text-[22px] py-4">
-            Tất cả kênh đăng ký
-          </h1>
-          {isLoading ? (
-            <div className="text-center py-10">
-              <Spin indicator={<LoadingOutlined spin />} size="large" />
-            </div>
-          ) : subcribers?.data && subcribers.data.length > 0 ? (
-            subcribers.data.map((sub: any) => (
-              <ChannelItem sub={sub} key={sub?._id} />
-            ))
-          ) : (
-            <div className="text-center py-10">
-              <p>Không có kênh nào.</p>
-            </div>
-          )}
-        </div>
-      </LayoutDefault>
-    </div>
+    <LayoutDefault>
+      <div className="max-w-[800px] mx-auto">
+        <h1 className="font-semibold text-[22px] py-4">Tất cả kênh đăng ký</h1>
+        {isLoading ? (
+          <div className="text-center py-10">
+            <Spin indicator={<LoadingOutlined spin />} size="large" />
+          </div>
+        ) : subcribers?.data && subcribers.data.length > 0 ? (
+          subcribers.data.map((sub: any) => (
+            <ChannelItem sub={sub} key={sub?._id} />
+          ))
+        ) : (
+          <div className="text-center py-10">
+            <p>Không có kênh nào.</p>
+          </div>
+        )}
+      </div>
+    </LayoutDefault>
   );
 };
 

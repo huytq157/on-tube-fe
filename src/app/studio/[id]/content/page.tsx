@@ -76,7 +76,14 @@ const Content = () => {
       dataIndex: "videoThumbnail",
       key: "videoThumbnail",
       render: (thumbnail: string) => (
-        <Image width={200} height={150} src={thumbnail} alt="thumbnail" />
+        <Image
+          width={200}
+          height={150}
+          src={thumbnail}
+          className="w-[200px] h-[150px]"
+          alt="thumbnail"
+          priority
+        />
       ),
     },
     {
@@ -139,7 +146,7 @@ const Content = () => {
               icon={<EditOutlined />}
               onClick={() =>
                 router.push(
-                  `/studio/${user?.user?._id}/upload/update/${record._id}`
+                  `/studio/${user?.data?._id}/upload/update/${record._id}`
                 )
               }
             />
@@ -188,7 +195,7 @@ const Content = () => {
         />
       </div>
       <Table
-        dataSource={videos?.videos}
+        dataSource={videos?.data}
         columns={columns}
         rowKey="id"
         pagination={{

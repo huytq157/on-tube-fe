@@ -13,7 +13,7 @@ const History = () => {
   const { user, isAuthenticated } = useUser();
   const { data: historys, isLoading } = useGetVideoHistoryQuery(
     {
-      userId: user?.user?._id,
+      userId: user?.data?._id,
     },
     {
       skip: !isAuthenticated,

@@ -28,8 +28,8 @@ const VideoChannel = () => {
               <CardVideoSkeleton />
             </div>
           ))
-        ) : videos?.videos.length > 0 ? (
-          videos.videos.map((video: any) => (
+        ) : videos?.data.length > 0 ? (
+          videos.data.map((video: any) => (
             <div key={video._id}>
               <VideoCard item={video} />
             </div>

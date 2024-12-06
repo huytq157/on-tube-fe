@@ -33,7 +33,7 @@ const PlaylistCard: React.FC<PlayListCard> = ({ playlist }) => {
             height={200}
             alt=""
             className="w-full h-[100%] z-50 object-cover rounded-[10px] "
-            loading="lazy"
+            priority
           />
         </div>
 

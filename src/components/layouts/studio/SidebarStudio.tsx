@@ -63,11 +63,11 @@ const SidebarStudio = ({
   const items: MenuItem[] = [
     getItem(
       "Tổng quan",
-      `/studio/${user?.user?._id}/overview`,
+      `/studio/${user?.data?._id}/overview`,
       <OverviewIcon />
     ),
-    getItem("Playlist", `/studio/${user?.user?._id}/playlist`, <ListIcon />),
-    getItem("Video", `/studio/${user?.user?._id}/content`, <VideoIcon />),
+    getItem("Playlist", `/studio/${user?.data?._id}/playlist`, <ListIcon />),
+    getItem("Video", `/studio/${user?.data?._id}/content`, <VideoIcon />),
   ];
 
   const onOpenChange = (keys: string[]) => {
@@ -112,7 +112,7 @@ const SidebarStudio = ({
             <Divider />
             <Link href="/">
               <Image
-                src={user?.user?.avatar}
+                src={user?.data?.avatar}
                 width={collapsed ? 32 : 100}
                 height={collapsed ? 32 : 100}
                 alt=""
@@ -146,7 +146,7 @@ const SidebarStudio = ({
               >
                 <Link href="/">
                   <Image
-                    src={user?.user?.avatar}
+                    src={user?.data?.avatar}
                     width={collapsed ? 32 : 100}
                     height={collapsed ? 32 : 100}
                     alt=""

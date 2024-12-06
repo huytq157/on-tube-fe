@@ -24,7 +24,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (!isAuthenticated) return;
     socket.current = io("https://socket-b74w.onrender.com");
-    //     console.log("Kết nối thành công");
+    console.log("Kết nối socket thành công");
   }, [user?.data?._id, socket.current]);
 
   useEffect(() => {

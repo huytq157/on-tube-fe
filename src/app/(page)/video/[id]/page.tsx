@@ -18,7 +18,7 @@ async function getVideoById(id: string) {
   }
 
   const data = await res.json();
-  return data.video || null;
+  return data.data || null;
 }
 
 async function getRecommendedVideos(id: string) {

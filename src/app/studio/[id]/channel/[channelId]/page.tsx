@@ -11,13 +11,15 @@ import { Button, Form, Input, message } from "antd";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const UpdateVideo = () => {
+const UpdateChannel = () => {
   const params = useParams();
   const [form] = Form.useForm();
   const { channelId } = params;
   const [avatar, setAvatar] = useState("");
   const [background, setBackground] = useState("");
   const { data: channel } = useGetChannelInfoQuery(channelId);
+  console.log("channel:", channel);
+
   const [updateChannel, { isLoading: isUpdateting }] =
     useUpdateChannelMutation();
   const [uploadImage] = useUploadImageMutation();
@@ -25,12 +27,12 @@ const UpdateVideo = () => {
   useEffect(() => {
     if (channel) {
       form.setFieldsValue({
-        name: channel?.channel?.name,
-        description: channel?.channel?.description,
-        email: channel?.channel?.email,
+        name: channel?.data?.name,
+        description: channel?.data?.description,
+        email: channel?.data?.email,
       });
-      setAvatar(channel?.channel?.avatar);
-      setBackground(channel?.channel?.background);
+      setAvatar(channel?.data?.avatar);
+      setBackground(channel?.data?.background);
     }
   }, [channel, form]);
 
@@ -137,4 +139,4 @@ const UpdateVideo = () => {
   );
 };
 
-export default UpdateVideo;
+export default UpdateChannel;

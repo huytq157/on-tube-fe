@@ -17,5 +17,5 @@ export const calculateCreatedTime = (timeCreated: string | Date): string => {
     }
   }
 
-  return "Bây giờ";
+  return "Vừa xong";
 };

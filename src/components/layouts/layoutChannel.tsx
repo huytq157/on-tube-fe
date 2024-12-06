@@ -97,7 +97,7 @@ const LayoutChannel = ({ children }: Props) => {
             ) : (
               <div className="flex gap-3">
                 <Link
-                  href={`/studio/${user?.data?._id}/channel/${channel?.channel?._id}`}
+                  href={`/studio/${user?.data?._id}/channel/${channel?.data?._id}`}
                   target="_blank"
                 >
                   <button

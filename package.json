@@ -23,6 +23,7 @@
     "nextjs-toploader": "^3.6.15",
     "react": "^18",
     "react-dom": "^18",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-quill": "^2.0.0",
     "react-redux": "^9.1.2",
     "react-responsive": "^10.0.0",

@@ -24,7 +24,7 @@ interface UserContextType {
   setUser: (user: User | null) => void;
   logOut: () => void;
   loading: boolean;
-  socket: any;
+  // socket: any;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -37,14 +37,14 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   const [loading, setLoading] = useState(true);
 
   const { data: userData, isLoading, error } = useGetMeQuery("");
-  const socket = useRef<Socket | null>(null);
+  // const socket = useRef<Socket | null>(null);
 
-  useEffect(() => {
-    socket.current = io("https://socket-b74w.onrender.com");
-    return () => {
-      socket.current?.disconnect();
-    };
-  }, []);
+  // useEffect(() => {
+  //   socket.current = io("http://localhost:5000/");
+  //   return () => {
+  //     socket.current?.disconnect();
+  //   };
+  // }, []);
 
   useEffect(() => {
     if (userData) {
@@ -64,7 +64,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <UserContext.Provider
-      value={{ user, isAuthenticated, setUser, logOut, loading, socket }}
+      value={{ user, isAuthenticated, setUser, logOut, loading }}
     >
       {children}
     </UserContext.Provider>

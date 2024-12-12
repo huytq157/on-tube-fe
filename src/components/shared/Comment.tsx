@@ -15,7 +15,6 @@ import {
 import { useCreateNotificationMutation } from "@/redux/api/notificationApi";
 import { useUser } from "@/hook/AuthContext";
 import { CommentsProps } from "../types";
-import { useSocket } from "@/hook/SocketContext";
 
 const items: MenuProps["items"] = [
   {
@@ -34,10 +33,6 @@ const Comments: React.FC<CommentsProps> = ({ videoId, video }) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
   const { user, isAuthenticated } = useUser();
   const { data: comments, error, isLoading } = useGetCommentsQuery({ videoId });
-  // console.log("video:", video);
-  const { socket } = useSocket();
-
-  // console.log("socket ref:", socket?.current);
 
   const [addComment] = useAddCommentMutation();
   const [createNotification] = useCreateNotificationMutation();
@@ -72,8 +67,6 @@ const Comments: React.FC<CommentsProps> = ({ videoId, video }) => {
           user: [video?.writer?._id],
           from_user: user?.data?._id,
         }).unwrap();
-
-        socket?.current?.emit("create-new-notification", notification);
       } catch (error) {
         console.error("Lỗi khi thêm bình luận:", error);
       }

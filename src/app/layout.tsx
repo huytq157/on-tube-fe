@@ -9,7 +9,7 @@ import Roboto from "./assets/fonts";
 import { Suspense } from "react";
 import { UserProvider } from "@/hook/AuthContext";
 import LoadingPage from "./loading";
-import { SocketProvider } from "@/hook/SocketContext";
+// import { SocketProvider } from "@/hook/SocketContext";
 
 export const metadata: Metadata = {
   title: "H-tube",
@@ -34,15 +34,15 @@ export default function RootLayout({
 
         <ReduxProviderClient>
           <UserProvider>
-            <SocketProvider>
-              <AntdRegistry>
-                <ConfigProvider>
-                  <RegistyProvider>
-                    <Suspense fallback={<LoadingPage />}>{children}</Suspense>
-                  </RegistyProvider>
-                </ConfigProvider>
-              </AntdRegistry>
-            </SocketProvider>
+            {/* <SocketProvider> */}
+            <AntdRegistry>
+              <ConfigProvider>
+                <RegistyProvider>
+                  <Suspense fallback={<LoadingPage />}>{children}</Suspense>
+                </RegistyProvider>
+              </ConfigProvider>
+            </AntdRegistry>
+            {/* </SocketProvider> */}
           </UserProvider>
         </ReduxProviderClient>
       </body>

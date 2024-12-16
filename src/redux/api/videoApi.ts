@@ -114,6 +114,7 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
         credentials: "include",
       }),
     }),
+
     dislikeVideo: builder.mutation({
       query: (data) => ({
         url: "/api/vote/dislike",
@@ -122,6 +123,7 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
         credentials: "include",
       }),
     }),
+
     checkIsLiked: builder.query({
       query: (videoId) => ({
         url: `/api/vote/check-like/${videoId}`,
@@ -129,6 +131,7 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
         credentials: "include",
       }),
     }),
+
     checkIsDisLiked: builder.query({
       query: (videoId) => ({
         url: `/api/vote/check-dislike/${videoId}`,
@@ -146,6 +149,7 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
       providesTags: ["Video"],
     }),
+
     getChannelVideoCount: builder.query({
       query: (channelId) => ({
         url: `/api/video/${channelId}/video-count`,

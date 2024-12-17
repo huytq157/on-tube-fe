@@ -16,7 +16,7 @@ import Image from "next/image";
 const VideoShortCard: React.FC<VideoCards> = ({ item }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -61,8 +61,8 @@ const VideoShortCard: React.FC<VideoCards> = ({ item }) => {
   };
 
   return (
-    <div className="flex gap-[10px] relative">
-      <div className="lg:w-[480px] sm:w-[100%] cursor-pointer overflow-hidden rounded-[10px] h-[849px] relative group">
+    <div className="flex gap-[10px] relative lg:w-[30%] sm:w-[100%] h-[85vh]">
+      <div className=" cursor-pointer rounded-[10px] h-full relative group overflow-hidden">
         <div className="flex gap-[15px] absolute p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
           <button
             type="button"
@@ -115,14 +115,19 @@ const VideoShortCard: React.FC<VideoCards> = ({ item }) => {
           preload="metadata"
           autoPlay={true}
           autoFocus={true}
-          className="top-0 h-[100%] video-hidden-on-sm bg-black w-full left-0"
+          className="top-0 h-full video-hidden-on-sm bg-black w-full left-0"
           src={item?.videoUrl}
           onClick={togglePlay}
           onEnded={handleVideoEnded}
         />
       </div>
 
-      <div className="flex flex-col gap-[20px] justify-center lg:relative sm:hidden sm:text-white lg:text-[#000]">
+      <div
+        className="flex flex-col gap-[20px] justify-center 
+  sm:absolute sm:right-3 sm:bottom-6 sm:text-white 
+  md:relative md:right-auto md:bottom-auto md:text-[#000]
+  lg:text-[#000]"
+      >
         <div className="text-center">
           <button
             type="button"

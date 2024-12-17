@@ -24,7 +24,7 @@ interface UserContextType {
   setUser: (user: User | null) => void;
   logOut: () => void;
   loading: boolean;
-  socket: any;
+  socket: Socket | null;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -66,7 +66,14 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <UserContext.Provider
-      value={{ user, isAuthenticated, setUser, logOut, loading, socket }}
+      value={{
+        user,
+        isAuthenticated,
+        setUser,
+        logOut,
+        loading,
+        socket: socket.current,
+      }}
     >
       {children}
     </UserContext.Provider>

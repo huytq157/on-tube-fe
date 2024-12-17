@@ -14,6 +14,7 @@ import {
 import { message } from "antd";
 import { useEffect, useState } from "react";
 import { useCreateNotificationMutation } from "@/redux/api/notificationApi";
+import { useSocket } from "./SocketContext";
 
 export const useSubscription = (channelId: string | any, user: any) => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ export const useSubscription = (channelId: string | any, user: any) => {
   const [unsubscribe] = useUnSubCriptionMutation();
   const [isProcessing, setIsProcessing] = useState(false);
   const [createNotification] = useCreateNotificationMutation();
+  const { socket } = useSocket();
 
   const { data: subscriptionStatus } = useCheckSubCriptionQuery(channelId, {
     skip: !user || !channelId,
@@ -65,13 +67,15 @@ export const useSubscription = (channelId: string | any, user: any) => {
         await subscribe({ channelId }).unwrap();
         dispatch(setSubscriptionStatus({ channelId, subscribed: true }));
 
-        await createNotification({
+        const notifi = await createNotification({
           comment: null,
           video: null,
           message: "đã đăng ký kênh của bạn",
           url: `/channel/${user?.user?._id}/video`,
           user: [channelId],
         }).unwrap();
+
+        socket?.emit("create-new-notification", notifi);
 
         message.success("Đã đăng ký kênh!");
       }

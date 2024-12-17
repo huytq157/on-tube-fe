@@ -18,7 +18,7 @@ export default function Page() {
     category: null,
     page: 1,
     limit: 12,
-    // isPublic: true,
+    isPublic: true,
   });
 
   return (

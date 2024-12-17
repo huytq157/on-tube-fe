@@ -24,6 +24,7 @@ import {
 import { calculateCreatedTime } from "@/components/utils/formatDate";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useUser } from "@/hook/AuthContext";
+import { useSocket } from "@/hook/SocketContext";
 
 declare global {
   interface Window {
@@ -77,6 +78,7 @@ const Header = ({
   const router = useRouter();
   const [logout] = useLogoutMutation();
   const { user, isAuthenticated, logOut } = useUser();
+
 
   const handleNotificationClick = async (notification: any) => {
     if (!notification.read) {

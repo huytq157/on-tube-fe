@@ -135,6 +135,15 @@ const LayoutChannel = ({ children }: Props) => {
           <Link href={`/channel/${id}/video`}>Video</Link>
         </span>
         <span
+          className={` ${
+            pathName === `/channel/${id}/short`
+              ? "text-[#000] font-[600] text-[14px] underline underline-offset-8"
+              : ""
+          }`}
+        >
+          <Link href={`/channel/${id}/short`}>Short</Link>
+        </span>
+        <span
           className={`font-[500] ${
             pathName === `/channel/${id}/playlist`
               ? "text-[#000] font-[600] text-[14px] underline underline-offset-8"

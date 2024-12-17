@@ -43,20 +43,22 @@ const ChannelItem: React.FC<ChannelItems> = ({ sub }) => {
           </div>
           <p className="text-[14px]">{sub?.description}</p>
         </div>
-        <div className="flex justify-start gap-[10px]">
-          <button
-            type="button"
-            className={` ${
-              currentSubscriptionStatus
-                ? "bg-[#ccc] text-[#000]"
-                : "bg-[#333] text-[#fff]"
-            }  rounded-[50px] px-3 min-w-[90px] h-[36px] font-roboto`}
-            onClick={handleSubscriptionToggle}
-            disabled={isProcessing}
-          >
-            {currentSubscriptionStatus ? "Đã đăng ký" : "Đăng ký"}
-          </button>
-        </div>
+        {user?.data?._id !== sub?._id && (
+          <div className="flex justify-start gap-[10px]">
+            <button
+              type="button"
+              className={` ${
+                currentSubscriptionStatus
+                  ? "bg-[#ccc] text-[#000]"
+                  : "bg-[#333] text-[#fff]"
+              }  rounded-[50px] px-3 min-w-[90px] h-[36px] font-roboto`}
+              onClick={handleSubscriptionToggle}
+              disabled={isProcessing}
+            >
+              {currentSubscriptionStatus ? "Đã đăng ký" : "Đăng ký"}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

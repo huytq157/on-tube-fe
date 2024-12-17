@@ -40,7 +40,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   const socket = useRef<Socket | null>(null);
 
   useEffect(() => {
-    socket.current = io("https://socket-b74w.onrender.com/");
+    const socketUrl =
+      process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:5000";
+    socket.current = io(socketUrl);
     return () => {
       socket.current?.disconnect();
     };

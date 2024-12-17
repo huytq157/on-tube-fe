@@ -20,6 +20,16 @@ import axios from "axios";
 import { useUser } from "@/hook/AuthContext";
 
 const { Option } = Select;
+const typeVideo = [
+  {
+    label: "Video ngắn",
+    value: "short",
+  },
+  {
+    label: "Video dài",
+    value: "long",
+  },
+];
 
 const UpdateVideo = () => {
   const [form] = Form.useForm();
@@ -41,17 +51,18 @@ const UpdateVideo = () => {
   useEffect(() => {
     if (video) {
       form.setFieldsValue({
-        title: video.video.title,
-        description: video.video.description,
-        isPublic: video.video.isPublic,
-        allowComments: video.video.allowComments,
-        category: video.video.category,
-        playlist: video.video.playlist,
-        tags: video.video.tags,
-        publishedDate: moment(video.video.publishedDate),
+        title: video.data.title,
+        description: video.data.description,
+        isPublic: video.data.isPublic,
+        allowComments: video.data.allowComments,
+        category: video.data.category,
+        playlist: video.data.playlist,
+        tags: video.data.tags,
+        videoType: video?.data?.videoType,
+        publishedDate: moment(video.data.publishedDate),
       });
-      setThumbnailUrl(video.video.videoThumbnail);
-      setVideoUrl(video.video.videoUrl);
+      setThumbnailUrl(video.data.videoThumbnail);
+      setVideoUrl(video.data.videoUrl);
     }
   }, [video, form]);
 
@@ -121,7 +132,7 @@ const UpdateVideo = () => {
       await updateVideo({ videoId, updatedData: videoData }).unwrap();
 
       message.success("Thành công");
-      router.push(`/studio/${user?.user?._id}/content`);
+      router.push(`/studio/${user?.data?._id}/content`);
       form.resetFields();
       setVideoUrl("");
       setThumbnailUrl("");
@@ -140,7 +151,33 @@ const UpdateVideo = () => {
 
   return (
     <LayoutStudio>
-      <Form form={form} onFinish={onFinish} layout="vertical">
+      <Form form={form} onFinish={onFinish} layout="vertical" className="pb-5">
+        <Form.Item
+          label="Tiêu đề video"
+          name="title"
+          rules={[{ required: true, message: "Vui lòng nhập tiêu đề!" }]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Loại video"
+          name="videoType"
+          rules={[{ required: true }]}
+        >
+          <Select
+            showSearch
+            placeholder="Chọn loại video"
+            optionFilterProp="children"
+          >
+            {typeVideo?.map((item: any) => (
+              <Option key={item.value} value={item.value}>
+                {item.label}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+
         <Form.Item label="Ảnh video">
           <ImageUpload
             onUpload={handleUploadThumbnail}
@@ -159,14 +196,6 @@ const UpdateVideo = () => {
               onDeleteVideo={handleDeleteVideo}
             />
           </div>
-        </Form.Item>
-
-        <Form.Item
-          label="Tiêu đề video"
-          name="title"
-          rules={[{ required: true, message: "Vui lòng nhập tiêu đề!" }]}
-        >
-          <Input />
         </Form.Item>
 
         <Form.Item label="Mô tả video" name="description">

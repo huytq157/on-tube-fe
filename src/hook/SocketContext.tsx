@@ -23,7 +23,9 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     if (!isAuthenticated) return;
-    socket.current = io("https://socket-b74w.onrender.com/");
+    const socketUrl =
+      process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:5000";
+    socket.current = io(socketUrl);
     console.log("Kết nối socket thành công");
   }, [user?.data?._id, socket.current]);
 

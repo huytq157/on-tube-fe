@@ -29,6 +29,17 @@ import { useUser } from "@/hook/AuthContext";
 
 const { Option } = Select;
 
+const typeVideo = [
+  {
+    label: "Video ngắn",
+    value: "short",
+  },
+  {
+    label: "Video dài",
+    value: "long",
+  },
+];
+
 const UploadVideo = () => {
   const [form] = Form.useForm();
   const router = useRouter();
@@ -108,7 +119,7 @@ const UploadVideo = () => {
 
       await addVideo(videoData).unwrap();
       message.success("Thành công");
-      router.push(`/studio/${user?.user?._id}/content`);
+      router.push(`/studio/${user?.data?._id}/content`);
       form.resetFields();
       setVideoUrl("");
       setThumbnailUrl("");
@@ -128,7 +139,33 @@ const UploadVideo = () => {
 
   return (
     <LayoutStudio>
-      <Form form={form} onFinish={onFinish} layout="vertical">
+      <Form form={form} onFinish={onFinish} layout="vertical" className="pb-5">
+        <Form.Item
+          label="Tiêu đề video"
+          name="title"
+          rules={[{ required: true, message: "Vui lòng nhập tiêu đề!" }]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Loại video"
+          name="videoType"
+          rules={[{ required: true }]}
+        >
+          <Select
+            showSearch
+            placeholder="Chọn loại video"
+            optionFilterProp="children"
+          >
+            {typeVideo?.map((item: any) => (
+              <Option key={item.value} value={item.value}>
+                {item.label}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+
         <Row gutter={[16, 16]}>
           <Col xs={24} md={12}>
             <Form.Item label="Ảnh video">
@@ -152,14 +189,6 @@ const UploadVideo = () => {
             </Form.Item>
           </Col>
         </Row>
-
-        <Form.Item
-          label="Tiêu đề video"
-          name="title"
-          rules={[{ required: true, message: "Vui lòng nhập tiêu đề!" }]}
-        >
-          <Input />
-        </Form.Item>
 
         <Form.Item label="Mô tả video" name="description">
           <ReactQuill theme="snow" />

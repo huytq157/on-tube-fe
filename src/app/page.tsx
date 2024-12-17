@@ -47,7 +47,7 @@ export default function Page() {
     try {
       const currentPage = reset ? 1 : page;
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/video/list?page=${currentPage}&limit=${limit}&category=${selectedCategory}&isPublic=true`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/video/list?page=${currentPage}&limit=${limit}&category=${selectedCategory}&isPublic=true&videoType=long`
       );
       const data = await response.json();
 

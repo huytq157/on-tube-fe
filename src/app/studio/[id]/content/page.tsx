@@ -79,7 +79,10 @@ const Content = () => {
         <Image
           width={200}
           height={150}
-          src={thumbnail}
+          src={
+            thumbnail ||
+            "https://res.cloudinary.com/dh0peripq/image/upload/v1734422284/h-tube-image/h-tube-image-1734422283323-download.webp"
+          }
           className="w-[200px] h-[150px]"
           alt="thumbnail"
           priority
@@ -95,6 +98,11 @@ const Content = () => {
           {isPublic ? "Công khai" : "Riêng tư"}
         </Button>
       ),
+    },
+    {
+      title: "Loại video",
+      dataIndex: "videoType",
+      key: "videoType",
     },
     {
       title: "Lượt xem",
@@ -183,7 +191,7 @@ const Content = () => {
 
   return (
     <LayoutStudio>
-      <div className="mb-4">
+      <div className="mb-4 flex gap-5">
         <Select
           defaultValue="true"
           style={{ width: 120 }}
@@ -191,6 +199,15 @@ const Content = () => {
           options={[
             { value: "true", label: "Công khai" },
             { value: "false", label: "Riêng tư" },
+          ]}
+        />
+        <Select
+          defaultValue="long"
+          style={{ width: 120 }}
+          onChange={() => {}}
+          options={[
+            { value: "short", label: "Video ngắn" },
+            { value: "long", label: "Video dài" },
           ]}
         />
       </div>

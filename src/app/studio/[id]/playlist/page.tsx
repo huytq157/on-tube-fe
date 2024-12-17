@@ -73,7 +73,7 @@ const Playlist = () => {
               icon={<EditOutlined />}
               onClick={() =>
                 router.push(
-                  `/studio/${user?.user?._id}/playlist/update/${record._id}`
+                  `/studio/${user?.data?._id}/playlist/update/${record._id}`
                 )
               }
             />
@@ -112,7 +112,7 @@ const Playlist = () => {
     <LayoutStudio>
       <Button
         onClick={() =>
-          router.push(`/studio/${user?.user?._id}/playlist/add-playlist`)
+          router.push(`/studio/${user?.data?._id}/playlist/add-playlist`)
         }
         type="primary"
         className="mb-4"
@@ -120,7 +120,7 @@ const Playlist = () => {
         Thêm danh sách phát
       </Button>
       <Table
-        dataSource={playlists?.playlists}
+        dataSource={playlists?.data}
         columns={columns}
         rowKey="id"
         pagination={{

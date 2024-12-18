@@ -6,7 +6,7 @@ import VideoShortCard from "@/components/card/VideoShortCard";
 import { useGetVideoQuery } from "@/redux/api/videoApi";
 import NextIcon from "@/components/icons/Next";
 import PrevIcon from "@/components/icons/Prev";
-import { Spin } from "antd";
+import VideoShortSkeleton from "@/components/skeleton/VideoShortSkeleton";
 
 const ShortPage = () => {
   const [page, setPage] = useState(1);
@@ -60,16 +60,20 @@ const ShortPage = () => {
         className="flex flex-col items-center justify-center relative w-full"
         ref={containerRef}
       >
-        {videoShorts?.data?.map((item: any) => (
+        {/* {videoShorts?.data?.map((item: any) => (
           <VideoShortCard item={item} key={item?._id} />
         ))}
-        {isFetching && (
-          <div>
-            <Spin />
-          </div>
-        )}
+        {isFetching && <VideoShortSkeleton />} */}
 
-        <div className="absolute right-5 md:flex flex-col gap-4 sm:hidden ">
+        {isFetching
+          ? [...Array(limit)].map((_, index) => (
+              <VideoShortSkeleton key={index} />
+            ))
+          : videoShorts?.data?.map((item: any) => (
+              <VideoShortCard item={item} key={item?._id} />
+            ))}
+
+        <div className="absolute right-5 flex flex-col gap-5">
           <button
             onClick={handlePrev}
             type="button"

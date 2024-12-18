@@ -6,9 +6,6 @@ import { PlayListCard } from "../types";
 
 const PlaylistCard: React.FC<PlayListCard> = ({ playlist }) => {
   const router = useRouter();
-  const videoThumbnail = playlist?.videos.length
-    ? playlist.videos[0].videoThumbnail
-    : NoThumbnail;
 
   const handleViewPlaylist = () => {
     router.push(`/playlist/${playlist?._id}`);
@@ -25,10 +22,13 @@ const PlaylistCard: React.FC<PlayListCard> = ({ playlist }) => {
 
   return (
     <div>
-      <div className="relative playlist bg-black rounded-[10px] min-h-[170px]">
-        <div className="relative z-[100] w-full h-full">
+      <div className="relative playlist bg-black rounded-[10px] h-[180px]">
+        <div className="relative z-[101] w-full h-full">
           <Image
-            src={videoThumbnail}
+            src={
+              playlist.videos[0].videoThumbnail ||
+              "https://res.cloudinary.com/dh0peripq/image/upload/v1734422284/h-tube-image/h-tube-image-1734422283323-download.webp"
+            }
             width={500}
             height={200}
             alt=""

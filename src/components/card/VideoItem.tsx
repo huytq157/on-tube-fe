@@ -31,7 +31,10 @@ const VideoItem: React.FC<VideoItemProp> = ({ video }) => {
       <div className="rounded-[7px] relative  md:w-[168px] sm:w-full md:h-[100px] sm:h-auto   overflow-hidden bg-[#ccc]  cursor-pointer">
         <Link href={`/video/${video?._id}`}>
           <Image
-            src={video?.videoThumbnail}
+            src={
+              video?.videoThumbnail ||
+              "https://res.cloudinary.com/dh0peripq/image/upload/v1734422284/h-tube-image/h-tube-image-1734422283323-download.webp"
+            }
             width={256}
             height={144}
             alt={video?.title}

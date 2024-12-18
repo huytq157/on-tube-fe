@@ -29,8 +29,8 @@ const History = () => {
             <Spin indicator={<LoadingOutlined spin />} size="large" />
           ) : (
             <div className="grid grid-cols-1 gap-4">
-              {historys && historys.length > 0 ? (
-                historys.map((item: any) => (
+              {historys && historys?.data?.length > 0 ? (
+                historys?.data?.map((item: any) => (
                   <VideoItem key={item.video._id} video={item.video} />
                 ))
               ) : (

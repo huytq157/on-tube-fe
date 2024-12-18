@@ -35,7 +35,10 @@ const PlayListDetail = () => {
             <div className="bg-linear-playlist min-h-[300px] rounded-[10px] p-[20px] text-[#fff]">
               <div className="h-[175px] rounded-[10px] overflow-hidden">
                 <Image
-                  src={videoThumbnail}
+                  src={
+                    videoThumbnail ||
+                    "https://res.cloudinary.com/dh0peripq/image/upload/v1734422284/h-tube-image/h-tube-image-1734422283323-download.webp"
+                  }
                   width={312}
                   height={175}
                   alt=""

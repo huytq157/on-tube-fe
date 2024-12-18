@@ -10,9 +10,9 @@ export const ChannelApiSlice = apiSlice.injectEndpoints({
     }),
 
     getChannelVideo: builder.query({
-      query: ({ id, isPublic, page = 1, limit = 10 }) => ({
+      query: ({ id, isPublic, page = 1, limit = 12, videoType }) => ({
         url: `/api/channel/video/${id}`,
-        params: { isPublic, page, limit },
+        params: { isPublic, page, limit, videoType },
         credentials: "include",
       }),
       providesTags: (result, error, id) => [{ type: "Channel", id }],

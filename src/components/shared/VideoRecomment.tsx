@@ -1,8 +1,10 @@
 import VideoItem from "../card/VideoItem";
 
 const VideoRecomment: React.FC<any> = ({ vieoRecommend }) => {
+  console.log("videoRecommend:", vieoRecommend);
+
   return (
-    <div className=" min-h-[100vh]">
+    <div>
       <div className="flex flex-col md:gap-[15px] sm:gap-[30px]">
         {vieoRecommend?.data?.map((video: any) => (
           <VideoItem key={video._id} video={video} />

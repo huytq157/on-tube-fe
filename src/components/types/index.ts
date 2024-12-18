@@ -120,6 +120,7 @@ export interface ModalProps {
   open: boolean;
   setIsModalOpen: (value: boolean) => void;
   videoId?: string;
+  video?: any;
 }
 
 export interface VideoPlaylistProps {

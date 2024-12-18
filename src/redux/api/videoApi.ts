@@ -91,8 +91,10 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
     }),
 
     getVideoTrending: builder.query({
-      query: () => ({
+      query: ({ page, limit, videoType }) => ({
         url: "/api/video/trending",
+        params: { page, limit, videoType },
+        credentials: "include",
       }),
       keepUnusedDataFor: 5,
       providesTags: ["Video"],
@@ -141,9 +143,10 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
     }),
 
     getlikeVideo: builder.query({
-      query: () => ({
+      query: ({ videoType }) => ({
         url: "/api/vote/video-like",
         method: "GET",
+        params: { videoType },
         credentials: "include",
       }),
       keepUnusedDataFor: 5,

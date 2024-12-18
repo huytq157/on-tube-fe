@@ -17,6 +17,7 @@ const VideoChannel = () => {
     isPublic: true,
     page: currentPage,
     limit: pageSize,
+    videoType: "long",
   });
 
   return (

@@ -9,7 +9,7 @@ async function getVideoById(id: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/video/${id}`,
     {
-      cache: "force-cache",
+      cache: "reload",
     }
   );
 
@@ -25,7 +25,7 @@ async function getRecommendedVideos(id: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/video/list/recommend/${id}`,
     {
-      cache: "force-cache",
+      cache: "reload",
     }
   );
 
@@ -51,7 +51,7 @@ export default async function VideoPage({
 
   return (
     <LayoutDefault>
-      <div className="md:px-[3.3%] sm:px-0 pb-[20px] min-h-[200vh]">
+      <div className="md:px-[3.3%] sm:px-0 pb-[20px] h-full">
         <Row gutter={[20, 20]}>
           <Col xs={24} sm={24} md={24} lg={24} xl={17} xxl={18}>
             <VideoDetail id={video?._id} video={video} />

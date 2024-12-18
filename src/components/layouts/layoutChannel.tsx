@@ -74,9 +74,7 @@ const LayoutChannel = ({ children }: Props) => {
           </h1>
           <div className="flex sm:flex-col md:flex-row gap-[10px] my-[5px] text-[#606060] font-medium">
             <span className="text-[#333]">{channel?.data?.email}</span>
-            <strong>.</strong>
             <span>{currentSubscribersCount} người đăng ký</span>
-            <strong>.</strong>
             <span>{videoCount?.videoCount} video</span>
           </div>
           <p>{channel?.data?.description}</p>

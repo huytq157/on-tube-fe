@@ -21,9 +21,9 @@ export const SubcriptionApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["Subcription"],
     }),
     listVideoSubcription: builder.query({
-      query: ({}) => ({
+      query: ({ videoType }) => ({
         url: "/api/subcription/video-sub",
-        params: {},
+        params: { videoType },
         credentials: "include",
       }),
       keepUnusedDataFor: 5,

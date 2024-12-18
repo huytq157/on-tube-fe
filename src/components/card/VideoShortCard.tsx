@@ -6,17 +6,22 @@ import PauseIcon from "../icons/Pause";
 import AudioIcon from "../icons/Audio";
 import Audio2Icon from "../icons/Audio2";
 import Link from "next/link";
-import LikeIcon from "../icons/Like";
-import DisLikeIcon from "../icons/DisLike";
-import ShareIcon from "../icons/Share";
-import SaveIcon from "../icons/Save";
+
 import { VideoCards } from "../types";
 import Image from "next/image";
+import { useUser } from "@/hook/AuthContext";
+import { useSubscription } from "@/hook/useSubscription";
+import VideoShortAction from "../shared/VideoShortAction";
 
 const VideoShortCard: React.FC<VideoCards> = ({ item }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
+  const { user } = useUser();
+  const channelId = item?.writer?._id;
+
+  const { currentSubscriptionStatus, handleSubscriptionToggle, isProcessing } =
+    useSubscription(channelId, user);
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -61,8 +66,8 @@ const VideoShortCard: React.FC<VideoCards> = ({ item }) => {
   };
 
   return (
-    <div className="flex gap-[10px] relative lg:w-[30%] sm:w-[100%] h-[85vh]">
-      <div className=" cursor-pointer rounded-[10px] h-full relative group overflow-hidden">
+    <div className="flex gap-[10px]  relative lg:w-[35%] md:w-[70%]  sm:w-[100%] h-[88vh]">
+      <div className="w-full cursor-pointer rounded-[10px] h-full relative group overflow-hidden">
         <div className="flex gap-[15px] absolute p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
           <button
             type="button"
@@ -84,8 +89,8 @@ const VideoShortCard: React.FC<VideoCards> = ({ item }) => {
         </div>
 
         <div className="absolute bottom-6 left-3 text-[#fff] font-bold z-10">
-          <Link href="/">
-            <div className="flex gap-[10px] items-center">
+          <div className="flex gap-[10px] items-center">
+            <Link href={`/channel/${item?.writer?._id}/playlist`}>
               <div className="h-[40px] w-[40px] rounded-full overflow-hidden">
                 <Image
                   src={item?.writer?.avatar || ""}
@@ -96,15 +101,19 @@ const VideoShortCard: React.FC<VideoCards> = ({ item }) => {
                   loading="lazy"
                 />
               </div>
-              <span>{item?.writer?.name}</span>
+            </Link>
+            <span>{item?.writer?.name}</span>
+            {user?.data?._id !== item?.writer?._id && (
               <button
                 type="button"
                 className="rounded-[50px] px-3 min-w-[90px] bg-white text-[#000] h-[36px] font-roboto"
+                onClick={handleSubscriptionToggle}
+                disabled={isProcessing}
               >
-                Đăng ký
+                {currentSubscriptionStatus ? "Đã đăng ký" : "Đăng ký"}
               </button>
-            </div>
-          </Link>
+            )}
+          </div>
           <p className="mt-3">{item?.title}</p>
         </div>
 
@@ -115,58 +124,14 @@ const VideoShortCard: React.FC<VideoCards> = ({ item }) => {
           preload="metadata"
           autoPlay={true}
           autoFocus={true}
-          className="top-0 h-full video-hidden-on-sm bg-black w-full left-0"
+          className="top-0  h-[100%] bg-black w-full left-0"
           src={item?.videoUrl}
           onClick={togglePlay}
           onEnded={handleVideoEnded}
         />
       </div>
 
-      <div
-        className="flex flex-col gap-[20px] justify-center 
-  sm:absolute sm:right-3 sm:bottom-6 sm:text-white 
-  md:relative md:right-auto md:bottom-auto md:text-[#000]
-  lg:text-[#000]"
-      >
-        <div className="text-center">
-          <button
-            type="button"
-            className="p-1 bg-[#eee] w-[45px] h-[45px] text-white rounded-full flex justify-center items-center"
-            aria-label="like-action"
-          >
-            <LikeIcon />
-          </button>
-          <p>12N</p>
-        </div>
-        <div className="text-center">
-          <button
-            type="button"
-            className="p-1 bg-[#eee] w-[45px] h-[45px] text-white rounded-full flex justify-center items-center"
-            aria-label="dislike-action"
-          >
-            <DisLikeIcon />
-          </button>
-          <p>12N</p>
-        </div>
-        <div className="text-center">
-          <button
-            type="button"
-            className="p-1 bg-[#eee] w-[45px] h-[45px] text-white rounded-full flex justify-center items-center"
-            aria-label="share-action"
-          >
-            <ShareIcon />
-          </button>
-        </div>
-        <div className="text-center">
-          <button
-            type="button"
-            className="p-1 bg-[#eee] w-[45px] h-[45px] text-white rounded-full flex justify-center items-center"
-            aria-label="save-action"
-          >
-            <SaveIcon />
-          </button>
-        </div>
-      </div>
+      <VideoShortAction item={item} />
     </div>
   );
 };

@@ -53,8 +53,8 @@ const VideoDetail: React.FC<VideoCard> = ({ id, video }) => {
   }, [id, totalDuration, descView]);
 
   return (
-    <div className="min-h-[200vh] overflow-hidden">
-      <div className="w-full bg-black rounded-[10px] overflow-hidden">
+    <div className="mb-10">
+      <div className="w-full bg-black rounded-[10px]">
         {video?.videoUrl ? (
           <div className="relative pb-[56.25%] h-0 videos">
             <video

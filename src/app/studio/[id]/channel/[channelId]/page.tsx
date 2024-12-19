@@ -18,7 +18,6 @@ const UpdateChannel = () => {
   const [avatar, setAvatar] = useState("");
   const [background, setBackground] = useState("");
   const { data: channel } = useGetChannelInfoQuery(channelId);
-  console.log("channel:", channel);
 
   const [updateChannel, { isLoading: isUpdateting }] =
     useUpdateChannelMutation();

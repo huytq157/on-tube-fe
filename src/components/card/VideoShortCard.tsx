@@ -6,7 +6,6 @@ import PauseIcon from "../icons/Pause";
 import AudioIcon from "../icons/Audio";
 import Audio2Icon from "../icons/Audio2";
 import Link from "next/link";
-
 import { VideoCards } from "../types";
 import Image from "next/image";
 import { useUser } from "@/hook/AuthContext";
@@ -66,8 +65,8 @@ const VideoShortCard: React.FC<VideoCards> = ({ item }) => {
   };
 
   return (
-    <div className="flex gap-[10px]  relative lg:w-[35%] md:w-[70%]  sm:w-[100%] h-[88vh]">
-      <div className="w-full cursor-pointer rounded-[10px] h-full relative group overflow-hidden">
+    <div className="flex gap-[10px]  relative lg:w-[32.5%] md:w-[70%]  sm:w-[100%] h-[88vh]">
+      <div className="w-full cursor-pointer border-[1px]  rounded-[10px] h-full relative group overflow-hidden">
         <div className="flex gap-[15px] absolute p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
           <button
             type="button"
@@ -114,17 +113,17 @@ const VideoShortCard: React.FC<VideoCards> = ({ item }) => {
               </button>
             )}
           </div>
-          <p className="mt-3">{item?.title}</p>
+          <p className="mt-3 text-line-camp-1">{item?.title}</p>
         </div>
 
         <video
           ref={videoRef}
           width="100%"
-          height="auto"
+          height="100%"
           preload="metadata"
           autoPlay={true}
           autoFocus={true}
-          className="top-0  h-[100%] bg-black w-full left-0"
+          className="h-full bg-black w-full object-contain"
           src={item?.videoUrl}
           onClick={togglePlay}
           onEnded={handleVideoEnded}

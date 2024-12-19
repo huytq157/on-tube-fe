@@ -10,6 +10,7 @@ import { useUser } from "@/hook/AuthContext";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import SmellIcon from "../icons/Smell";
 import CommentItem from "../card/CommentItem";
+import Link from "next/link";
 
 const ModalComment: React.FC<ModalProps> = ({
   open,
@@ -95,66 +96,79 @@ const ModalComment: React.FC<ModalProps> = ({
             )}
           </div>
           <Divider />
-          <div className="flex justify-start mb-[10px]">
-            <div className="w-[40px] h-[40px] mr-[12px] rounded-[50%] overflow-hidden cursor-pointer">
-              <Image
-                src={video?.writer?.avatar}
-                width={40}
-                height={40}
-                alt=""
-                className="w-[100%] h-[100%]"
-              />
-            </div>
-            <div className="flex-1">
-              <form onSubmit={handleAddComment}>
-                <input
-                  placeholder="Viết bình luận ..."
-                  className="w-[100%] outline-none border-b-[1px] border-[#504e4e] pb-1"
-                  onClick={() => setIsInputFocused(true)}
-                  value={inputValue}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setInputValue(e.target.value)
-                  }
+          {isAuthenticated ? (
+            <div className="flex justify-start mb-[10px]">
+              <div className="w-[40px] h-[40px] mr-[12px] rounded-[50%] overflow-hidden cursor-pointer">
+                <Image
+                  src={user?.data?.avatar}
+                  width={40}
+                  height={40}
+                  alt=""
+                  className="w-[100%] h-[100%]"
                 />
-                {isInputFocused && (
-                  <div className="flex justify-between mt-[5px] items-center">
-                    <div className="relative">
-                      <div
-                        className="cursor-pointer"
-                        onClick={() => setShowEmojiPicker((prev) => !prev)}
-                      >
-                        <SmellIcon />
-                      </div>
-                      {showEmojiPicker && (
-                        <div className="absolute top-[100%] z-[100] left-0">
-                          <EmojiPicker onEmojiClick={handleEmojiClick} />
+              </div>
+              <div className="flex-1">
+                <form onSubmit={handleAddComment}>
+                  <input
+                    placeholder="Viết bình luận ..."
+                    className="w-[100%] outline-none border-b-[1px] border-[#504e4e] pb-1"
+                    onClick={() => setIsInputFocused(true)}
+                    value={inputValue}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                      setInputValue(e.target.value)
+                    }
+                  />
+                  {isInputFocused && (
+                    <div className="flex justify-between mt-[5px] items-center">
+                      <div className="relative">
+                        <div
+                          className="cursor-pointer"
+                          onClick={() => setShowEmojiPicker((prev) => !prev)}
+                        >
+                          <SmellIcon />
                         </div>
-                      )}
+                        {showEmojiPicker && (
+                          <div className="absolute top-[100%] z-[100] left-0">
+                            <EmojiPicker onEmojiClick={handleEmojiClick} />
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        <button
+                          className="bg-transparent min-w-[90px] h-[36px] rounded-[50px] hover:bg-[#f2f2f2] mr-2"
+                          type="button"
+                          onClick={handleCancel}
+                        >
+                          Hủy
+                        </button>
+                        <button
+                          type="submit"
+                          className={`mt-[10px] rounded-[50px] min-w-[90px] h-[36px] ${
+                            inputValue
+                              ? "bg-[#333] text-[#fff]"
+                              : "bg-[#ccc] text-[#fff]"
+                          }`}
+                        >
+                          Bình luận
+                        </button>
+                      </div>
                     </div>
-                    <div>
-                      <button
-                        className="bg-transparent min-w-[90px] h-[36px] rounded-[50px] hover:bg-[#f2f2f2] mr-2"
-                        type="button"
-                        onClick={handleCancel}
-                      >
-                        Hủy
-                      </button>
-                      <button
-                        type="submit"
-                        className={`mt-[10px] rounded-[50px] min-w-[90px] h-[36px] ${
-                          inputValue
-                            ? "bg-[#333] text-[#fff]"
-                            : "bg-[#ccc] text-[#fff]"
-                        }`}
-                      >
-                        Bình luận
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </form>
+                  )}
+                </form>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="mb-4 font-[500]">
+              Bạn phải
+              <Link
+                href="/login"
+                className="font-semibold leading-6 px-2 text-indigo-600 hover:text-indigo-500"
+              >
+                Đăng nhập
+              </Link>
+              để có thể bình luận
+            </div>
+          )}
         </div>
       </Modal>
     </div>

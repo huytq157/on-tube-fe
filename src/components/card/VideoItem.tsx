@@ -39,7 +39,7 @@ const VideoItem: React.FC<VideoItemProp> = ({ video }) => {
             height={144}
             alt={video?.title}
             priority
-            className="w-[100%] h-[100%] object-fill"
+            className="w-[100%] h-[100%] object-cover"
           />
         </Link>
       </div>

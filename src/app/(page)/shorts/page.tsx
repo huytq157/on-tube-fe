@@ -57,14 +57,9 @@ const ShortPage = () => {
   return (
     <LayoutDefault>
       <div
-        className="flex flex-col items-center justify-center relative w-full"
+        className="flex flex-col items-center justify-center overflow-y-scroll relative w-full"
         ref={containerRef}
       >
-        {/* {videoShorts?.data?.map((item: any) => (
-          <VideoShortCard item={item} key={item?._id} />
-        ))}
-        {isFetching && <VideoShortSkeleton />} */}
-
         {isFetching
           ? [...Array(limit)].map((_, index) => (
               <VideoShortSkeleton key={index} />

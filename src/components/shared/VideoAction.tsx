@@ -29,19 +29,25 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
   const [isModalShareOpen, setIsModalShareOpen] = useState(false);
   const { data: video, refetch } = useGetVideoByIdQuery(videoId, {
     refetchOnMountOrArgChange: true,
+    skip: !videoId,
   });
 
+  console.log("video Action:", video);
+
   const { user, isAuthenticated } = useUser();
+
   const [createNotification] = useCreateNotificationMutation();
+
   const { data: checkedLike, refetch: refetchLike } = useCheckIsLikedQuery(
-    videoId,
+    video?.data?._id,
     {
-      skip: !isAuthenticated,
+      skip: !videoId,
     }
   );
+
   const { data: checkedDisLike, refetch: refetchDisLike } =
-    useCheckIsDisLikedQuery(videoId, {
-      skip: !isAuthenticated,
+    useCheckIsDisLikedQuery(video?.data?._id, {
+      skip: !videoId,
     });
 
   const [likeVideo] = useLikeVideoMutation();

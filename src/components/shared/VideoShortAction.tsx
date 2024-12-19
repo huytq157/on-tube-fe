@@ -7,7 +7,6 @@ import {
   useCheckIsDisLikedQuery,
   useCheckIsLikedQuery,
   useDislikeVideoMutation,
-  useGetVideoByIdQuery,
   useLikeVideoMutation,
 } from "@/redux/api/videoApi";
 import { useUser } from "@/hook/AuthContext";
@@ -17,6 +16,8 @@ import ModalSave from "./ModalSave";
 import ModalShare from "./ModalShare";
 import CommentIcon from "../icons/Comment";
 import ModalComment from "./ModalComment";
+import Image from "next/image";
+import { IsDisLikeIcons, IsLikeIcons } from "../../../public";
 
 interface ModalProps {
   item: string | any;
@@ -26,7 +27,76 @@ const VideoShortAction: React.FC<ModalProps> = ({ item }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalShareOpen, setIsModalShareOpen] = useState(false);
   const [isModalComment, setModalComment] = useState(false);
-  const { isAuthenticated } = useUser();
+  const { user, isAuthenticated } = useUser();
+  const [createNotification] = useCreateNotificationMutation();
+  const videoId = item?._id || 1;
+  const { data: checkedLike, refetch: refetchLike } = useCheckIsLikedQuery(
+    item?._id,
+    {
+      skip: !item,
+    }
+  );
+
+  const { data: checkedDisLike, refetch: refetchDisLike } =
+    useCheckIsDisLikedQuery(item?._id, {
+      skip: !item,
+    });
+
+  const [likeVideo] = useLikeVideoMutation();
+  const [dislikeVideo] = useDislikeVideoMutation();
+
+  const handleLikeClick = async () => {
+    if (!isAuthenticated) {
+      message.warning("Bạn phải đăng nhập để thích video!");
+      return;
+    }
+    try {
+      if (!checkedLike?.isLiked) {
+        await likeVideo({ videoId }).unwrap();
+
+        if (checkedDisLike?.isDisliked) {
+          await refetchDisLike();
+        }
+
+        if (item?.writer?._id !== user?.data?._id) {
+          await createNotification({
+            video: videoId,
+            message: "đã thích video của bạn",
+            url: `/video/${videoId}`,
+            user: [item?.writer?._id], // người nhận thông báo
+            from_user: user?.data?._id, // người gửi thông báo
+          }).unwrap();
+        }
+      } else {
+        await likeVideo({ videoId }).unwrap();
+      }
+      refetchLike();
+      // refetch();
+    } catch (error) {
+      message.error("Lỗi");
+    }
+  };
+
+  const handleDislikeClick = async () => {
+    if (!isAuthenticated) {
+      message.warning("Bạn phải đăng nhập để không thích video!");
+      return;
+    }
+    try {
+      if (!checkedDisLike?.isDisliked) {
+        await dislikeVideo({ videoId }).unwrap();
+        if (checkedLike?.isLiked) {
+          await refetchLike();
+        }
+      } else {
+        await dislikeVideo({ videoId }).unwrap();
+      }
+      refetchDisLike();
+      // refetch();
+    } catch (error) {
+      message.error("Lỗi");
+    }
+  };
 
   const handleSaveClick = () => {
     if (!isAuthenticated) {
@@ -48,8 +118,20 @@ const VideoShortAction: React.FC<ModalProps> = ({ item }) => {
           type="button"
           className="p-1 bg-[#eee] w-[45px] h-[45px] text-white rounded-full flex justify-center items-center"
           aria-label="like-action"
+          onClick={handleLikeClick}
         >
-          <LikeIcon />
+          {checkedLike?.isLiked ? (
+            <Image
+              src={IsLikeIcons}
+              width={20}
+              height={20}
+              alt="like"
+              className="w-[18px] h-[18px]"
+              loading="lazy"
+            />
+          ) : (
+            <LikeIcon />
+          )}
         </button>
         <p></p>
       </div>
@@ -58,8 +140,20 @@ const VideoShortAction: React.FC<ModalProps> = ({ item }) => {
           type="button"
           className="p-1 bg-[#eee] w-[45px] h-[45px] text-white rounded-full flex justify-center items-center"
           aria-label="dislike-action"
+          onClick={handleDislikeClick}
         >
-          <DisLikeIcon />
+          {checkedDisLike?.isDisliked ? (
+            <Image
+              src={IsDisLikeIcons}
+              width={20}
+              height={20}
+              alt="dislike"
+              className="w-[18px] h-[18px]"
+              loading="lazy"
+            />
+          ) : (
+            <DisLikeIcon />
+          )}
         </button>
         <p></p>
       </div>

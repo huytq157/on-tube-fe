@@ -59,7 +59,7 @@ const PlayList: React.FC<VideoPlaylistProps> = ({ video }) => {
                   }`}
                 >
                   <span className="flex items-center">{index + 1}</span>
-                  <div className="rounded-[7px] flex-2 h-[60px] overflow-hidden">
+                  <div className="rounded-[7px] flex-2 h-[60px] w-[30%] overflow-hidden bg-slate-400">
                     <Link
                       href={`/video/${item?._id}?from=playlist&playlistId=${playlistId}`}
                     >
@@ -68,7 +68,7 @@ const PlayList: React.FC<VideoPlaylistProps> = ({ video }) => {
                         width={120}
                         height={56}
                         alt=""
-                        className="w-[100%] h-[100%] object-cover"
+                        className="w-[100%] h-[100%] object-contain"
                         loading="lazy"
                       />
                     </Link>

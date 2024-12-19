@@ -4,7 +4,7 @@ import Image from "next/image";
 import TooltipButton from "../shared/TooltipButton";
 import LikeIcon from "../icons/Like";
 import DisLikeIcon from "../icons/DisLike";
-import { Dropdown, MenuProps } from "antd";
+import { Dropdown, MenuProps, message } from "antd";
 import Option2Icon from "../icons/Option2";
 import { calculateCreatedTime } from "../utils/formatDate";
 import React, { useState } from "react";
@@ -22,7 +22,7 @@ import { useUser } from "@/hook/AuthContext";
 import { CommentItems, Reply } from "../types";
 
 const CommentItem: React.FC<CommentItems> = ({ comment }) => {
-  const { user } = useUser();
+  const { user, isAuthenticated } = useUser();
 
   const [showReplies, setShowReplies] = useState(false);
   const [replyingToId, setReplyingToId] = useState<string | null>(null);
@@ -63,6 +63,14 @@ const CommentItem: React.FC<CommentItems> = ({ comment }) => {
   };
 
   const totalReplies = countReplies(comment.replies);
+
+  const handleReply = (id: any) => {
+    if (!isAuthenticated) {
+      message.warning("Bạn phải đăng nhập để có thể bình luận!");
+      return;
+    }
+    setReplyingToId(id);
+  };
 
   const handleReplySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -233,7 +241,8 @@ const CommentItem: React.FC<CommentItems> = ({ comment }) => {
                 <button
                   type="button"
                   className="font-semibold ml-4"
-                  onClick={() => setReplyingToId(reply._id)}
+                  // onClick={() => setReplyingToId(reply._id)}
+                  onClick={() => handleReply(reply._id)}
                 >
                   Phản hồi
                 </button>
@@ -414,7 +423,7 @@ const CommentItem: React.FC<CommentItems> = ({ comment }) => {
           <button
             type="button"
             className="font-semibold ml-3"
-            onClick={() => setReplyingToId(comment._id)}
+            onClick={() => handleReply(comment._id)}
           >
             Phản hồi
           </button>

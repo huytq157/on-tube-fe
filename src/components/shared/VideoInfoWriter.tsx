@@ -2,7 +2,6 @@
 
 import { useUser } from "@/hook/AuthContext";
 import { useSubscription } from "@/hook/useSubscription";
-import { Skeleton } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 

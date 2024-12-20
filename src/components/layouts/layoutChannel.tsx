@@ -40,7 +40,7 @@ const LayoutChannel = ({ children }: Props) => {
           />
         ) : (
           <Image
-            src={channel?.data?.background}
+            src={channel?.data?.background || ""}
             width={1070}
             height={170}
             alt={channel?.data?.name}

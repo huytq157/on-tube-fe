@@ -241,7 +241,6 @@ const CommentItem: React.FC<CommentItems> = ({ comment }) => {
                 <button
                   type="button"
                   className="font-semibold ml-4"
-                  // onClick={() => setReplyingToId(reply._id)}
                   onClick={() => handleReply(reply._id)}
                 >
                   Phản hồi

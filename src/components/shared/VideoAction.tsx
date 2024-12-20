@@ -32,8 +32,6 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
     skip: !videoId,
   });
 
-  console.log("video Action:", video);
-
   const { user, isAuthenticated } = useUser();
 
   const [createNotification] = useCreateNotificationMutation();
@@ -41,20 +39,20 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
   const { data: checkedLike, refetch: refetchLike } = useCheckIsLikedQuery(
     video?.data?._id,
     {
-      skip: !videoId,
+      skip: !videoId || !isAuthenticated,
     }
   );
 
   const { data: checkedDisLike, refetch: refetchDisLike } =
     useCheckIsDisLikedQuery(video?.data?._id, {
-      skip: !videoId,
+      skip: !videoId || !isAuthenticated,
     });
 
   const [likeVideo] = useLikeVideoMutation();
   const [dislikeVideo] = useDislikeVideoMutation();
 
   const handleSaveClick = () => {
-    if (!user) {
+    if (!isAuthenticated) {
       message.warning("Bạn phải đăng nhập để lưu video!");
       return;
     }
@@ -62,7 +60,7 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
   };
 
   const handleLikeClick = async () => {
-    if (!user) {
+    if (!isAuthenticated) {
       message.warning("Bạn phải đăng nhập để thích video!");
       return;
     }
@@ -94,7 +92,7 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
   };
 
   const handleDislikeClick = async () => {
-    if (!user) {
+    if (!isAuthenticated) {
       message.warning("Bạn phải đăng nhập để không thích video!");
       return;
     }

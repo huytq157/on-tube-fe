@@ -1,8 +1,6 @@
 import VideoItem from "../card/VideoItem";
 
 const VideoRecomment: React.FC<any> = ({ vieoRecommend }) => {
-  console.log("videoRecommend:", vieoRecommend);
-
   return (
     <div>
       <div className="flex flex-col md:gap-[15px] sm:gap-[30px]">

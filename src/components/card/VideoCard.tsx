@@ -25,7 +25,6 @@ const VideoCard: React.FC<VideoCards> = ({ item }) => {
   const progressThumbRef = useRef<HTMLDivElement | null>(null);
   const [formattedTime, setFormattedTime] = useState<string>("00:00");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isImageLoading, setImageLoading] = useState(true);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -136,9 +135,9 @@ const VideoCard: React.FC<VideoCards> = ({ item }) => {
           href={`/video/${item?._id}`}
           aria-label={`Xem video: ${item.title}`}
         >
-          {item.videoThumbnail && (
+          {item?.videoThumbnail && (
             <Image
-              src={item.videoThumbnail || ".././../../public/no-image.png"}
+              src={item?.videoThumbnail || ".././../../public/no-image.png"}
               width={315}
               height={180}
               alt={item.title}
@@ -146,8 +145,6 @@ const VideoCard: React.FC<VideoCards> = ({ item }) => {
               className={`w-full h-[100%] object-cover rounded-[10px] ${
                 isHovered ? "hidden" : "block"
               } `}
-              // ${isImageLoading ? "blur" : "remove-blur"}
-              onLoad={() => setImageLoading(false)}
               role="img"
               style={{
                 objectFit: "contain",

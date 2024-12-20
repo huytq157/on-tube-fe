@@ -13,12 +13,7 @@ const PlayListDetail = () => {
   const params = useParams();
   const { id } = params;
   const router = useRouter();
-
   const { data: playlists } = useGetPlaylistDetailQuery(id);
-
-  const videoThumbnail = playlists?.playlist.videos.length
-    ? playlists.playlist?.videos[0].videoThumbnail
-    : NoThumbnail;
 
   const handlePlayAll = () => {
     const videoId = playlists?.playlist?.videos[0]?._id;
@@ -36,7 +31,7 @@ const PlayListDetail = () => {
               <div className="h-[175px] rounded-[10px] overflow-hidden">
                 <Image
                   src={
-                    videoThumbnail ||
+                    playlists?.playlist?.videos[0]?.videoThumbnail ||
                     "https://res.cloudinary.com/dh0peripq/image/upload/v1734422284/h-tube-image/h-tube-image-1734422283323-download.webp"
                   }
                   width={312}

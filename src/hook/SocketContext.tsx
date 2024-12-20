@@ -16,7 +16,6 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
   const { socket, user, isAuthenticated } = useUser();
 
   useEffect(() => {
-    // Yêu cầu quyền notification khi component mount
     if ("Notification" in window && Notification.permission !== "granted") {
       Notification.requestPermission();
     }
@@ -26,13 +25,9 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
     if (isAuthenticated && socket) {
       socket.emit("new-connection", user);
 
-      socket.on("return-users", (users: any) => {
-        console.log("Users:", users);
-      });
+      socket.on("return-users", (users: any) => {});
 
-      socket.on("new-notification", (notification: any) => {
-        console.log("New notification:", notification);
-      });
+      socket.on("new-notification", (notification: any) => {});
     }
 
     return () => {

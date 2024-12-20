@@ -24,6 +24,7 @@ const VideoDetail: React.FC<VideoCard> = ({ id, video }) => {
   const [descViewAuth] = useDescViewAuthMutation();
   const [totalDuration, setTotalDuration] = useState<number>(0);
   const { user, isAuthenticated } = useUser();
+
   const toggleDescription = () => {
     setIsExpanded((prev) => !prev);
   };

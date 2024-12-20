@@ -19,26 +19,52 @@ const ShortPage = () => {
   });
 
   const containerRef = useRef<HTMLDivElement>(null);
-
+  let touchStartY: number | null = null;
   const totalPages = videoShorts?.total
     ? Math.ceil(videoShorts.total / limit)
     : 1;
 
-  const handleScroll = (event: WheelEvent) => {
+  const handleScroll = (event: WheelEvent | TouchEvent) => {
     if (isFetching) return;
 
-    if (event.deltaY > 0 && page < totalPages) {
-      setPage((prevPage) => prevPage + 1);
-    } else if (event.deltaY < 0 && page > 1) {
-      setPage((prevPage) => prevPage - 1);
+    if ("deltaY" in event) {
+      if (event.deltaY > 0 && page < totalPages) {
+        setPage((prevPage) => prevPage + 1);
+      } else if (event.deltaY < 0 && page > 1) {
+        setPage((prevPage) => prevPage - 1);
+      }
+    } else {
+      const touch = (event as TouchEvent).touches[0];
+      if (!touchStartY) return;
+
+      const deltaY = touchStartY - touch.clientY;
+      if (deltaY > 20 && page < totalPages) {
+        setPage((prevPage) => prevPage + 1);
+      } else if (deltaY < -20 && page > 1) {
+        setPage((prevPage) => prevPage - 1);
+      }
+      touchStartY = null;
     }
   };
 
   useEffect(() => {
     const container = containerRef.current;
+    let touchStartY: number | null = null;
+
+    const handleTouchStart = (event: TouchEvent) => {
+      touchStartY = event.touches[0].clientY;
+    };
+
     if (container) {
       container.addEventListener("wheel", handleScroll);
-      return () => container.removeEventListener("wheel", handleScroll);
+      container.addEventListener("touchstart", handleTouchStart);
+      container.addEventListener("touchmove", handleScroll);
+
+      return () => {
+        container.removeEventListener("wheel", handleScroll);
+        container.removeEventListener("touchstart", handleTouchStart);
+        container.removeEventListener("touchmove", handleScroll);
+      };
     }
   }, [page, isFetching, videoShorts]);
 
@@ -57,7 +83,7 @@ const ShortPage = () => {
   return (
     <LayoutDefault>
       <div
-        className="flex flex-col items-center justify-center overflow-y-scroll relative w-full"
+        className="flex flex-col items-center justify-center relative w-full"
         ref={containerRef}
       >
         {isFetching

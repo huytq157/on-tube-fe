@@ -33,13 +33,13 @@ const VideoShortAction: React.FC<ModalProps> = ({ item }) => {
   const { data: checkedLike, refetch: refetchLike } = useCheckIsLikedQuery(
     item?._id,
     {
-      skip: !item,
+      skip: !item || !isAuthenticated,
     }
   );
 
   const { data: checkedDisLike, refetch: refetchDisLike } =
     useCheckIsDisLikedQuery(item?._id, {
-      skip: !item,
+      skip: !item || !isAuthenticated,
     });
 
   const [likeVideo] = useLikeVideoMutation();
@@ -71,7 +71,6 @@ const VideoShortAction: React.FC<ModalProps> = ({ item }) => {
         await likeVideo({ videoId }).unwrap();
       }
       refetchLike();
-      // refetch();
     } catch (error) {
       message.error("Lỗi");
     }
@@ -92,7 +91,6 @@ const VideoShortAction: React.FC<ModalProps> = ({ item }) => {
         await dislikeVideo({ videoId }).unwrap();
       }
       refetchDisLike();
-      // refetch();
     } catch (error) {
       message.error("Lỗi");
     }

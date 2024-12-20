@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { NoThumbnail } from "../../../public";
 import PlayIcon from "../icons/Play";
 import { useRouter } from "next/navigation";
 import { PlayListCard } from "../types";
@@ -26,7 +25,7 @@ const PlaylistCard: React.FC<PlayListCard> = ({ playlist }) => {
         <div className="relative z-[101] w-full h-full">
           <Image
             src={
-              playlist.videos[0].videoThumbnail ||
+              playlist?.videos[0]?.videoThumbnail ||
               "https://res.cloudinary.com/dh0peripq/image/upload/v1734422284/h-tube-image/h-tube-image-1734422283323-download.webp"
             }
             width={500}

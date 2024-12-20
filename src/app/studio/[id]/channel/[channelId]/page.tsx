@@ -74,7 +74,6 @@ const UpdateChannel = () => {
       form.resetFields();
     } catch (error) {
       message.error("Lỗi khi ");
-      console.error(error);
     }
   };
 

@@ -61,7 +61,7 @@ const UpdateVideo = () => {
         videoType: video?.data?.videoType,
         publishedDate: moment(video.data.publishedDate),
       });
-      setThumbnailUrl(video.data.videoThumbnail);
+      setThumbnailUrl(video.data?.videoThumbnail);
       setVideoUrl(video.data.videoUrl);
     }
   }, [video, form]);

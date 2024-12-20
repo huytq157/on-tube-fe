@@ -28,7 +28,7 @@ const PlayListChannel = () => {
           </div>
         ))
       ) : playlists?.playlists?.length > 0 ? (
-        playlists.playlists.map((playlist: any) => (
+        playlists?.playlists.map((playlist: any) => (
           <div key={playlist._id}>
             <PlaylistCard playlist={playlist} />
           </div>

@@ -8,12 +8,15 @@ import { useGetlikeVideoQuery } from "@/redux/api/videoApi";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import { useUser } from "@/hook/AuthContext";
+import VideoItem from "@/components/card/VideoItem";
+import { useMediaQuery } from "react-responsive";
 
 dayjs.extend(isSameOrAfter);
 
 const Favourite = () => {
   const [videoType, setVideoType] = useState("long");
   const { isAuthenticated } = useUser();
+  const isMobile = useMediaQuery({ maxWidth: 768 });
   const { data: favouries, isLoading } = useGetlikeVideoQuery(
     { videoType: videoType },
     {
@@ -47,7 +50,7 @@ const Favourite = () => {
           Short
         </button>
       </div>
-      <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 4xl:grid-cols-6 gap-x-4 gap-y-12">
+      <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 3xl:grid-cols-5 4xl:grid-cols-6 gap-x-4 gap-y-5">
         {isLoading
           ? Array.from({ length: 8 }).map((_, index) => (
               <div key={index}>
@@ -62,7 +65,11 @@ const Favourite = () => {
               )
               .map((item: any) => (
                 <div key={item._id}>
-                  <VideoCard item={item} />
+                  {isMobile ? (
+                    <VideoItem video={item} />
+                  ) : (
+                    <VideoCard item={item} />
+                  )}
                 </div>
               ))}
       </div>

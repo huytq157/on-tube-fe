@@ -8,12 +8,19 @@ import { Spin } from "antd";
 import Link from "next/link";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useUser } from "@/hook/AuthContext";
+import CardVideoSkeleton from "@/components/skeleton/CardVideoSkelenton";
+import { useMediaQuery } from "react-responsive";
+import VideoCard from "@/components/card/VideoCard";
+import { useState } from "react";
 
 const History = () => {
   const { user, isAuthenticated } = useUser();
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+  const [videoType, setVideoType] = useState("long");
   const { data: historys, isLoading } = useGetVideoHistoryQuery(
     {
       userId: user?.data?._id,
+      videoType: videoType,
     },
     {
       skip: !isAuthenticated,
@@ -23,22 +30,54 @@ const History = () => {
   return (
     <LayoutDefault>
       {user && isAuthenticated ? (
-        <div className="p-4">
-          <h1 className="text-2xl font-bold mb-4">Video đã xem</h1>
-          {isLoading ? (
-            <Spin indicator={<LoadingOutlined spin />} size="large" />
-          ) : (
-            <div className="grid grid-cols-1 gap-4">
-              {historys && historys?.data?.length > 0 ? (
-                historys?.data?.map((item: any) => (
-                  <VideoItem key={item.video._id} video={item.video} />
-                ))
-              ) : (
-                <p>Không có video nào đã xem.</p>
-              )}
-            </div>
-          )}
-        </div>
+        <>
+          <div className="flex gap-3 mb-3">
+            <button
+              onClick={() => setVideoType("long")}
+              type="button"
+              className={`rounded-[8px] min-w-[90px] h-[32px] text-[14px] font-[500] ${
+                videoType === "long"
+                  ? "bg-[#333] text-[#fff]"
+                  : "bg-[#ccc] text-[#000]"
+              }`}
+            >
+              Video
+            </button>
+            <button
+              onClick={() => setVideoType("short")}
+              type="button"
+              className={`rounded-[8px] min-w-[90px] h-[32px] text-[14px] font-[500] ${
+                videoType === "short"
+                  ? "bg-[#333] text-[#fff]"
+                  : "bg-[#ccc] text-[#000]"
+              }`}
+            >
+              Short
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 3xl:grid-cols-5 4xl:grid-cols-6 gap-x-4 gap-y-5">
+            {isLoading ? (
+              Array.from({ length: 6 }).map((_, index) => (
+                <div key={index}>
+                  <CardVideoSkeleton />
+                </div>
+              ))
+            ) : historys?.data.length > 0 ? (
+              historys?.data.map((video: any) => (
+                <div key={video._id}>
+                  {isMobile ? (
+                    <VideoItem video={video?.video} />
+                  ) : (
+                    <VideoCard item={video?.video} />
+                  )}
+                </div>
+              ))
+            ) : (
+              <p className="text-[14px]">Chưa có video nào</p>
+            )}
+          </div>
+        </>
       ) : (
         <div className="h-[100vh] flex justify-center pt-[100px] text-center">
           <div>

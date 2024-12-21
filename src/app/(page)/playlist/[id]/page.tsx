@@ -62,7 +62,7 @@ const PlayListDetail = () => {
             </div>
           </Col>
 
-          <Col xs={24} sm={24} md={18} lg={18}>
+          <Col xs={24} sm={24} md={8} lg={8}>
             <div>
               {playlists?.playlist?.videos &&
               playlists.playlist.videos.length > 0 ? (

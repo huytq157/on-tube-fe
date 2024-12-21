@@ -31,7 +31,7 @@ const PlayList = () => {
             ))
           ) : (
             <div className="text-center w-full">
-              <h2 className="text-xl">Chưa có danh sách phát</h2>
+              <h2 className="text-md">Chưa có danh sách phát</h2>
             </div>
           )}
         </div>

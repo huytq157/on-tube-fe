@@ -101,8 +101,8 @@ export const VideoApiSlice = apiSlice.injectEndpoints({
     }),
 
     getVideoHistory: builder.query({
-      query: ({ userId }) => ({
-        url: `/api/video/user/${userId}/history`,
+      query: ({ userId, videoType }) => ({
+        url: `/api/video/user/${userId}/history?videoType=${videoType}`,
         credentials: "include",
       }),
       providesTags: (result, error, id) => [{ type: "Video", id }],

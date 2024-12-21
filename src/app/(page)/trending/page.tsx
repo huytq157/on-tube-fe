@@ -1,17 +1,20 @@
 "use client";
 
 import VideoCard from "@/components/card/VideoCard";
+import VideoItem from "@/components/card/VideoItem";
 import LayoutDefault from "@/components/layouts/default/LayoutDefault";
 import CardVideoSkeleton from "@/components/skeleton/CardVideoSkelenton";
 import { useGetVideoTrendingQuery } from "@/redux/api/videoApi";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import { useState } from "react";
+import { useMediaQuery } from "react-responsive";
 
 dayjs.extend(isSameOrAfter);
 
 const Trending = () => {
   const [videoType, setVideoType] = useState("long");
+  const isMobile = useMediaQuery({ maxWidth: 768 });
   const { data: trendings, isLoading } = useGetVideoTrendingQuery({
     videoType: videoType,
   });
@@ -42,7 +45,7 @@ const Trending = () => {
           Short
         </button>
       </div>
-      <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 4xl:grid-cols-6 gap-x-4 gap-y-12">
+      <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 3xl:grid-cols-5 4xl:grid-cols-6 gap-x-4 gap-y-5">
         {trendings?.data?.length === 0
           ? Array.from({ length: 8 }).map((_, index) => (
               <div key={index}>
@@ -57,7 +60,11 @@ const Trending = () => {
               )
               .map((item: any) => (
                 <div key={item._id}>
-                  <VideoCard item={item} />
+                  {isMobile ? (
+                    <VideoItem video={item} />
+                  ) : (
+                    <VideoCard item={item} />
+                  )}
                 </div>
               ))}
       </div>

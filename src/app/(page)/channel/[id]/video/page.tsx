@@ -1,16 +1,19 @@
 "use client";
 
 import VideoCard from "@/components/card/VideoCard";
+import VideoItem from "@/components/card/VideoItem";
 import CardVideoSkeleton from "@/components/skeleton/CardVideoSkelenton";
 import { useGetChannelVideoQuery } from "@/redux/api/channelApi";
 import { useParams } from "next/navigation";
 import { useState } from "react";
+import { useMediaQuery } from "react-responsive";
 
 const VideoChannel = () => {
   const params = useParams();
   const { id } = params;
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const isMobile = useMediaQuery({ maxWidth: 768 });
 
   const { data: videos, isLoading } = useGetChannelVideoQuery({
     id,
@@ -32,7 +35,11 @@ const VideoChannel = () => {
         ) : videos?.data.length > 0 ? (
           videos.data.map((video: any) => (
             <div key={video._id}>
-              <VideoCard item={video} />
+              {isMobile ? (
+                <VideoItem video={video} />
+              ) : (
+                <VideoCard item={video} />
+              )}
             </div>
           ))
         ) : (

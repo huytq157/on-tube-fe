@@ -94,33 +94,38 @@ const ShortPage = () => {
               <VideoShortCard item={item} key={item?._id} />
             ))}
 
-        <div className="absolute right-5 flex flex-col gap-5">
-          <button
-            onClick={handlePrev}
-            type="button"
-            disabled={page === 1}
-            className={`p-1 w-[45px] h-[45px] rounded-full flex justify-center items-center ${
-              page === 1
-                ? "bg-gray-300 cursor-not-allowed"
-                : "bg-[#eee] hover:bg-gray-400"
-            }`}
-            aria-label="Go to previous"
-          >
-            <NextIcon />
-          </button>
-          <button
-            onClick={handleNext}
-            type="button"
-            disabled={page >= totalPages}
-            className={`p-1 w-[45px] h-[45px] rounded-full flex justify-center items-center ${
-              page >= totalPages
-                ? "bg-gray-300 cursor-not-allowed"
-                : "bg-[#eee] hover:bg-gray-400"
-            }`}
-            aria-label="Go to next"
-          >
-            <PrevIcon />
-          </button>
+        <div className="absolute right-2   flex flex-col gap-5">
+          {page !== 1 && (
+            <button
+              onClick={handlePrev}
+              type="button"
+              disabled={page === 1}
+              className={`p-1 w-[45px] h-[45px] rounded-full flex justify-center items-center ${
+                page === 1
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-[#eee] hover:bg-gray-400"
+              }`}
+              aria-label="Go to previous"
+            >
+              <NextIcon />
+            </button>
+          )}
+
+          {!(page >= totalPages) && (
+            <button
+              onClick={handleNext}
+              type="button"
+              disabled={page >= totalPages}
+              className={`p-1 w-[45px] h-[45px] rounded-full flex justify-center items-center ${
+                page >= totalPages
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-[#eee] hover:bg-gray-400"
+              }`}
+              aria-label="Go to next"
+            >
+              <PrevIcon />
+            </button>
+          )}
         </div>
       </div>
     </LayoutDefault>

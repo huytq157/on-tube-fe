@@ -108,7 +108,7 @@ const VideoCard: React.FC<VideoCards> = ({ item }) => {
   };
 
   const isYouTubeUrl = (url: string) => {
-    return url.includes("youtube.com") || url.includes("youtu.be");
+    return url?.includes("youtube.com") || url?.includes("youtu.be");
   };
 
   const items: MenuProps["items"] = [
@@ -213,7 +213,7 @@ const VideoCard: React.FC<VideoCards> = ({ item }) => {
         <div className="w-[32px] h-[32px] mt-[12px] mr-[8px] rounded-[50%] overflow-hidden cursor-pointer">
           <Link href={`/channel/${item?.writer?._id}/playlist`}>
             <Image
-              src={item.writer.avatar || ""}
+              src={item?.writer?.avatar || ""}
               width={32}
               height={32}
               alt="Avatar của người dùng"
@@ -233,10 +233,10 @@ const VideoCard: React.FC<VideoCards> = ({ item }) => {
           </Link>
           <Link href={`/channel/${item?.writer?._id}/playlist`}>
             <span className="text-[#606060] text-[14px] font-[500] cursor-pointer flex items-center gap-[3px]">
-              {item.writer.name} <CheckIcon />
+              {item.writer?.name} <CheckIcon />
             </span>
           </Link>
-          <div className="flex gap-[5px] text-[14px] text-[#606060] font-medium">
+          <div className="flex gap-[2px] text-[14px] text-[#606060] font-medium">
             <span>{item.totalView} lượt xem</span>
             <span>•</span>
             <span>{calculateCreatedTime(item.createdAt)}</span>

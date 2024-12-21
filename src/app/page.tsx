@@ -28,7 +28,7 @@ export default function Page() {
   };
   return (
     <LayoutDefault>
-      <div className="flex gap-[10px] mb-[20px]">
+      <div className="flex gap-[10px] mb-[20px] overflow-y-auto">
         <button
           type="button"
           className={`rounded-[8px] min-w-[90px] h-[32px] text-[14px] font-[500] ${

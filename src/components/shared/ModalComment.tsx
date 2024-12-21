@@ -26,6 +26,7 @@ const ModalComment: React.FC<ModalProps> = ({
   const [inputValue, setInputValue] = useState<string>("");
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
   const { user, isAuthenticated } = useUser();
+
   const { data: comments, error, isLoading } = useGetCommentsQuery({ videoId });
 
   const [addComment] = useAddCommentMutation();

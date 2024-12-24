@@ -8,10 +8,13 @@ import { useSearchChannelQuery } from "@/redux/api/channelApi";
 import { Col, Row, Tabs } from "antd";
 import { useSearchParams } from "next/navigation";
 import ChannelItem from "@/components/card/ChannelItem";
+import VideoItem from "@/components/card/VideoItem";
+import { useMediaQuery } from "react-responsive";
 
 const PageResult = () => {
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get("q");
+  const isMobile = useMediaQuery({ maxWidth: 768 });
 
   const { data: videoResults, isLoading: isLoadingVideos } =
     useSearchVideoQuery(searchTerm || "", {
@@ -28,26 +31,27 @@ const PageResult = () => {
       label: "Videos",
       key: "1",
       children: (
-        <Row gutter={[18, 48]}>
+        <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 4xl:grid-cols-6 gap-x-4 gap-y-5">
           {isLoadingVideos ? (
             Array.from({ length: 8 }).map((_, index) => (
-              <Col key={index} xs={24} sm={12} lg={8} xl={8} xxl={6}>
+              <div key={index}>
                 <CardVideoSkeleton />
-              </Col>
+              </div>
             ))
           ) : videoResults && videoResults.results?.length > 0 ? (
             videoResults.results.map((item: any) => (
-              <Col key={item._id} xs={24} sm={12} lg={8} xl={8} xxl={6}>
-                <VideoCard item={item} />
-              </Col>
+              <div key={item._id}>
+                {isMobile ? (
+                  <VideoItem video={item} />
+                ) : (
+                  <VideoCard item={item} />
+                )}
+              </div>
             ))
           ) : (
-            <p>
-              Không tìm thấy video cho từ khóa{" "}
-              <strong>&ldquo;{searchTerm}&rdquo;</strong>
-            </p>
+            <p>No videos found</p>
           )}
-        </Row>
+        </div>
       ),
     },
     {

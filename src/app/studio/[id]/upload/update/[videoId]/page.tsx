@@ -242,7 +242,7 @@ const UpdateVideo = () => {
             placeholder="Chọn danh sách phát"
             optionFilterProp="children"
           >
-            {playlists?.playlists?.map((playlist: any) => (
+            {playlists?.data?.map((playlist: any) => (
               <Option key={playlist._id} value={playlist._id}>
                 {playlist.title}
               </Option>

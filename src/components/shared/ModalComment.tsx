@@ -108,6 +108,7 @@ const ModalComment: React.FC<ModalProps> = ({
                   className="w-[100%] h-[100%]"
                 />
               </div>
+
               <div className="flex-1">
                 <form onSubmit={handleAddComment}>
                   <input

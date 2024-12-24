@@ -26,7 +26,7 @@ const PlaylistCard: React.FC<PlayListCard> = ({ playlist }) => {
           <Image
             src={
               playlist?.videos[0]?.videoThumbnail ||
-              "https://res.cloudinary.com/dh0peripq/image/upload/v1734422284/h-tube-image/h-tube-image-1734422283323-download.webp"
+              "https://res.cloudinary.com/dyyutw3bh/image/upload/v1735052462/h-tube-image/h-tube-image-1735052459486-3875148.webp"
             }
             width={500}
             height={200}

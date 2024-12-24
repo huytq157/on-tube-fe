@@ -83,7 +83,7 @@ const Content = () => {
             thumbnail ||
             "https://res.cloudinary.com/dh0peripq/image/upload/v1734422284/h-tube-image/h-tube-image-1734422283323-download.webp"
           }
-          className="w-[200px] h-[150px]"
+          className="w-[200px] h-[150px] object-contain rounded-md"
           alt="thumbnail"
           priority
         />

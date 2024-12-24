@@ -190,7 +190,11 @@ const UploadVideo = () => {
           </Col>
         </Row>
 
-        <Form.Item label="Mô tả video" name="description">
+        <Form.Item
+          label="Mô tả video"
+          name="description"
+          rules={[{ required: true }]}
+        >
           <ReactQuill theme="snow" />
         </Form.Item>
 
@@ -240,7 +244,7 @@ const UploadVideo = () => {
             placeholder="Chọn danh sách phát"
             optionFilterProp="children"
           >
-            {playlists?.playlists?.map((playlist: any) => (
+            {playlists?.data?.map((playlist: any) => (
               <Option key={playlist._id} value={playlist._id}>
                 {playlist.title}
               </Option>
@@ -259,7 +263,7 @@ const UploadVideo = () => {
             { required: true, message: "Vui lòng chọn ngày công khai!" },
             {
               validator: (_, value) =>
-                value && value.isBefore(moment())
+                value && value.isBefore(moment(), "minute")
                   ? Promise.reject(
                       new Error("Ngày công khai không được ở quá khứ")
                     )

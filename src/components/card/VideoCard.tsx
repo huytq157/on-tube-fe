@@ -217,7 +217,7 @@ const VideoCard: React.FC<VideoCards> = ({ item }) => {
               width={32}
               height={32}
               alt="Avatar của người dùng"
-              className="w-[100%] h-[100%] rounded-full object-cover"
+              className="w-[100%] h-[100%] rounded-full object-cover border-[1px]"
               loading="lazy"
             />
           </Link>

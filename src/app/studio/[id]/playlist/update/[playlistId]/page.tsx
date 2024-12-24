@@ -26,9 +26,9 @@ const UpdatePlaylist = () => {
   useEffect(() => {
     if (playlist) {
       form.setFieldsValue({
-        title: playlist.playlist.title,
-        description: playlist.playlist.description,
-        isPublic: playlist.playlist.isPublic,
+        title: playlist?.data?.title,
+        description: playlist?.data?.description,
+        isPublic: playlist?.data?.isPublic,
       });
     }
   }, [playlist, form]);
@@ -42,7 +42,7 @@ const UpdatePlaylist = () => {
       await updatePlaylist({ playlistId, updatedData: playlistData }).unwrap();
 
       message.success("Thành công");
-      router.push(`/studio/${user?.user?._id}/playlist`);
+      router.push(`/studio/${user?.data?._id}/playlist`);
       form.resetFields();
     } catch (error) {
       message.error("Failed to update");

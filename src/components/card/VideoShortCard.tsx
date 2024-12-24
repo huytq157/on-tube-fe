@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import PlayIcon from "../icons/Play";
 import PauseIcon from "../icons/Pause";
 import AudioIcon from "../icons/Audio";
@@ -11,13 +11,21 @@ import Image from "next/image";
 import { useUser } from "@/hook/AuthContext";
 import { useSubscription } from "@/hook/useSubscription";
 import VideoShortAction from "../shared/VideoShortAction";
+import {
+  useDescViewAuthMutation,
+  useDescViewMutation,
+} from "@/redux/api/videoApi";
 
 const VideoShortCard: React.FC<VideoCards> = ({ item }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
-  const { user } = useUser();
+  const { user, isAuthenticated } = useUser();
   const channelId = item?.writer?._id;
+  const hasViewedRef = useRef(false);
+  const [totalDuration, setTotalDuration] = useState<number>(0);
+  const [descView] = useDescViewMutation();
+  const [descViewAuth] = useDescViewAuthMutation();
 
   const { currentSubscriptionStatus, handleSubscriptionToggle, isProcessing } =
     useSubscription(channelId, user);
@@ -56,6 +64,33 @@ const VideoShortCard: React.FC<VideoCards> = ({ item }) => {
       }
     };
   }, []);
+
+  const handleLoadedMetadata = () => {
+    if (videoRef.current) {
+      setTotalDuration(videoRef.current.duration);
+    }
+  };
+
+  const handleTimeUpdate = useCallback(() => {
+    if (videoRef.current && !hasViewedRef.current) {
+      const currentTime = videoRef.current.currentTime;
+      if (totalDuration > 0 && currentTime >= totalDuration * 0.5) {
+        hasViewedRef.current = true;
+        if (isAuthenticated) {
+          descViewAuth({
+            videoId: item?._id,
+            watchTime: totalDuration * 0.5,
+            userId: user?.data?._id,
+          }).unwrap();
+        } else {
+          descView({
+            videoId: item?._id,
+            watchTime: totalDuration * 0.5,
+          }).unwrap();
+        }
+      }
+    }
+  }, [item?._id, totalDuration, descView]);
 
   const handleVideoEnded = () => {
     if (videoRef.current) {
@@ -124,10 +159,20 @@ const VideoShortCard: React.FC<VideoCards> = ({ item }) => {
           autoPlay={true}
           autoFocus={true}
           className="h-full bg-black w-full object-contain"
-          src={item?.videoUrl}
           onClick={togglePlay}
           onEnded={handleVideoEnded}
-        />
+          onTimeUpdate={handleTimeUpdate}
+          onLoadedMetadata={handleLoadedMetadata}
+        >
+          <source src={item?.videoUrl} type="video/mp4" />
+          <track
+            src="/path/to/captions.vtt"
+            kind="subtitles"
+            srcLang="en"
+            label="English"
+          />
+          Your browser does not support the video tag.
+        </video>
       </div>
 
       <VideoShortAction item={item} />

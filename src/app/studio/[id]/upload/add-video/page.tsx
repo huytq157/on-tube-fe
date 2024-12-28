@@ -26,6 +26,9 @@ import { useGetPlaylistQuery } from "@/redux/api/playListApi";
 import ImageUpload from "@/components/shared/ImageUpload";
 import VideoUpload from "@/components/shared/VideoUpload";
 import { useUser } from "@/hook/AuthContext";
+import { useListSubcriberQuery } from "@/redux/api/subcription";
+import { useCreateNotificationMutation } from "@/redux/api/notificationApi";
+import { useSocket } from "@/hook/SocketContext";
 
 const { Option } = Select;
 
@@ -47,12 +50,17 @@ const UploadVideo = () => {
   const [videoUrl, setVideoUrl] = useState("");
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-
+  const [createNotification] = useCreateNotificationMutation();
   const { data: categories } = useGetCategoryQuery("");
   const { data: playlists } = useGetPlaylistQuery("");
   const [uploadImage] = useUploadImageMutation();
   const [addVideo, { isLoading: isAdding }] = useAddVideoMutation();
-  const { user } = useUser();
+  const { user, isAuthenticated } = useUser();
+  const { data: subcribers } = useListSubcriberQuery("", {
+    skip: !isAuthenticated,
+  });
+
+  const { socket } = useSocket();
 
   const handleUploadThumbnail = async (file: File) => {
     const formData = new FormData();
@@ -117,7 +125,18 @@ const UploadVideo = () => {
         playlist: values.playlist,
       };
 
-      await addVideo(videoData).unwrap();
+      const response = await addVideo(videoData).unwrap();
+      const userIds = subcribers?.data.map((user: any) => user._id);
+
+      const notification = await createNotification({
+        video: response?.data?._id,
+        message: "vừa thêm video mới",
+        url: `/video/${response?.data?._id}`,
+        user: userIds, // người nhận thông báo
+        from_user: user?.data?._id, // người gửi thông báo
+      }).unwrap();
+
+      socket?.emit("create-new-notification", notification);
       message.success("Thành công");
       router.push(`/studio/${user?.data?._id}/content`);
       form.resetFields();

@@ -79,7 +79,6 @@ const Header = ({
   const [logout] = useLogoutMutation();
   const { user, isAuthenticated, logOut } = useUser();
 
-
   const handleNotificationClick = async (notification: any) => {
     if (!notification.read) {
       await updateSeenNotification({
@@ -88,6 +87,7 @@ const Header = ({
       });
     }
   };
+
   const {
     data: notifications,
     isLoading: isNotificationLoading,
@@ -128,11 +128,11 @@ const Header = ({
       <Divider />
       <div>
         {isNotificationLoading ? (
-          <p>
+          <div>
             <Spin
               indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />}
             />
-          </p>
+          </div>
         ) : notificationError ? (
           <p>Lỗi khi hiện thông báo.</p>
         ) : notifications && notifications?.data?.length > 0 ? (

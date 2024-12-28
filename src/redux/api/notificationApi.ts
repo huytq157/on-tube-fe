@@ -16,8 +16,7 @@ export const NotificationApiSlice = apiSlice.injectEndpoints({
         url: "/api/notification/gets",
         credentials: "include",
       }),
-      keepUnusedDataFor: 5,
-      providesTags: ["Notification"],
+      providesTags: [{ type: "Notification" }],
     }),
 
     updateSeenNotification: builder.mutation({

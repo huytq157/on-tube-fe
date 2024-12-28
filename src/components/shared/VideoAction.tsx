@@ -19,6 +19,7 @@ import { IsDisLikeIcons, IsLikeIcons } from "../../../public";
 import ShareIcon from "../icons/Share";
 import ModalShare from "./ModalShare";
 import { useCreateNotificationMutation } from "@/redux/api/notificationApi";
+import { useSocket } from "@/hook/SocketContext";
 
 interface ModalProps {
   videoId: string | any;
@@ -31,8 +32,10 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
     refetchOnMountOrArgChange: true,
     skip: !videoId,
   });
-
+  // console.log("video:", video);
   const { user, isAuthenticated } = useUser();
+  const { socket } = useSocket();
+  // console.log("socket action:", socket);
 
   const [createNotification] = useCreateNotificationMutation();
 
@@ -73,13 +76,15 @@ const VideoAction: React.FC<ModalProps> = ({ videoId }) => {
         }
 
         if (video?.video?.writer?._id !== user?.data?._id) {
-          await createNotification({
+          const notification = await createNotification({
             video: videoId,
             message: "đã thích video của bạn",
             url: `/video/${videoId}`,
-            user: [video?.video?.writer?._id], // người nhận thông báo
+            user: [video?.data?.writer?._id], // người nhận thông báo
             from_user: user?.data?._id, // người gửi thông báo
           }).unwrap();
+
+          socket?.emit("create-new-notification", notification);
         }
       } else {
         await likeVideo({ videoId }).unwrap();

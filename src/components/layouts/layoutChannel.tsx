@@ -122,7 +122,7 @@ const LayoutChannel = ({ children }: Props) => {
         </div>
       </div>
 
-      <div className="flex gap-[30px] py-[20px] my-[20px]">
+      <div className="flex gap-[30px] py-[20px] mt-[20px]">
         <span
           className={` ${
             pathName === `/channel/${id}/video`

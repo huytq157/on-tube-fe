@@ -18,6 +18,7 @@ import CommentIcon from "../icons/Comment";
 import ModalComment from "./ModalComment";
 import Image from "next/image";
 import { IsDisLikeIcons, IsLikeIcons } from "../../../public";
+import { useSocket } from "@/hook/SocketContext";
 
 interface ModalProps {
   item: string | any;
@@ -28,6 +29,7 @@ const VideoShortAction: React.FC<ModalProps> = ({ item }) => {
   const [isModalShareOpen, setIsModalShareOpen] = useState(false);
   const [isModalComment, setModalComment] = useState(false);
   const { user, isAuthenticated } = useUser();
+  const { socket } = useSocket();
   const [createNotification] = useCreateNotificationMutation();
   const videoId = item?._id || 1;
   const { data: checkedLike, refetch: refetchLike } = useCheckIsLikedQuery(
@@ -59,13 +61,15 @@ const VideoShortAction: React.FC<ModalProps> = ({ item }) => {
         }
 
         if (item?.writer?._id !== user?.data?._id) {
-          await createNotification({
+          const notification = await createNotification({
             video: videoId,
             message: "đã thích video của bạn",
             url: `/video/${videoId}`,
             user: [item?.writer?._id], // người nhận thông báo
             from_user: user?.data?._id, // người gửi thông báo
           }).unwrap();
+
+          socket?.emit("create-new-notification", notification);
         }
       } else {
         await likeVideo({ videoId }).unwrap();

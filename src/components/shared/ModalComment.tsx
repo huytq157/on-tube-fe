@@ -11,6 +11,7 @@ import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import SmellIcon from "../icons/Smell";
 import CommentItem from "../card/CommentItem";
 import Link from "next/link";
+import { useSocket } from "@/hook/SocketContext";
 
 const ModalComment: React.FC<ModalProps> = ({
   open,
@@ -26,7 +27,7 @@ const ModalComment: React.FC<ModalProps> = ({
   const [inputValue, setInputValue] = useState<string>("");
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
   const { user, isAuthenticated } = useUser();
-
+  const { socket } = useSocket();
   const { data: comments, error, isLoading } = useGetCommentsQuery({ videoId });
 
   const [addComment] = useAddCommentMutation();
@@ -62,6 +63,8 @@ const ModalComment: React.FC<ModalProps> = ({
           user: [video?.writer?._id],
           from_user: user?.data?._id,
         }).unwrap();
+
+        socket?.emit("create-new-notification", notification);
       } catch (error) {
         console.error("Lỗi khi thêm bình luận:", error);
       }

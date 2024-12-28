@@ -20,6 +20,7 @@ import SmellIcon from "../icons/Smell";
 import { useCreateNotificationMutation } from "@/redux/api/notificationApi";
 import { useUser } from "@/hook/AuthContext";
 import { CommentItems, Reply } from "../types";
+import { useSocket } from "@/hook/SocketContext";
 
 const CommentItem: React.FC<CommentItems> = ({ comment }) => {
   const { user, isAuthenticated } = useUser();
@@ -29,6 +30,7 @@ const CommentItem: React.FC<CommentItems> = ({ comment }) => {
   const [replyText, setReplyText] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
+  const { socket } = useSocket();
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
   const [editingCommentText, setEditingCommentText] = useState<string>("");
@@ -82,7 +84,7 @@ const CommentItem: React.FC<CommentItems> = ({ comment }) => {
 
       if (comment?.user?._id === user?.data?._id) return;
 
-      await createNotification({
+      const notification = await createNotification({
         comment: replyresponse?._id,
         video: replyresponse?.reply?.video,
         message: "trả lời bình luận của bạn",
@@ -90,6 +92,7 @@ const CommentItem: React.FC<CommentItems> = ({ comment }) => {
         user: comment?.user?._id,
       }).unwrap();
 
+      socket?.emit("create-new-notification", notification);
       setReplyText("");
       setReplyingToId(null);
     } catch (error) {

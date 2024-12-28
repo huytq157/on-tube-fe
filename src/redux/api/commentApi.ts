@@ -3,8 +3,8 @@ import { apiSlice } from "./baseApi";
 export const CommentApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getComments: builder.query({
-      query: ({ videoId, parentId }) => {
-        let url = `/api/comments/${videoId}`;
+      query: ({ videoId, parentId, sortBy }) => {
+        let url = `/api/comments/${videoId}?sortBy=${sortBy || "newest"}`;
         if (parentId) {
           url += `?parent_id=${parentId}`;
         }

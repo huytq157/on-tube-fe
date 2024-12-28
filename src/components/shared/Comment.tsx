@@ -15,27 +15,40 @@ import {
 import { useCreateNotificationMutation } from "@/redux/api/notificationApi";
 import { useUser } from "@/hook/AuthContext";
 import { CommentsProps } from "../types";
-
-const items: MenuProps["items"] = [
-  {
-    label: <div className="flex gap-[10px]">Bình luận hàng đầu</div>,
-    key: "0",
-  },
-  {
-    label: <div className="flex gap-[10px]">Mới nhất xếp trước</div>,
-    key: "1",
-  },
-];
+import { useSocket } from "@/hook/SocketContext";
 
 const Comments: React.FC<CommentsProps> = ({ videoId, video }) => {
   const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
+  const [sortBy, setSortBy] = useState<string>("newest");
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
   const { user, isAuthenticated } = useUser();
-  const { data: comments, error, isLoading } = useGetCommentsQuery({ videoId });
-
+  const {
+    data: comments,
+    error,
+    isLoading,
+  } = useGetCommentsQuery({ videoId, sortBy: sortBy });
+  const { socket } = useSocket();
   const [addComment] = useAddCommentMutation();
   const [createNotification] = useCreateNotificationMutation();
+
+  const items: MenuProps["items"] = [
+    {
+      label: <div className="flex gap-[10px]">Bình luận hàng đầu</div>,
+      key: "0",
+      onClick: () => setSortBy("mostLiked"),
+    },
+    {
+      label: <div className="flex gap-[10px]">Bình luận mới nhất</div>,
+      key: "1",
+      onClick: () => setSortBy("newest"),
+    },
+    {
+      label: <div className="flex gap-[10px]">Bình luận cũ nhất</div>,
+      key: "2",
+      onClick: () => setSortBy("oldest"),
+    },
+  ];
 
   const handleEmojiClick = (emojiObject: EmojiClickData) => {
     setInputValue((prev) => prev + emojiObject.emoji);
@@ -67,6 +80,8 @@ const Comments: React.FC<CommentsProps> = ({ videoId, video }) => {
           user: [video?.writer?._id],
           from_user: user?.data?._id,
         }).unwrap();
+
+        socket?.emit("create-new-notification", notification);
       } catch (error) {
         console.error("Lỗi khi thêm bình luận:", error);
       }

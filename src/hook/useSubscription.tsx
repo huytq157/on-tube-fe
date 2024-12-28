@@ -67,7 +67,7 @@ export const useSubscription = (channelId: string | any, user: any) => {
         await subscribe({ channelId }).unwrap();
         dispatch(setSubscriptionStatus({ channelId, subscribed: true }));
 
-        const notifi = await createNotification({
+        const notification = await createNotification({
           comment: null,
           video: null,
           message: "đã đăng ký kênh của bạn",
@@ -75,7 +75,7 @@ export const useSubscription = (channelId: string | any, user: any) => {
           user: [channelId],
         }).unwrap();
 
-        socket?.emit("create-new-notification", notifi);
+        socket?.emit("create-new-notification", notification);
 
         message.success("Đã đăng ký kênh!");
       }

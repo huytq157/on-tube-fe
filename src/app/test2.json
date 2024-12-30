@@ -1,0 +1,193 @@
+{
+  "success": true,
+  "data": [
+    {
+      "_id": "6772d13849e94255d3200f7e",
+      "title": "Sự thật về việc sáp nhập tỉnh ở Việt Nam",
+      "videoUrl": "https://res.cloudinary.com/dyyutw3bh/video/upload/v1735577865/h-tube-video/videos/1735577860249-%C3%84%C2%91sf.mp4",
+      "isPublic": true,
+      "writer": {
+        "_id": "6752b753ed9e5e1d5719ae9e",
+        "name": "Huy official",
+        "avatar": "https://res.cloudinary.com/dyyutw3bh/image/upload/v1735047798/h-tube-image/h-tube-image-1735047797387-images.webp"
+      },
+      "videoThumbnail": "https://res.cloudinary.com/dyyutw3bh/image/upload/v1735577730/h-tube-image/h-tube-image-1735577728975-ccc.webp",
+      "totalView": 0,
+      "publishedDate": "2024-12-30T23:58:00.000Z",
+      "createdAt": "2024-12-30T16:58:32.238Z"
+    },
+    {
+      "_id": "6772cf9e49e94255d3200f50",
+      "title": "Điện Biên Phủ 55 Ngày Đêm Huyết Chiến Và Cái Kết Của Thực Dân Pháp",
+      "videoUrl": "https://res.cloudinary.com/dyyutw3bh/video/upload/v1735577472/h-tube-video/videos/1735577469591-videoplayback.mp4",
+      "isPublic": true,
+      "writer": {
+        "_id": "6752b753ed9e5e1d5719ae9e",
+        "name": "Huy official",
+        "avatar": "https://res.cloudinary.com/dyyutw3bh/image/upload/v1735047798/h-tube-image/h-tube-image-1735047797387-images.webp"
+      },
+      "videoThumbnail": "https://res.cloudinary.com/dyyutw3bh/image/upload/v1735577461/h-tube-image/h-tube-image-1735577460192-bbb.jpg",
+      "totalView": 0,
+      "publishedDate": "2024-12-30T23:51:00.000Z",
+      "createdAt": "2024-12-30T16:51:42.135Z"
+    },
+    {
+      "_id": "6772ce4c49e94255d3200f32",
+      "title": "TP. Hồ Chí Minh quyết liệt kéo giảm tội phạm đường phố | VTV24",
+      "videoUrl": "https://res.cloudinary.com/dyyutw3bh/video/upload/v1735577143/h-tube-video/videos/1735577140561-tttt.mp4",
+      "isPublic": true,
+      "writer": {
+        "_id": "6752b753ed9e5e1d5719ae9e",
+        "name": "Huy official",
+        "avatar": "https://res.cloudinary.com/dyyutw3bh/image/upload/v1735047798/h-tube-image/h-tube-image-1735047797387-images.webp"
+      },
+      "videoThumbnail": "https://res.cloudinary.com/dyyutw3bh/image/upload/v1735577128/h-tube-image/h-tube-image-1735577127618-aa1.webp",
+      "totalView": 0,
+      "publishedDate": "2024-12-30T23:46:00.000Z",
+      "createdAt": "2024-12-30T16:46:04.361Z"
+    },
+    {
+      "_id": "6771706072c7e5c8b00058a2",
+      "title": "Đoạn kết mới",
+      "videoUrl": "https://res.cloudinary.com/dyyutw3bh/video/upload/v1735487554/h-tube-video/videos/1735487552776-videoplayback%20%281%29.mp4",
+      "isPublic": true,
+      "writer": {
+        "_id": "675afe922275b9c6c50551bb",
+        "name": "Huy Trần",
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKnELUfMxJeyrafSzttRm54okdxiM7-k9cSfvUOYQ7My-kP6g=s96-c"
+      },
+      "videoThumbnail": "https://res.cloudinary.com/dyyutw3bh/image/upload/v1735487548/h-tube-image/h-tube-image-1735487547629-okkk.webp",
+      "totalView": 0,
+      "publishedDate": "2024-12-29T22:53:00.000Z",
+      "createdAt": "2024-12-29T15:53:04.467Z"
+    },
+    {
+      "_id": "67716fde72c7e5c8b0005870",
+      "title": "VTV24",
+      "videoUrl": "https://res.cloudinary.com/dyyutw3bh/video/upload/v1735487436/h-tube-video/videos/1735487433777-videoplayback.mp4",
+      "isPublic": true,
+      "writer": {
+        "_id": "675afb822275b9c6c5055166",
+        "name": "Huy Trần",
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKFkzcfBSdqACxFTnlMj9uFxyQCL76i-i8HXI7KcUp_hMntoKc=s96-c"
+      },
+      "videoThumbnail": "https://res.cloudinary.com/dyyutw3bh/image/upload/v1735487425/h-tube-image/h-tube-image-1735487424826-2024.webp",
+      "totalView": 0,
+      "publishedDate": "2024-12-29T22:50:00.000Z",
+      "createdAt": "2024-12-29T15:50:54.506Z"
+    },
+    {
+      "_id": "67716f0b72c7e5c8b0005855",
+      "title": "Ngày mai người ta đi lấy chồng",
+      "videoUrl": "https://res.cloudinary.com/dyyutw3bh/video/upload/v1735487186/h-tube-video/videos/1735487180811-video.mp4",
+      "isPublic": true,
+      "writer": {
+        "_id": "675afb822275b9c6c5055166",
+        "name": "Huy Trần",
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKFkzcfBSdqACxFTnlMj9uFxyQCL76i-i8HXI7KcUp_hMntoKc=s96-c"
+      },
+      "videoThumbnail": "https://res.cloudinary.com/dyyutw3bh/image/upload/v1735487127/h-tube-image/h-tube-image-1735487126665-%C3%A1%C2%BA%C2%BBwr.webp",
+      "totalView": 0,
+      "publishedDate": "2024-12-29T22:47:00.000Z",
+      "createdAt": "2024-12-29T15:47:23.286Z"
+    },
+    {
+      "_id": "67716e7372c7e5c8b0005840",
+      "title": "Thời sự hôm nay",
+      "videoUrl": "https://res.cloudinary.com/dyyutw3bh/video/upload/v1735487063/h-tube-video/videos/1735487061043-videoplayback.mp4",
+      "isPublic": true,
+      "writer": {
+        "_id": "675afb822275b9c6c5055166",
+        "name": "Huy Trần",
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKFkzcfBSdqACxFTnlMj9uFxyQCL76i-i8HXI7KcUp_hMntoKc=s96-c"
+      },
+      "videoThumbnail": "https://res.cloudinary.com/dyyutw3bh/image/upload/v1735487064/h-tube-image/h-tube-image-1735487063713-hq720%20%283%29.webp",
+      "totalView": 0,
+      "publishedDate": "2024-12-29T22:44:00.000Z",
+      "createdAt": "2024-12-29T15:44:51.693Z"
+    },
+    {
+      "_id": "67716d0f72c7e5c8b0005829",
+      "title": "Giờ thì",
+      "videoUrl": "https://res.cloudinary.com/dyyutw3bh/video/upload/v1735486673/h-tube-video/videos/1735486668966-video2.mp4",
+      "isPublic": true,
+      "writer": {
+        "_id": "675afb822275b9c6c5055166",
+        "name": "Huy Trần",
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKFkzcfBSdqACxFTnlMj9uFxyQCL76i-i8HXI7KcUp_hMntoKc=s96-c"
+      },
+      "videoThumbnail": "https://res.cloudinary.com/dyyutw3bh/image/upload/v1735486480/h-tube-image/h-tube-image-1735486479770-s%C3%A1%C2%BA%C2%A5dsad.webp",
+      "totalView": 0,
+      "publishedDate": "2024-12-29T22:38:00.000Z",
+      "createdAt": "2024-12-29T15:38:55.306Z"
+    },
+    {
+      "_id": "67716b6a72c7e5c8b00057fd",
+      "title": "Cho tôi xin một vé về tuổi thơ",
+      "videoUrl": "https://res.cloudinary.com/dyyutw3bh/video/upload/v1735486270/h-tube-video/videos/1735486264219-%C3%84%C2%91sf.mp4",
+      "isPublic": true,
+      "writer": {
+        "_id": "6752adffc015a06abe1d4605",
+        "name": "Quang Huy Trần",
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKcpSgYQf4IHRDN2xknwV8aqgLVL3fzbBE8QG1LeKRLMItHGg=s96-c"
+      },
+      "videoThumbnail": "https://res.cloudinary.com/dyyutw3bh/image/upload/v1735486248/h-tube-image/h-tube-image-1735486247266-hqdefault.webp",
+      "totalView": 1,
+      "publishedDate": "2024-12-29T22:31:00.000Z",
+      "createdAt": "2024-12-29T15:31:54.578Z"
+    },
+    {
+      "_id": "67716adf72c7e5c8b00057d4",
+      "title": "Lụt từ ngã tư đường phố",
+      "videoUrl": "https://res.cloudinary.com/dyyutw3bh/video/upload/v1735486143/h-tube-video/videos/1735486139984-L%C3%A1%C2%BB%C2%A5t%20t%C3%A1%C2%BB%C2%AB%20ng%C3%83%C2%A3%20t%C3%86%C2%B0%20%C3%84%C2%91%C3%86%C2%B0%C3%A1%C2%BB%C2%9Dng%20ph%C3%A1%C2%BB%C2%91%20_%20Nh%C3%A1%C2%BA%C2%A1c%20ch%C3%A1%C2%BA%C2%BF%20T%C3%83%C2%A1o%20qu%C3%83%C2%A2n%20b%C3%A1%C2%BA%C2%A5t%20h%C3%A1%C2%BB%C2%A7%20_%20VTV24.mp4",
+      "isPublic": true,
+      "writer": {
+        "_id": "6752adffc015a06abe1d4605",
+        "name": "Quang Huy Trần",
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKcpSgYQf4IHRDN2xknwV8aqgLVL3fzbBE8QG1LeKRLMItHGg=s96-c"
+      },
+      "videoThumbnail": "https://res.cloudinary.com/dyyutw3bh/image/upload/v1735486139/h-tube-image/h-tube-image-1735486138475-hq720%20%284%29.webp",
+      "totalView": 0,
+      "publishedDate": "2024-12-29T22:29:00.000Z",
+      "createdAt": "2024-12-29T15:29:35.344Z"
+    },
+    {
+      "_id": "67716a9972c7e5c8b00057a6",
+      "title": "Anh có phải là người yêu em",
+      "videoUrl": "https://res.cloudinary.com/dyyutw3bh/video/upload/v1735486047/h-tube-video/videos/1735486044470-ttt.mp4",
+      "isPublic": true,
+      "writer": {
+        "_id": "6752adffc015a06abe1d4605",
+        "name": "Quang Huy Trần",
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKcpSgYQf4IHRDN2xknwV8aqgLVL3fzbBE8QG1LeKRLMItHGg=s96-c"
+      },
+      "videoThumbnail": "https://res.cloudinary.com/dyyutw3bh/image/upload/v1735486046/h-tube-image/h-tube-image-1735486045799-ewr.webp",
+      "totalView": 0,
+      "publishedDate": "2024-12-29T22:28:00.000Z",
+      "createdAt": "2024-12-29T15:28:25.287Z"
+    },
+    {
+      "_id": "67716a3f72c7e5c8b0005783",
+      "title": "Cảm ơn chúng ta",
+      "videoUrl": "https://res.cloudinary.com/dyyutw3bh/video/upload/v1735485971/h-tube-video/videos/1735485968908-tttt.mp4",
+      "isPublic": true,
+      "writer": {
+        "_id": "6752adffc015a06abe1d4605",
+        "name": "Quang Huy Trần",
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKcpSgYQf4IHRDN2xknwV8aqgLVL3fzbBE8QG1LeKRLMItHGg=s96-c"
+      },
+      "videoThumbnail": "https://res.cloudinary.com/dyyutw3bh/image/upload/v1735485954/h-tube-image/h-tube-image-1735485953442-fsdfds.webp",
+      "totalView": 0,
+      "publishedDate": "2024-12-29T22:26:00.000Z",
+      "createdAt": "2024-12-29T15:26:55.131Z"
+    }
+  ],
+  "headers": {
+    "x-page": 2,
+    "x-total-count": 15,
+    "x-pages-count": 2,
+    "x-per-page": 12,
+    "x-next-page": null
+  },
+  "hasMore": false
+}

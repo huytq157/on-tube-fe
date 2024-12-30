@@ -26,6 +26,8 @@ const Content = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [isPublic, setIsPublic] = useState<boolean | undefined>(true);
+  const [sortBy, setSortBy] = useState<string>("newest");
+  const [sortByPopularity, setSortByPopularity] = useState<string>("");
   const { user } = useUser();
 
   const {
@@ -37,7 +39,11 @@ const Content = () => {
     isPublic,
     page: currentPage,
     limit: pageSize,
+    videoType: "long",
+    sortBy: sortBy,
+    sortByPopularity: sortByPopularity,
   });
+
   const [deleteVideo, { isLoading: isDeleting }] = useDeleteVideoMutation();
 
   const handlePublicChange = (value: string) => {

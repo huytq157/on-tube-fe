@@ -44,7 +44,7 @@ const LayoutChannel = ({ children }: Props) => {
             width={1070}
             height={170}
             alt={channel?.data?.name}
-            className="w-[100%] h-[100%] object-fill rounded-[12px]"
+            className="w-[100%] h-[100%] object-cover rounded-[12px]"
             priority
           />
         )}
@@ -63,7 +63,7 @@ const LayoutChannel = ({ children }: Props) => {
               width={160}
               height={160}
               alt={channel?.data?.name}
-              className="w-[100%] h-[100%] object-fill rounded-[12px]"
+              className="w-[100%] h-[100%] object-cover rounded-[12px]"
               priority
             />
           )}

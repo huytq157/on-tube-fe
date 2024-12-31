@@ -1,0 +1,8 @@
+User-agent: *
+
+Allow: /
+Allow: /shorts/
+Allow: /trending/
+Allow: /search/
+
+Sitemap: https://yourdomain.com/sitemap.xml

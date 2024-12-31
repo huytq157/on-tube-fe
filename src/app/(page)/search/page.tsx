@@ -49,7 +49,10 @@ const PageResult = () => {
               </div>
             ))
           ) : (
-            <p>No videos found</p>
+            <p>
+              Không tìm thấy video cho từ khóa{" "}
+              <strong>&ldquo;{searchTerm}&rdquo;</strong>
+            </p>
           )}
         </div>
       ),

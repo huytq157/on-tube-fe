@@ -9,6 +9,7 @@ import {
   useGetVideoRecommendQuery,
 } from "@/redux/api/videoApi";
 import { Col, Row } from "antd";
+import Head from "next/head";
 import { useParams } from "next/navigation";
 
 const VideoPage = () => {
@@ -19,6 +20,29 @@ const VideoPage = () => {
 
   return (
     <LayoutDefault>
+      <Head>
+        <title>{data?.data?.title || "On-tube"}</title>
+        <meta
+          name="description"
+          content={
+            data?.data?.description?.slice(0, 160) || "Xem video hấp dẫn"
+          }
+        />
+        <meta property="og:title" content={data?.data?.title || "Xem video"} />
+        <meta
+          property="og:description"
+          content={data?.data?.description?.slice(0, 160) || ""}
+        />
+        <meta property="og:type" content="video.movie" />
+        <meta
+          property="og:url"
+          content={`https://yourwebsite.com/video/${id}`}
+        />
+        <meta
+          property="og:image"
+          content={data?.data?.thumbnail || "/default-thumbnail.jpg"}
+        />
+      </Head>
       <div className="md:px-[3.3%] sm:px-0 pb-[20px] h-full">
         <Row gutter={[20, 20]}>
           <Col xs={24} sm={24} md={24} lg={24} xl={17} xxl={18}>

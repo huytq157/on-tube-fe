@@ -42,7 +42,11 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     const socketUrl =
       process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:5000";
-    socket.current = io(socketUrl);
+
+    socket.current = io(socketUrl, {
+      withCredentials: true,
+      transports: ["websocket", "polling"],
+    });
     return () => {
       socket.current?.disconnect();
     };

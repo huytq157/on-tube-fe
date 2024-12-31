@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import VideoInfoWriter from "../shared/VideoInfoWriter";
 import VideoAction from "../shared/VideoAction";
 import { calculateCreatedTime } from "../utils/formatDate";
@@ -11,6 +11,8 @@ import {
 } from "@/redux/api/videoApi";
 import { useUser } from "@/hook/AuthContext";
 import { VideoCard } from "../types";
+import Head from "next/head";
+import { Spin } from "antd";
 
 const renderHTML = (htmlString: string) => {
   return <div dangerouslySetInnerHTML={{ __html: htmlString }} />;
@@ -24,6 +26,10 @@ const VideoDetail: React.FC<VideoCard> = ({ id, video }) => {
   const [descViewAuth] = useDescViewAuthMutation();
   const [totalDuration, setTotalDuration] = useState<number>(0);
   const { user, isAuthenticated } = useUser();
+
+  useEffect(() => {
+    document.title = video?.title || "loading...";
+  }, [video]);
 
   const toggleDescription = () => {
     setIsExpanded((prev) => !prev);
@@ -55,6 +61,27 @@ const VideoDetail: React.FC<VideoCard> = ({ id, video }) => {
 
   return (
     <div className="mb-10">
+      <Head>
+        <title>{video?.title || "Video"}</title>
+        <meta
+          name="description"
+          content={video?.description?.slice(0, 160) || ""}
+        />
+        <meta property="og:title" content={video?.title || "Video"} />
+        <meta
+          property="og:description"
+          content={video?.description?.slice(0, 160) || ""}
+        />
+        <meta property="og:type" content="video.movie" />
+        <meta
+          property="og:url"
+          content={`https://yourwebsite.com/video/${id}`}
+        />
+        <meta
+          property="og:image"
+          content={video?.videoThumbnail || "/default-thumbnail.jpg"}
+        />
+      </Head>
       <div className="w-full bg-black rounded-[10px]">
         {video?.videoUrl ? (
           <div className="relative pb-[56.25%] h-0 videos">

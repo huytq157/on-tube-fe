@@ -10,6 +10,7 @@ import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import { useUser } from "@/hook/AuthContext";
 import VideoItem from "@/components/card/VideoItem";
 import { useMediaQuery } from "react-responsive";
+import Head from "next/head";
 
 dayjs.extend(isSameOrAfter);
 
@@ -26,6 +27,20 @@ const Favourite = () => {
 
   return (
     <LayoutDefault>
+      <Head>
+        <title>Video Yêu Thích - On Tube</title>
+        <meta
+          name="description"
+          content="Khám phá các video yêu thích của bạn trên On Tube."
+        />
+        <meta property="og:title" content="Video Yêu Thích - On Tube" />
+        <meta
+          property="og:description"
+          content="Khám phá các video yêu thích của bạn trên On Tube, nơi bạn có thể tìm thấy tất cả các video mà bạn đã yêu thích."
+        />
+        <meta property="og:image" content="/default-thumbnail.jpg" />
+        <meta property="og:type" content="website" />
+      </Head>
       <div className="flex gap-3 mb-3">
         <button
           onClick={() => setVideoType("long")}

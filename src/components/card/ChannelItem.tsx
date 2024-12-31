@@ -5,6 +5,7 @@ import { useSubscription } from "@/hook/useSubscription";
 import { useGetChannelVideoCountQuery } from "@/redux/api/videoApi";
 import Image from "next/image";
 import { ChannelItems } from "../types";
+import Link from "next/link";
 
 const ChannelItem: React.FC<ChannelItems> = ({ sub }) => {
   const channelId = sub?._id;
@@ -19,22 +20,26 @@ const ChannelItem: React.FC<ChannelItems> = ({ sub }) => {
   } = useSubscription(channelId, user);
 
   return (
-    <div className="flex justify-center items-center gap-2">
+    <div className="flex justify-center items-center gap-2 mb-4">
       <div className="md:w-[100px] md:h-[100px] sm:w-[60px]  sm:h-[60px] rounded-[50%] overflow-hidden">
-        <Image
-          src={sub?.avatar}
-          width={55}
-          height={55}
-          alt="Picture of the author"
-          className="w-[100%] h-[100%] object-fill"
-          priority
-        />
+        <Link href={`channel/${sub?._id}/video`}>
+          <Image
+            src={sub?.avatar}
+            width={55}
+            height={55}
+            alt="Picture of the author"
+            className="w-[100%] h-[100%] object-cover"
+            priority
+          />
+        </Link>
       </div>
       <div className="flex-1 items-center flex  md:flex-row justify-between">
         <div className="py-1">
-          <h1 className="font-bold text-[18px] mb-1 leading-[32px]">
-            {sub?.name}
-          </h1>
+          <Link href={`channel/${sub?._id}/video`}>
+            <h1 className="font-bold text-[18px] mb-1 leading-[32px]">
+              {sub?.name}
+            </h1>
+          </Link>
           <p className="text-[#333] text-[14px]">{sub?.email}</p>
           <div className="flex gap-2 text-[14px]">
             <span>{videoCount?.videoCount} video </span>

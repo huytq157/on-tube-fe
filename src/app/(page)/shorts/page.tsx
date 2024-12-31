@@ -7,6 +7,8 @@ import { useGetVideoQuery } from "@/redux/api/videoApi";
 import NextIcon from "@/components/icons/Next";
 import PrevIcon from "@/components/icons/Prev";
 import VideoShortSkeleton from "@/components/skeleton/VideoShortSkeleton";
+import { Metadata } from "next";
+import Head from "next/head";
 
 const ShortPage = () => {
   const [page, setPage] = useState(1);
@@ -19,11 +21,9 @@ const ShortPage = () => {
   });
 
   const containerRef = useRef<HTMLDivElement>(null);
-  let touchStartY: number | null = null;
-  const totalPages = videoShorts?.total
-    ? Math.ceil(videoShorts.total / limit)
-    : 1;
 
+  let touchStartY: number | null = null;
+  const totalPages = videoShorts?.headers?.["x-pages-count"] || 1;
   const handleScroll = (event: WheelEvent | TouchEvent) => {
     if (isFetching) return;
 
@@ -82,6 +82,34 @@ const ShortPage = () => {
 
   return (
     <LayoutDefault>
+      <Head>
+        <title>Video Shorts | On-tube</title>
+        <meta
+          name="description"
+          content="Explore the latest video shorts on our platform."
+        />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:title" content="Video Shorts | On-tube" />
+        <meta
+          property="og:description"
+          content="Explore the latest video shorts on our platform."
+        />
+        <meta
+          property="og:image"
+          content="https://yourwebsite.com/og-image.jpg"
+        />
+        <meta property="og:url" content="https://yourwebsite.com/shorts" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Video Shorts | On-tube" />
+        <meta
+          name="twitter:description"
+          content="Explore the latest video shorts on our platform."
+        />
+        <meta
+          name="twitter:image"
+          content="https://yourwebsite.com/og-image.jpg"
+        />
+      </Head>
       <div
         className="flex flex-col items-center justify-center relative w-full"
         ref={containerRef}
@@ -94,7 +122,7 @@ const ShortPage = () => {
               <VideoShortCard item={item} key={item?._id} />
             ))}
 
-        <div className="absolute right-2   flex flex-col gap-5">
+        <div className="absolute right-2 flex flex-col gap-5">
           {page !== 1 && (
             <button
               onClick={handlePrev}
@@ -111,7 +139,7 @@ const ShortPage = () => {
             </button>
           )}
 
-          {!(page >= totalPages) && (
+          {page < totalPages && (
             <button
               onClick={handleNext}
               type="button"

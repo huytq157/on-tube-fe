@@ -48,20 +48,6 @@ const VideoChannel = () => {
         >
           Cũ nhất
         </button>
-        {/* <button
-          type="button"
-          className={`rounded-[8px] min-w-[90px] h-[32px] text-[14px] font-[500] ${
-            sortByPopularity === "popular"
-              ? "bg-[#000] text-[#fff]"
-              : "bg-[#ccc]"
-          }`}
-          onClick={() => {
-            setSortByPopularity("popular");
-            setSortBy("");
-          }}
-        >
-          Phổ biến
-        </button> */}
       </div>
       <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 4xl:grid-cols-6 gap-x-4 gap-y-4">
         {isLoading ? (

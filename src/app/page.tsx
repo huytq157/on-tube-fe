@@ -9,10 +9,7 @@ import { useGetCategoryQuery } from "@/redux/api/categoryApi";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 import { useMediaQuery } from "react-responsive";
-
-const CardVideoSkeleton = dynamic(
-  () => import("@/components/skeleton/CardVideoSkelenton")
-);
+import CardVideoSkeleton from "@/components/skeleton/CardVideoSkelenton";
 
 export default function Page() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -21,6 +18,7 @@ export default function Page() {
   const [hasMore, setHasMore] = useState(true);
   const loaderRef = useRef<HTMLDivElement>(null);
   const isMobile = useMediaQuery({ maxWidth: 768 });
+  const [filterLoading, setFilterLoading] = useState(false);
 
   const { data: videoResponse, isLoading } = useGetVideoQuery({
     videoType: "long",
@@ -34,12 +32,18 @@ export default function Page() {
 
   useEffect(() => {
     if (videoResponse) {
-      setVideos((prev) => [...prev, ...videoResponse.data]);
+      if (page === 1) {
+        setVideos(videoResponse.data);
+      } else {
+        setVideos((prev) => [...prev, ...videoResponse.data]);
+      }
       setHasMore(videoResponse.hasMore);
+      setFilterLoading(false);
     }
   }, [videoResponse]);
 
   const handleCategoryClick = (categoryId: string | null) => {
+    setFilterLoading(true);
     setSelectedCategory(categoryId);
     setPage(1);
     setHasMore(false);
@@ -59,7 +63,7 @@ export default function Page() {
   useEffect(() => {
     const observer = new IntersectionObserver(handleObserver, {
       root: null,
-      rootMargin: "20px",
+      rootMargin: "30px",
       threshold: 1.0,
     });
 
@@ -99,13 +103,11 @@ export default function Page() {
       </div>
 
       <div className="overflow-x-hidden grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 4xl:grid-cols-6 gap-x-4 gap-y-9">
-        {videos.map((item: any) => (
-          <VideoCard key={item._id} item={item} />
-        ))}
-        {isLoading &&
-          Array.from({ length: 12 }).map((_, index) => (
-            <CardVideoSkeleton key={index} />
-          ))}
+        {filterLoading || isLoading
+          ? Array.from({ length: isMobile ? 3 : 12 }).map((_, index) => (
+              <CardVideoSkeleton key={index} />
+            ))
+          : videos.map((item: any) => <VideoCard key={item._id} item={item} />)}
       </div>
 
       <div
@@ -120,6 +122,3 @@ export default function Page() {
     </LayoutDefault>
   );
 }
-
-// http://localhost:8000/api/video/all?page=1&limit=12&category=null&isPublic=true&videoType=long
-// http://localhost:8000/api/video/all?page=2&limit=12&category=null&isPublic=true&videoType=long

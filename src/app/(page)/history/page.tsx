@@ -11,7 +11,8 @@ import { useUser } from "@/hook/AuthContext";
 import CardVideoSkeleton from "@/components/skeleton/CardVideoSkelenton";
 import { useMediaQuery } from "react-responsive";
 import VideoCard from "@/components/card/VideoCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Head from "next/head";
 
 const History = () => {
   const { user, isAuthenticated } = useUser();
@@ -29,6 +30,25 @@ const History = () => {
 
   return (
     <LayoutDefault>
+      <Head>
+        <title>Lịch sử xem video của bạn</title>
+        <meta
+          name="description"
+          content="Theo dõi lịch sử xem video của bạn tại đây. Xem lại những nội dung bạn đã xem trước đó trên nền tảng của chúng tôi."
+        />
+        <meta
+          name="keywords"
+          content="lịch sử xem, video, short, long, video đã xem, nhật ký xem video"
+        />
+        <meta property="og:title" content="Lịch sử xem video của bạn" />
+        <meta
+          property="og:description"
+          content="Xem lại những video đã xem và tiếp tục trải nghiệm những nội dung yêu thích của bạn."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://yourwebsite.com/history" />
+        <meta property="og:image" content="/default-thumbnail.jpg" />
+      </Head>
       {user && isAuthenticated ? (
         <>
           <div className="flex gap-3 mb-3">

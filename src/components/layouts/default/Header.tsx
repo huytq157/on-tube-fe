@@ -183,7 +183,7 @@ const Header = ({
             width={40}
             height={40}
             alt=""
-            className="w-[100%] h-[100%]"
+            className="w-[100%] h-[100%] object-cover"
             priority={true}
           />
         </div>
@@ -332,7 +332,7 @@ const Header = ({
                         </Link>
                       ))
                     ) : (
-                      <p>Chưa có thông báo nào.</p>
+                      <p className="text-center">Chưa có thông báo nào...</p>
                     )}
                   </div>
                 </div>
@@ -352,7 +352,7 @@ const Header = ({
                 width={36}
                 height={36}
                 alt="channels-avartar"
-                className="w-[100%] h-[100%]"
+                className="w-[100%] h-[100%] object-cover"
               />
             ) : (
               <div className="w-[36px] h-[36px] rounded-full bg-[#ccc]"></div>

@@ -9,6 +9,7 @@ export interface VideoCard {
     createdAt: any;
     tags: string[];
     allowComments: boolean;
+    videoThumbnail: string;
   };
 }
 

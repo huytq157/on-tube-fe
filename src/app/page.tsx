@@ -4,7 +4,10 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import VideoCard from "@/components/card/VideoCard";
 import LayoutDefault from "@/components/layouts/default/LayoutDefault";
 import dynamic from "next/dynamic";
-import { useGetVideoQuery } from "@/redux/api/videoApi";
+import {
+  useGetVideoQuery,
+  useGetVideoTrendingQuery,
+} from "@/redux/api/videoApi";
 import { useGetCategoryQuery } from "@/redux/api/categoryApi";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Spin } from "antd";

@@ -4,7 +4,6 @@ import React, { createContext, useContext, useEffect } from "react";
 import { useUser } from "./AuthContext";
 import { Socket } from "socket.io-client";
 import { apiSlice } from "@/redux/api/baseApi";
-import { useDispatch } from "react-redux";
 import { useGetNotificationQuery } from "@/redux/api/notificationApi";
 
 interface SocketContextType {
@@ -17,7 +16,6 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { socket, user, isAuthenticated } = useUser();
-
   const { data: notifications, refetch } = useGetNotificationQuery(undefined, {
     skip: !isAuthenticated,
   });

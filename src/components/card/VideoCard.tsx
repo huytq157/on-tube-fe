@@ -141,14 +141,11 @@ const VideoCard: React.FC<VideoCards> = ({ item }) => {
               width={315}
               height={180}
               alt={item.title}
-              priority
+              priority={false}
               className={`w-full h-[100%] object-cover rounded-[10px] ${
                 isHovered ? "hidden" : "block"
               } `}
               role="img"
-              style={{
-                objectFit: "contain",
-              }}
               aria-labelledby="thumbnail-title"
             />
           )}

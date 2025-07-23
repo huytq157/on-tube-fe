@@ -48,7 +48,7 @@ async function getShortVideos(
   prevPage?: number
 }> {
   const res = await fetch(
-    `http://localhost:8000/api/video/all?page=${page}&limit=${limit}&isPublic=true&videoType=short`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/video/all?page=${page}&limit=${limit}&isPublic=true&videoType=short`,
     { cache: 'no-store' }
   )
 
